@@ -171,6 +171,16 @@ cargo build --release --bin OpenCADStudio
 
 The resulting binary is written to `target/release/OpenCADStudio` (`OpenCADStudio.exe` on Windows).
 
+On Windows, `shell\build.ps1` runs the whole release packaging locally — icons, `cargo build --release`, optional Authenticode signing, the WiX MSI installer and a portable `.exe` with checksums in `dist\`:
+
+```powershell
+pwsh shell\build.ps1                 # package the version in Cargo.toml
+pwsh shell\build.ps1 -Tag v2026.41   # name the outputs after a release tag
+pwsh shell\build.ps1 -SkipMsi        # portable .exe only (no WiX needed)
+```
+
+Requirements beyond the Rust toolchain: ImageMagick (`magick`) for the icons, WiX Toolset 3.x for the MSI, and the Windows SDK's `signtool` plus a PFX certificate (`-PfxPath`, or `WINDOWS_PFX_BASE64` / `WINDOWS_PFX_PASSWORD`) for signing. Each is optional; the script skips what is missing and says so.
+
 ### Web
 
 Install the WebAssembly target and build tools once:
