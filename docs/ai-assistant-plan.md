@@ -94,4 +94,13 @@ MCP 的 4 个工具（`ocs_sessions`、`ocs_read`、`ocs_execute`、`ocs_capture
 5. **未实现流式输出（SSE）**：回复在完整生成后一次显示。Anthropic 单次请求超时设为 10 分钟；若觉得等待体验差，下一步可加 SSE 解析。
 6. **设置放在面板内而非 Options 对话框**：为避免改动 1,700 行的 `options.rs`，设置用齿轮按钮在面板内展开。如需与其他设置统一，可再迁移到 Options 新增 "AI" 页签。
 7. **同一时刻只允许一个自动化操作**：内置助手与外部 MCP/REST 客户端共用 GUI 的 `control.pending`，并发时另一方会收到 `busy`，与现有 MCP 行为一致。
-8. **提交与测试**：按用户 2026-10-07 的要求已合入 `main` 并推送。库代码与单元测试代码均通过 `cargo check`（类型检查）；但单元测试的实际运行在本机未能完成——测试二进制的完整编译（单核、1 GB 内存、磁盘剩余约 3 GB）在上一会话结束前被中断。推送后已在后台重新启动 `cargo test --lib`（assistant/dock/i18n/ribbon/settings 过滤），结果会追加到本节；也建议在 CI 或开发机上运行 `cargo test --lib assistant` 与 `cargo test --lib i18n` 复核。
+8. **提交与测试**：已合入 `main` 并推送（c04231d9；打包脚本 4e78cbaf、fd1a775e）。库代码与单元测试代码均通过 `cargo check`（类型检查，含 `--tests`）。但**单元测试在本机无法实际运行**：2026-10-07 三次尝试中，测试二进制的最终编译步骤（`rustc --test src/lib.rs`）都被内核 OOM 杀掉（SIGKILL；本机 1 GB 内存 + 3 GB 交换、单核、磁盘仅剩约 1 GB）。请在开发机或 CI 上运行：
+
+   ```sh
+   cargo test --lib assistant          # provider / agent / 面板状态，共 21 个用例
+   cargo test --lib i18n::tests        # 21 语种键集合一致性
+   cargo test --lib dock:: ribbon settings
+   cargo test --lib mcp::tests::tool_schema_digest_is_pinned
+   ```
+
+   为给磁盘腾空间，已删除 `target/debug/incremental`（约 1 GB 的增量编译缓存，可随时重建）。
