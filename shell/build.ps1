@@ -33,10 +33,14 @@
     Do not regenerate the .ico files (keeps existing ones, or builds without
     an embedded icon when none exist).
 
-.PARAMETER PfxPath / PfxPassword
-    Code-signing certificate. Falls back to the WINDOWS_PFX_BASE64 and
-    WINDOWS_PFX_PASSWORD environment variables (same names as CI). Without
-    either, the outputs are left unsigned.
+.PARAMETER PfxPath
+    Code-signing certificate (.pfx). Falls back to the WINDOWS_PFX_BASE64
+    environment variable (same name as CI). Without either, the outputs are
+    left unsigned.
+
+.PARAMETER PfxPassword
+    Password for the certificate, as a string or SecureString. Falls back to
+    the WINDOWS_PFX_PASSWORD environment variable.
 
 .PARAMETER Clean
     Run `cargo clean` first.
