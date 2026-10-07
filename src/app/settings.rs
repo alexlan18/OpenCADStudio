@@ -526,6 +526,8 @@ pub struct UserSettings {
     /// Keep existing geometry size while solving after a constraint edit.
     #[serde(default = "default_constraint_solve_mode")]
     pub constraint_solve_mode: bool,
+    /// Built-in AI assistant: provider, model, key and reasoning effort.
+    pub assistant: crate::app::assistant::AssistantSettings,
     /// Apply eligible geometric constraints while creating geometry.
     #[serde(default)]
     pub constraint_infer: bool,
@@ -857,6 +859,7 @@ impl Default for UserSettings {
             show_constraint_values: true,
             auto_constrain: AutoConstrainSettings::default(),
             constraint_solve_mode: true,
+            assistant: Default::default(),
             constraint_infer: false,
             constraint_bar_display: 3,
             constraint_bar_mode: 4095,

@@ -20,6 +20,8 @@ The server provides four tools:
 - `ocs_execute` performs one operation, an atomic record update, or a sequential batch against the real editor.
 - `ocs_capture` returns a bounded PNG of the drawing viewport or complete window.
 
+The editor's own **AI Assistant** panel (View › Palettes › AI Assistant, command `AIASSIST`) drives the same three tools from inside the process, so a model chatting in the panel has exactly the capabilities an MCP client has. See [`../ai-assistant.md`](../ai-assistant.md).
+
 ### Stale sessions clean themselves up
 
 Dead editor sessions used to leave descriptor files behind that slowed down

@@ -52,6 +52,8 @@ pub enum PanelId {
     Count,
     /// The open sheet sets: subsets and sheets.
     SheetSetManager,
+    /// The AI assistant chat.
+    Assistant,
 }
 
 impl PanelId {
@@ -66,6 +68,7 @@ impl PanelId {
             PanelId::PointCloudManager => "Point Cloud Manager",
             PanelId::Count => "Count",
             PanelId::SheetSetManager => "Sheet Set Manager",
+            PanelId::Assistant => "AI Assistant",
         }
     }
 
@@ -80,6 +83,7 @@ impl PanelId {
             PanelId::PointCloudManager => 280.0,
             PanelId::Count => 280.0,
             PanelId::SheetSetManager => 280.0,
+            PanelId::Assistant => 360.0,
         }
     }
 
@@ -172,6 +176,7 @@ impl DockState {
             PanelId::PointCloudManager,
             PanelId::Count,
             PanelId::SheetSetManager,
+            PanelId::Assistant,
         ] {
             self.panels.entry(id).or_insert_with(|| DockPanel::for_id(id));
         }

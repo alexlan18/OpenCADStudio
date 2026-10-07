@@ -6124,3 +6124,25 @@ count-feature =
     .invalid-boundary = 无效的计数区域边界对象。请选择由直线段组成且不自交的闭合多段线。
     .block-not-found = 找不到块 "__ocs_fmt_0__"。
     .invalid-point = 无效的点。
+
+assistant =
+    .model-name = 模型名称
+    .key-env-hint = 留空则使用环境变量 __ocs_fmt_0__
+    .provider = 服务提供方
+    .base-url = 接口地址 (Base URL)
+    .api-key = API 密钥
+    .effort = 推理强度
+    .settings-note = 设置随用户偏好一起保存；API 密钥以明文存储。
+    .arguments = 参数
+    .intro = 描述要绘制、修改、测量或检查的内容。助手通过与 MCP 服务端相同的工具操作当前打开的图纸。
+    .placeholder = 向助手提问… Enter 发送，Shift+Enter 换行
+    .stop = 停止
+    .send = 发送
+    .tokens = Token：输入 __ocs_fmt_0__ / 输出 __ocs_fmt_1__
+    .title = AI 助手
+    .no-model = 未设置模型
+    .new-chat = 新对话
+    .desktop-only = AI 助手需要在桌面版应用中使用。
+    .ribbon-label =
+        AI
+        助手

@@ -20,6 +20,21 @@ pub(crate) fn agent(timeout: Duration) -> ureq::Agent {
         .into()
 }
 
+/// Like [`agent`], but 4xx/5xx answers come back as responses instead of
+/// errors, so the caller can read the body: APIs put the actual reason
+/// ("invalid api key", "model not found") there.
+pub(crate) fn agent_keeping_status_bodies(timeout: Duration) -> ureq::Agent {
+    let tls = TlsConfig::builder()
+        .root_certs(RootCerts::PlatformVerifier)
+        .build();
+    ureq::Agent::config_builder()
+        .timeout_global(Some(timeout))
+        .http_status_as_error(false)
+        .tls_config(tls)
+        .build()
+        .into()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

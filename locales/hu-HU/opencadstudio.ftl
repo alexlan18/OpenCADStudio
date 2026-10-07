@@ -6140,3 +6140,25 @@ count-feature =
     .invalid-boundary = Érvénytelen számlálási terület határobjektum. Válasszon egy zárt, vonalszakaszokból álló, önmagát nem metsző vonalláncot.
     .block-not-found = A(z) "__ocs_fmt_0__" blokk nem található.
     .invalid-point = Érvénytelen pont.
+
+assistant =
+    .model-name = Modell neve
+    .key-env-hint = Üresen a(z) __ocs_fmt_0__ környezeti változót használja
+    .provider = Szolgáltató
+    .base-url = Alap URL
+    .api-key = API-kulcs
+    .effort = Erőfeszítés
+    .settings-note = A beállítások a felhasználói beállításokkal együtt mentődnek; az API-kulcs egyszerű szövegként tárolódik.
+    .arguments = Argumentumok
+    .intro = Írja le, mit kell rajzolni, módosítani, mérni vagy ellenőrizni. Az asszisztens a megnyitott rajzon ugyanazokkal az eszközökkel dolgozik, mint az MCP-kiszolgáló.
+    .placeholder = Kérdezze az asszisztenst… Enter küld, Shift+Enter új sort kezd
+    .stop = Leállítás
+    .send = Küldés
+    .tokens = Tokenek: __ocs_fmt_0__ be / __ocs_fmt_1__ ki
+    .title = AI-asszisztens
+    .no-model = Nincs modell beállítva
+    .new-chat = Új beszélgetés
+    .desktop-only = Az AI-asszisztenshez az asztali alkalmazás szükséges.
+    .ribbon-label =
+        AI-
+        asszisztens

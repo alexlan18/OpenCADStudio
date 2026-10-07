@@ -84,7 +84,6 @@ pub static SAVE: &[u8] = include_bytes!("../../assets/icons/ui/save.svg");
 pub static FILE_EXPORT: &[u8] = include_bytes!("../../assets/icons/ui/file_export.svg");
 pub static PRINT: &[u8] = include_bytes!("../../assets/icons/ui/print.svg");
 pub static HEART: &[u8] = include_bytes!("../../assets/icons/ui/heart.svg");
-#[cfg(target_arch = "wasm32")]
 pub static GEAR: &[u8] = include_bytes!("../../assets/icons/ui/gear.svg");
 pub static DOT: &[u8] = include_bytes!("../../assets/icons/ui/dot.svg");
 pub static DIRTY_DOT: &[u8] = include_bytes!("../../assets/icons/ui/dirty_dot.svg");

@@ -6140,3 +6140,25 @@ count-feature =
     .invalid-boundary = Nieprawidłowy obiekt obwiedni obszaru liczenia. Wybierz zamkniętą polilinię złożoną z odcinków, która nie przecina samej siebie.
     .block-not-found = Nie można znaleźć bloku "__ocs_fmt_0__".
     .invalid-point = Nieprawidłowy punkt.
+
+assistant =
+    .model-name = Nazwa modelu
+    .key-env-hint = Puste używa zmiennej środowiskowej __ocs_fmt_0__
+    .provider = Dostawca
+    .base-url = Bazowy URL
+    .api-key = Klucz API
+    .effort = Wysiłek
+    .settings-note = Ustawienia są zapisywane z preferencjami; klucz API jest przechowywany jawnym tekstem.
+    .arguments = Argumenty
+    .intro = Opisz, co narysować, zmienić, zmierzyć lub sprawdzić. Asystent pracuje na otwartym rysunku tymi samymi narzędziami, które udostępnia serwer MCP.
+    .placeholder = Zapytaj asystenta… Enter wysyła, Shift+Enter dodaje wiersz
+    .stop = Zatrzymaj
+    .send = Wyślij
+    .tokens = Tokeny: __ocs_fmt_0__ wej. / __ocs_fmt_1__ wyj.
+    .title = Asystent AI
+    .no-model = Nie ustawiono modelu
+    .new-chat = Nowy czat
+    .desktop-only = Asystent AI wymaga aplikacji desktopowej.
+    .ribbon-label =
+        Asystent
+        AI

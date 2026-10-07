@@ -6064,3 +6064,25 @@ count-feature =
     .invalid-boundary = Geçersiz sayım alanı sınır nesnesi. Doğru parçalarından oluşan, kendisiyle kesişmeyen kapalı bir çoklu çizgi seçin.
     .block-not-found = "__ocs_fmt_0__" bloğu bulunamadı.
     .invalid-point = Geçersiz nokta.
+
+assistant =
+    .model-name = Model adı
+    .key-env-hint = Boş bırakılırsa __ocs_fmt_0__ ortam değişkeni kullanılır
+    .provider = Sağlayıcı
+    .base-url = Temel URL
+    .api-key = API anahtarı
+    .effort = Çaba
+    .settings-note = Ayarlar tercihlerinizle birlikte kaydedilir; API anahtarı düz metin olarak saklanır.
+    .arguments = Bağımsız değişkenler
+    .intro = Neyin çizileceğini, değiştirileceğini, ölçüleceğini veya denetleneceğini açıklayın. Asistan, açık çizim üzerinde MCP sunucusuyla aynı araçları kullanır.
+    .placeholder = Asistana sorun… Enter gönderir, Shift+Enter satır ekler
+    .stop = Durdur
+    .send = Gönder
+    .tokens = Belirteç: __ocs_fmt_0__ giriş / __ocs_fmt_1__ çıkış
+    .title = Yapay Zekâ Asistanı
+    .no-model = Model ayarlanmadı
+    .new-chat = Yeni sohbet
+    .desktop-only = Yapay zekâ asistanı masaüstü uygulamasını gerektirir.
+    .ribbon-label =
+        Yapay Zekâ
+        Asistanı

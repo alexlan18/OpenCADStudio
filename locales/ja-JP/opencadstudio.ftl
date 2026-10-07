@@ -6129,3 +6129,25 @@ count-feature =
     .invalid-boundary = カウント領域の境界オブジェクトが無効です。線分で構成され、自己交差しない閉じたポリラインを選択してください。
     .block-not-found = ブロック "__ocs_fmt_0__" が見つかりません。
     .invalid-point = 点が無効です。
+
+assistant =
+    .model-name = モデル名
+    .key-env-hint = 空欄の場合は環境変数 __ocs_fmt_0__ を使用します
+    .provider = プロバイダー
+    .base-url = ベース URL
+    .api-key = API キー
+    .effort = 推論レベル
+    .settings-note = 設定はユーザー設定と共に保存されます。API キーは平文で保存されます。
+    .arguments = 引数
+    .intro = 描画・変更・計測・確認したい内容を入力してください。アシスタントは MCP サーバーと同じツールで開いている図面を操作します。
+    .placeholder = アシスタントに質問… Enter で送信、Shift+Enter で改行
+    .stop = 停止
+    .send = 送信
+    .tokens = トークン: 入力 __ocs_fmt_0__ / 出力 __ocs_fmt_1__
+    .title = AI アシスタント
+    .no-model = モデル未設定
+    .new-chat = 新しいチャット
+    .desktop-only = AI アシスタントはデスクトップ版アプリケーションが必要です。
+    .ribbon-label =
+        AI
+        アシスタント

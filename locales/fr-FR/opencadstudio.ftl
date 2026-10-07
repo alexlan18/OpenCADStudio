@@ -6140,3 +6140,25 @@ count-feature =
     .invalid-boundary = Objet de contour de zone de comptage non valide. Sélectionnez une polyligne fermée composée de segments de ligne et qui ne se recoupe pas.
     .block-not-found = Le bloc "__ocs_fmt_0__" est introuvable.
     .invalid-point = Point non valide.
+
+assistant =
+    .model-name = Nom du modèle
+    .key-env-hint = Vide : utilise la variable d'environnement __ocs_fmt_0__
+    .provider = Fournisseur
+    .base-url = URL de base
+    .api-key = Clé API
+    .effort = Effort
+    .settings-note = Les réglages sont enregistrés avec vos préférences ; la clé API est stockée en clair.
+    .arguments = Arguments
+    .intro = Décrivez ce qu'il faut dessiner, modifier, mesurer ou vérifier. L'assistant agit sur le dessin ouvert avec les mêmes outils que le serveur MCP.
+    .placeholder = Demandez à l'assistant… Entrée envoie, Maj+Entrée ajoute une ligne
+    .stop = Arrêter
+    .send = Envoyer
+    .tokens = Jetons : __ocs_fmt_0__ entrée / __ocs_fmt_1__ sortie
+    .title = Assistant IA
+    .no-model = Aucun modèle défini
+    .new-chat = Nouvelle discussion
+    .desktop-only = L'assistant IA nécessite l'application de bureau.
+    .ribbon-label =
+        Assistant
+        IA

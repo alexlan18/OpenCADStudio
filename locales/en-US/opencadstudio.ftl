@@ -6142,3 +6142,25 @@ count-feature =
     .invalid-boundary = Invalid count area boundary object. Select a closed polyline consisting of line segments and does not intersect itself.
     .block-not-found = Block "__ocs_fmt_0__" cannot be found.
     .invalid-point = Invalid point.
+
+assistant =
+    .model-name = Model name
+    .key-env-hint = Empty uses the __ocs_fmt_0__ environment variable
+    .provider = Provider
+    .base-url = Base URL
+    .api-key = API key
+    .effort = Effort
+    .settings-note = Settings are saved with your preferences; the API key is stored in plain text.
+    .arguments = Arguments
+    .intro = Describe what to draw, change, measure or check. The assistant works on the open drawing through the same tools the MCP server exposes.
+    .placeholder = Ask the assistant… Enter sends, Shift+Enter adds a line
+    .stop = Stop
+    .send = Send
+    .tokens = Tokens: __ocs_fmt_0__ in / __ocs_fmt_1__ out
+    .title = AI Assistant
+    .no-model = No model set
+    .new-chat = New chat
+    .desktop-only = The AI assistant needs the desktop application.
+    .ribbon-label =
+        AI
+        Assistant

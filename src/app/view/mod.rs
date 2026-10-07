@@ -1904,6 +1904,7 @@ bg={bg_ms:.1}ms n={view_count}"
                 crate::ui::dock::PanelId::PointCloudManager => self.pc_manager.show,
                 crate::ui::dock::PanelId::Count => self.count_palette.show,
                 crate::ui::dock::PanelId::SheetSetManager => self.sheet_set.show,
+                crate::ui::dock::PanelId::Assistant => self.assistant.show,
             }
         };
         let edge_stack = |side: crate::app::config::DockSide| -> Option<Element<'_, Message>> {
@@ -2836,6 +2837,14 @@ impl OpenCADStudio {
             super::control::subscribe().map(Message::ControlRequest),
             // Loopback REST channel when launched with files + --http.
             super::control::http_bridge::subscribe().map(Message::ControlRequest),
+            // The built-in AI assistant: its tool calls join the same
+            // automation queue; everything else updates the chat panel.
+            super::assistant::agent::subscribe().map(|event| match event {
+                super::assistant::AssistantEvent::Control(envelope) => {
+                    Message::ControlRequest(envelope)
+                }
+                other => Message::Assistant(super::assistant::AssistantMsg::Event(other)),
+            }),
         ]);
         #[cfg(target_arch = "wasm32")]
         let control = iced::time::every(std::time::Duration::from_millis(50))
@@ -3069,6 +3078,12 @@ impl OpenCADStudio {
             crate::ui::dock::PanelId::SheetSetManager => {
                 crate::ui::window::sheet_set::view(&self.sheet_set, width, auto_collapse)
             }
+            crate::ui::dock::PanelId::Assistant => crate::ui::window::assistant_panel::view(
+                &self.assistant,
+                width,
+                auto_collapse,
+                &self.active_theme,
+            ),
         };
         let divider = dock_divider(id);
         match side {

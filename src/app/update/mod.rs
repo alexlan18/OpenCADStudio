@@ -1823,6 +1823,7 @@ impl OpenCADStudio {
             Message::FieldDialog(message) => self.on_field_dialog(message),
             Message::PcManager(message) => self.update_pc_manager(message),
             Message::Count(message) => self.on_count(message),
+            Message::Assistant(message) => self.on_assistant(message),
             Message::SheetSet(message) => self.on_sheet_set(message),
             Message::RibbonSelectTab(idx) => {
                 self.ribbon.select(idx);

@@ -715,6 +715,7 @@ impl OpenCADStudio {
             show_constraint_values: self.show_constraint_values,
             auto_constrain: self.auto_constrain_settings.clone(),
             constraint_solve_mode: self.constraint_solve_mode,
+            assistant: self.assistant.settings.clone(),
             constraint_infer: self.constraint_infer,
             constraint_bar_display: self.constraint_bar_display,
             constraint_bar_mode: self.constraint_bar_mode,
@@ -848,6 +849,7 @@ impl OpenCADStudio {
         self.auto_constrain_angle_input =
             format!("{}", self.auto_constrain_settings.angle_tolerance_deg);
         self.constraint_solve_mode = s.constraint_solve_mode;
+        self.assistant.settings = s.assistant.clone();
         self.constraint_infer = s.constraint_infer;
         self.constraint_bar_display = s.constraint_bar_display.clamp(0, 3);
         self.constraint_bar_mode = s.constraint_bar_mode.clamp(0, 4095);

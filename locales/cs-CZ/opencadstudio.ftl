@@ -6138,3 +6138,25 @@ count-feature =
     .invalid-boundary = Neplatný objekt hranice oblasti počítání. Vyberte uzavřenou křivku složenou z úseček, která neprotíná sama sebe.
     .block-not-found = Blok "__ocs_fmt_0__" nelze najít.
     .invalid-point = Neplatný bod.
+
+assistant =
+    .model-name = Název modelu
+    .key-env-hint = Prázdné použije proměnnou prostředí __ocs_fmt_0__
+    .provider = Poskytovatel
+    .base-url = Základní URL
+    .api-key = Klíč API
+    .effort = Úsilí
+    .settings-note = Nastavení se ukládá s vašimi předvolbami; klíč API je uložen jako prostý text.
+    .arguments = Argumenty
+    .intro = Popište, co nakreslit, změnit, změřit nebo zkontrolovat. Asistent pracuje s otevřeným výkresem stejnými nástroji jako server MCP.
+    .placeholder = Zeptejte se asistenta… Enter odešle, Shift+Enter přidá řádek
+    .stop = Zastavit
+    .send = Odeslat
+    .tokens = Tokeny: __ocs_fmt_0__ vstup / __ocs_fmt_1__ výstup
+    .title = AI asistent
+    .no-model = Model není nastaven
+    .new-chat = Nový chat
+    .desktop-only = AI asistent vyžaduje desktopovou aplikaci.
+    .ribbon-label =
+        AI
+        asistent

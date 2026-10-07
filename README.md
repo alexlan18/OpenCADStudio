@@ -198,7 +198,7 @@ OpenCADStudio --serve --port 4242
 OpenCADStudio --mcp
 ```
 
-The automation server exchanges one JSON object per line over standard input/output or a local TCP socket. The self-contained MCP endpoint exposes the live desktop editor through the same tools to every compatible client. Its `audit` and `save_verified` operations check an explicit DWG/DXF target version, lossy records, raw DXF handle references, reopen the output, compare its semantic manifest, and return a SHA-256 hash. To connect a client, configure it to launch `OpenCADStudio --mcp`. See the [MCP control guide](docs/automation/README.md).
+The automation server exchanges one JSON object per line over standard input/output or a local TCP socket. The self-contained MCP endpoint exposes the live desktop editor through the same tools to every compatible client. Its `audit` and `save_verified` operations check an explicit DWG/DXF target version, lossy records, raw DXF handle references, reopen the output, compare its semantic manifest, and return a SHA-256 hash. To connect a client, configure it to launch `OpenCADStudio --mcp`. See the [MCP control guide](docs/automation/README.md). The same tools power the built-in **AI Assistant** panel (View › Palettes › AI Assistant, or `AIASSIST`): chat with a model inside the editor and it draws, edits, measures and checks the open drawing; see [docs/ai-assistant.md](docs/ai-assistant.md).
 
 ## Plugins
 

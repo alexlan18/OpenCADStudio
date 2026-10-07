@@ -6138,3 +6138,25 @@ count-feature =
     .invalid-boundary = Virheellinen laskenta-alueen rajaobjekti. Valitse suljettu, janoista koostuva moniviiva, joka ei leikkaa itseään.
     .block-not-found = Lohkoa "__ocs_fmt_0__" ei löydy.
     .invalid-point = Virheellinen piste.
+
+assistant =
+    .model-name = Mallin nimi
+    .key-env-hint = Tyhjä käyttää ympäristömuuttujaa __ocs_fmt_0__
+    .provider = Palveluntarjoaja
+    .base-url = Perus-URL
+    .api-key = API-avain
+    .effort = Panostus
+    .settings-note = Asetukset tallennetaan asetustesi mukana; API-avain tallennetaan selkokielisenä.
+    .arguments = Argumentit
+    .intro = Kuvaile, mitä piirretään, muutetaan, mitataan tai tarkistetaan. Avustaja käsittelee avointa piirustusta samoilla työkaluilla kuin MCP-palvelin.
+    .placeholder = Kysy avustajalta… Enter lähettää, Shift+Enter lisää rivin
+    .stop = Pysäytä
+    .send = Lähetä
+    .tokens = Tokenit: __ocs_fmt_0__ sisään / __ocs_fmt_1__ ulos
+    .title = Tekoälyavustaja
+    .no-model = Mallia ei ole asetettu
+    .new-chat = Uusi keskustelu
+    .desktop-only = Tekoälyavustaja vaatii työpöytäsovelluksen.
+    .ribbon-label =
+        Tekoäly-
+        avustaja

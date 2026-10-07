@@ -38,7 +38,7 @@ const CACHE_TTL_MS: u64 = 3_600_000;
 const RESOURCE_TTL_MS: u64 = 60_000;
 const TASK_TTL_MS: u64 = 3_600_000;
 pub(crate) const INSTRUCTIONS: &str = "Call ocs_sessions, then pass its session_id as ocs_session_id to ocs_read, ocs_execute and ocs_capture. Read capabilities to discover the complete CAD automation surface. Call record_schema to discover every record type, property path, JSON type, enum, unit, constraint and write rule before editing unfamiliar data. Use records to inspect every serializable entity, object, table, header and document record; filter with RFC 6901 JSON Pointer paths. Use set_properties for atomic, type-checked record edits and preserve document_id, revision and request_id. Use commands with parameters.name for a command manifest. Use batch when several steps are known, and request changed_entities when resulting geometry is needed. For interactive work, call start and follow state.command.accepts, options and input_example. To have the person at the screen pick entities for you, call user_select and keep polling until it completes; running means they are still picking. A run.cmd contains the command name followed by prompt answers separated by spaces; points use x,y or x,y,z. After a timeout, query the existing operation and never replay a mutation with a new request_id. waiting_input and running are not completion. Let OCS and its geometry kernel calculate geometry; use query near, contains_point and intersections for exact relationships. ARCHITECTURAL VECTORIZATION DIRECTIVE: When converting or vectorizing a floorplan from an image or sketch: 1. Attach reference images as Xref underlays via embed_image on layer _XREF and lock it. 2. NEVER draw loose lines or arcs for doors or windows; always query records (collection: 'block_records') and insert Block References (type: 'INSERT') on A-DOOR and A-GLAZ. If a block is missing, draft standard geometry at origin (0,0) and register it with block_define before inserting. 3. Categorize layers cleanly: A-WALL-EXTR, A-WALL-INTR, A-WALL-HATCH, A-DOOR, A-GLAZ, A-ANNO-TEXT, A-ANNO-DIMS. 4. Always verify drafted geometry using ocs_capture with annotate: true (Set-of-Marks entity IDs) and diff: true (visual dirty streaming). ocs_capture operates quietly in background and overlapped window states without stealing user focus. Viewports and captured snapshots are available as MCP resources under cad://session/{session_id}/viewport.png and cad://session/{session_id}/snapshot/{hash}.png; ocs_capture accepts delivery: 'resource' to avoid large inline base64 payloads, supplies standardized spatial grounding in _spatial, supports diff: true for streaming dirty visual regions, and provides multiscale DeepZoom pyramidal tiling via tile: {level, x, y} or cad://session/{session_id}/pyramid/manifest.json and cad://session/{session_id}/tile/{level}/{x}/{y}.png. Before delivery call audit with the intended target_format and target_version; use save_verified with an explicit absolute path to save, reopen, hash and compare the semantic manifest. When you first connect, announce the build you are working with to the user from the `bridge` object on ocs_sessions states and hello/capabilities responses (OpenCADStudio version, build_rev, tool_schema digest); repeat the announcement if a later handshake reports a different build.";
-const READ_OPS: &[&str] = &[
+pub(crate) const READ_OPS: &[&str] = &[
     "state",
     "hello",
     "query",
@@ -104,7 +104,7 @@ const EXECUTE_OPS: &[&str] = &[
     "stop",
     "batch",
 ];
-const BATCH_STEP_OPS: &[&str] = &[
+pub(crate) const BATCH_STEP_OPS: &[&str] = &[
     "new",
     "open",
     "activate",
@@ -144,7 +144,7 @@ const BATCH_STEP_OPS: &[&str] = &[
     "save",
     "stop",
 ];
-const MAX_BATCH_STEPS: usize = 64;
+pub(crate) const MAX_BATCH_STEPS: usize = 64;
 
 #[derive(Clone, Deserialize)]
 struct Descriptor {
@@ -1424,7 +1424,7 @@ fn required_string<'a>(arguments: &'a Value, key: &str) -> Result<&'a str, Strin
         .ok_or_else(|| format!("Missing {key}"))
 }
 
-fn validate_execute_request(
+pub(crate) fn validate_execute_request(
     request: &Value,
     op: &str,
 ) -> Result<crate::mcp_ops::ValidationResult, String> {
@@ -1465,7 +1465,7 @@ fn validate_execute_request(
     crate::mcp_ops::validate_request(request, false)
 }
 
-fn compact_state(state: &Value) -> Value {
+pub(crate) fn compact_state(state: &Value) -> Value {
     let mut compact = Map::new();
     for key in [
         "session_id",
@@ -1486,7 +1486,7 @@ fn compact_state(state: &Value) -> Value {
     Value::Object(compact)
 }
 
-fn response_handles(response: &Value) -> Vec<String> {
+pub(crate) fn response_handles(response: &Value) -> Vec<String> {
     let mut handles = Vec::new();
     if let Some(changes) = response["changes"].as_array() {
         for handle in changes

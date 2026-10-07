@@ -1,0 +1,98 @@
+# AI Assistant (built-in chat panel)
+
+OpenCADStudio ships an AI assistant docked beside the drawing. You describe
+what to draw, change, measure or check; the model does it on the open drawing
+through the **same tool surface the MCP server exposes** (`ocs_read`,
+`ocs_execute`, `ocs_capture`), so anything an external MCP client can do, the
+built-in assistant can do too — no more, no less.
+
+## Opening the panel
+
+- Ribbon: **View › Palettes › AI Assistant**
+- Commands: `AIASSIST` (open), `AIASSISTCLOSE` (close)
+
+The panel is an ordinary dock panel: drag its title bar to the left or right
+edge, resize it with the divider, pin it to auto-collapse, close it with ×.
+
+## Settings (gear icon in the panel)
+
+| Field | Meaning |
+|---|---|
+| Provider | **Anthropic (Claude)** — the Anthropic Messages API, spoken natively. **OpenAI-compatible** — any server speaking Chat Completions (`/chat/completions` with `tools`): local inference servers, model gateways, other vendors. |
+| Base URL | Empty uses the provider default (`https://api.anthropic.com` or `https://api.openai.com/v1`). Set it for a gateway or a local server, e.g. `http://localhost:11434/v1`. |
+| Model | Empty uses the provider default (`claude-opus-5-5` for Anthropic; OpenAI-compatible needs a name). |
+| API key | Stored **in plain text** in the user settings file (`settings.json`). Leave it empty to use the `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` environment variable instead. |
+| Effort | Anthropic only: `output_config.effort` (`low` … `max`). *Default* leaves it to the server. |
+
+Switching provider starts a new conversation: the two wire formats do not
+share a transcript.
+
+Advanced values live in `settings.json` under `"assistant"`:
+`max_tool_rounds` (default 40 tool rounds per message), `max_tokens`
+(default 16000 per reply) and `refusal_fallback` (Anthropic: send
+`fallbacks: "default"` so a declined request is retried on a fallback model).
+
+## Using it
+
+- Type in the composer. **Enter** sends, **Shift+Enter** adds a line.
+- Every tool call shows as a card in the transcript (op and key argument,
+  ✓/✗ once finished). Click it to see the arguments and the raw result.
+  Viewport captures the model requested are shown inline.
+- **Stop** ends the current turn after the running step; a pending
+  interactive prompt (object or point pick) is dismissed.
+- **New chat** clears the transcript and the model's context.
+- Each tool call is also logged on the command line as
+  `automation <op>: <status>`, the same trail an external MCP client leaves.
+- When the model asks you to pick objects or a point, answer in the drawing
+  as you would for any command (Enter / Escape finish a selection).
+
+Ask in any language; the assistant answers in the language you write in.
+
+## How it works
+
+```
+GUI thread (iced)                     ocs-assistant thread
+───────────────────────────────       ────────────────────────────────────
+AssistantPanel ──AssistantMsg──▶ on_assistant()
+                                 │ AgentCommand::Send ───────────▶ run_turn()
+                                 │                                  │ HTTPS (ureq, platform certs)
+Message::ControlRequest(Envelope)◀── AssistantEvent::Control ───── execute_tool()
+   → control_request() ──reply──▶                                   │
+AssistantEvent::{Text,ToolCall,…}◀────────────────────────────────── loop until end_turn
+```
+
+- `src/app/assistant/provider.rs` — the two wire formats (request bodies,
+  response parsing, tool-result messages), pure functions with tests.
+- `src/app/assistant/agent.rs` — the worker thread: model loop, tool
+  execution, the in-process bridge to the GUI dispatcher. Request shaping
+  (ids, `document_id`, `revision`, `selection`), polling of `accepted` /
+  `running` answers and the ten-minute ceiling for interactive picks mirror
+  `mcp::GuiClient::request`, so an operation behaves identically whether it
+  arrives from the panel or from an MCP client.
+- `src/app/assistant/mod.rs` — panel state, messages and the handlers on
+  `OpenCADStudio`.
+- `src/ui/window/assistant_panel.rs` — the view.
+
+Tool definitions come from `mcp::tool_definitions()` with the session
+plumbing removed (`ocs_sessions`, `ocs_session_id`) and the MCP-resource-only
+capture options dropped (`delivery`, `tile`, `diff`). The system prompt is
+`mcp::INSTRUCTIONS` minus the session bootstrap, plus a short preamble
+describing the in-editor situation. Adding an op in `mcp_ops.rs` therefore
+reaches the built-in assistant automatically.
+
+Model calls are plain HTTPS through `crate::network::agent` (operating-system
+certificate verifier, 10-minute timeout). Anthropic requests omit `thinking`
+(adaptive is the server default on current models), place cache breakpoints
+on the tool list, the system prompt and the newest message, and echo
+assistant turns back verbatim so thinking blocks stay valid. Tool results
+larger than ~120 KB are truncated with a hint to page or filter.
+
+## Limits and notes
+
+- Desktop builds only. The web build shows the panel but cannot call a model.
+- One operation at a time: while the assistant runs an operation, an
+  external MCP/REST client gets `busy`, and vice versa.
+- The conversation is not persisted; closing the application forgets it.
+- Streaming is not used; a long reply appears when it is complete.
+- The API key is stored in plain text. Prefer the environment variable on
+  shared machines.

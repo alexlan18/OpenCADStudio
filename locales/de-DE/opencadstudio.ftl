@@ -6139,3 +6139,25 @@ count-feature =
     .invalid-boundary = Ungültiges Begrenzungsobjekt für den Zählbereich. Wählen Sie eine geschlossene Polylinie aus Liniensegmenten, die sich nicht selbst schneidet.
     .block-not-found = Block "__ocs_fmt_0__" wurde nicht gefunden.
     .invalid-point = Ungültiger Punkt.
+
+assistant =
+    .model-name = Modellname
+    .key-env-hint = Leer verwendet die Umgebungsvariable __ocs_fmt_0__
+    .provider = Anbieter
+    .base-url = Basis-URL
+    .api-key = API-Schlüssel
+    .effort = Aufwand
+    .settings-note = Die Einstellungen werden mit Ihren Voreinstellungen gespeichert; der API-Schlüssel liegt im Klartext vor.
+    .arguments = Argumente
+    .intro = Beschreiben Sie, was gezeichnet, geändert, gemessen oder geprüft werden soll. Der Assistent arbeitet mit denselben Werkzeugen wie der MCP-Server an der geöffneten Zeichnung.
+    .placeholder = Assistenten fragen … Eingabe sendet, Umschalt+Eingabe fügt eine Zeile ein
+    .stop = Stopp
+    .send = Senden
+    .tokens = Token: __ocs_fmt_0__ ein / __ocs_fmt_1__ aus
+    .title = KI-Assistent
+    .no-model = Kein Modell festgelegt
+    .new-chat = Neuer Chat
+    .desktop-only = Der KI-Assistent benötigt die Desktop-Anwendung.
+    .ribbon-label =
+        KI-
+        Assistent

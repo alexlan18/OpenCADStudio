@@ -12,6 +12,7 @@ pub mod plot_window;
 pub mod quick_print;
 mod properties_palette;
 mod sheetset;
+mod assistant;
 mod count_palette;
 mod tile_horiz;
 mod tile_vert;
@@ -123,6 +124,7 @@ impl CadModule for ViewModule {
                         RibbonItem::LargeTool(properties_palette::tool()),
                         RibbonItem::LargeTool(count_palette::tool()),
                         RibbonItem::LargeTool(sheetset::tool()),
+                        RibbonItem::LargeTool(assistant::tool()),
                     ],
                 },
                 // ── Interface ─────────────────────────────────────────────────────

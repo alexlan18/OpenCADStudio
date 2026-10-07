@@ -6140,3 +6140,25 @@ count-feature =
     .invalid-boundary = 개수 영역 경계 객체가 잘못되었습니다. 선분으로 구성되고 자체 교차하지 않는 닫힌 폴리선을 선택하십시오.
     .block-not-found = 블록 "__ocs_fmt_0__"을(를) 찾을 수 없습니다.
     .invalid-point = 점이 잘못되었습니다.
+
+assistant =
+    .model-name = 모델 이름
+    .key-env-hint = 비워 두면 __ocs_fmt_0__ 환경 변수를 사용합니다
+    .provider = 제공자
+    .base-url = 기본 URL
+    .api-key = API 키
+    .effort = 추론 강도
+    .settings-note = 설정은 사용자 환경설정과 함께 저장되며 API 키는 평문으로 저장됩니다.
+    .arguments = 인수
+    .intro = 그리거나 수정하거나 측정하거나 확인할 내용을 설명하세요. 어시스턴트는 MCP 서버와 같은 도구로 열린 도면을 다룹니다.
+    .placeholder = 어시스턴트에게 질문… Enter로 보내고 Shift+Enter로 줄 바꿈
+    .stop = 중지
+    .send = 보내기
+    .tokens = 토큰: 입력 __ocs_fmt_0__ / 출력 __ocs_fmt_1__
+    .title = AI 어시스턴트
+    .no-model = 모델이 설정되지 않음
+    .new-chat = 새 대화
+    .desktop-only = AI 어시스턴트는 데스크톱 애플리케이션이 필요합니다.
+    .ribbon-label =
+        AI
+        어시스턴트

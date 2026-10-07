@@ -598,6 +598,10 @@ pub(super) fn on_ribbon_tool_click(&mut self, tool_id: String, event: ModuleEven
                         self.sheet_set.show = false;
                         self.ribbon.set_sheet_set(false);
                     }
+                    PanelId::Assistant => {
+                        self.assistant.show = false;
+                        self.ribbon.set_assistant(false);
+                    }
                     PanelId::Properties => {
                         self.show_properties = false;
                         self.ribbon.set_properties(false);
@@ -705,6 +709,7 @@ pub(super) fn on_ribbon_tool_click(&mut self, tool_id: String, event: ModuleEven
             PanelId::PointCloudManager => self.pc_manager.show,
             PanelId::Count => self.count_palette.show,
             PanelId::SheetSetManager => self.sheet_set.show,
+            PanelId::Assistant => self.assistant.show,
         }
     }
 

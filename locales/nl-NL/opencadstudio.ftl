@@ -6139,3 +6139,25 @@ count-feature =
     .invalid-boundary = Ongeldig grensobject voor het telgebied. Selecteer een gesloten polylijn die uit lijnsegmenten bestaat en zichzelf niet snijdt.
     .block-not-found = Blok "__ocs_fmt_0__" kan niet worden gevonden.
     .invalid-point = Ongeldig punt.
+
+assistant =
+    .model-name = Modelnaam
+    .key-env-hint = Leeg gebruikt de omgevingsvariabele __ocs_fmt_0__
+    .provider = Provider
+    .base-url = Basis-URL
+    .api-key = API-sleutel
+    .effort = Inspanning
+    .settings-note = Instellingen worden met uw voorkeuren opgeslagen; de API-sleutel staat in platte tekst.
+    .arguments = Argumenten
+    .intro = Beschrijf wat er getekend, gewijzigd, gemeten of gecontroleerd moet worden. De assistent werkt op de geopende tekening met dezelfde tools als de MCP-server.
+    .placeholder = Vraag de assistent… Enter verzendt, Shift+Enter voegt een regel toe
+    .stop = Stoppen
+    .send = Verzenden
+    .tokens = Tokens: __ocs_fmt_0__ in / __ocs_fmt_1__ uit
+    .title = AI-assistent
+    .no-model = Geen model ingesteld
+    .new-chat = Nieuwe chat
+    .desktop-only = De AI-assistent vereist de desktoptoepassing.
+    .ribbon-label =
+        AI-
+        assistent
