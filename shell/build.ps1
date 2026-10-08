@@ -158,23 +158,87 @@ function Find-WixBin {
     return $null
 }
 
-# The MSVC Rust target links with Visual Studio's link.exe. Without the
-# "Desktop development with C++" workload (or Build Tools with VC tools),
-# cargo fails deep inside the first build script, so check up front.
-function Test-MsvcToolchain {
-    if (Find-Command 'link.exe') {
-        # A Developer Command Prompt / VsDevCmd shell already exposes it.
-        $probe = & link.exe 2>&1 | Out-String
-        if ($probe -match 'Microsoft \(R\) Incremental Linker') { return $true }
-    }
+# The MSVC Rust target links with Visual Studio's link.exe. A plain
+# PowerShell window does not carry the Visual Studio environment, and rustc
+# occasionally fails to locate a fresh Build Tools install on its own, so
+# this imports vcvars64.bat (what a "Developer PowerShell" does) when
+# link.exe is not already on PATH.
+function Get-MicrosoftLinker {
+    $link = Find-Command 'link.exe'
+    if (-not $link) { return $null }
+    # Git for Windows ships a coreutils link.exe; only the MSVC one counts.
+    $probe = & $link 2>&1 | Out-String
+    if ($probe -match 'Microsoft \(R\) Incremental Linker') { return $link }
+    return $null
+}
+
+function Get-VsInstallationPath {
     $vswhere = 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe'
-    if (Test-Path $vswhere) {
-        $path = & $vswhere -latest -products * `
-            -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
-            -property installationPath 2>$null
-        if ($path) { return $true }
+    if (-not (Test-Path $vswhere)) { return $null }
+    $path = & $vswhere -latest -products * `
+        -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+        -property installationPath 2>$null | Select-Object -First 1
+    if ($path) { return $path.Trim() }
+    return $null
+}
+
+function Import-VsDevEnvironment([string]$InstallPath) {
+    $vcvars = Join-Path $InstallPath 'VC\Auxiliary\Build\vcvars64.bat'
+    if (-not (Test-Path $vcvars)) {
+        Write-Warning "Visual Studio at $InstallPath has no VC\Auxiliary\Build\vcvars64.bat; the C++ tools are not fully installed."
+        return $false
     }
-    return $false
+    Write-Host "Importing Visual Studio environment: $vcvars"
+    $script = Join-Path ([IO.Path]::GetTempPath()) "ocs-vcvars-$PID.cmd"
+    @(
+        '@echo off',
+        "call `"$vcvars`" >nul 2>&1",
+        'if errorlevel 1 exit /b 1',
+        'set'
+    ) | Set-Content -Path $script -Encoding ascii
+    try {
+        $lines = & cmd.exe /d /c $script
+        if ($LASTEXITCODE -ne 0) {
+            Write-Warning "vcvars64.bat failed (exit code $LASTEXITCODE)."
+            return $false
+        }
+        foreach ($line in $lines) {
+            if ($line -match '^([^=]+)=(.*)$') {
+                Set-Item -Path "env:$($Matches[1])" -Value $Matches[2]
+            }
+        }
+    } finally {
+        Remove-Item $script -Force -ErrorAction SilentlyContinue
+    }
+    return ($null -ne (Get-MicrosoftLinker))
+}
+
+function Assert-MsvcToolchain {
+    $link = Get-MicrosoftLinker
+    if ($link) {
+        Write-Host "MSVC linker: $link"
+        return
+    }
+    $install = Get-VsInstallationPath
+    if ($install -and (Import-VsDevEnvironment $install)) {
+        Write-Host "MSVC linker: $(Get-MicrosoftLinker)"
+        return
+    }
+    $hint = if ($install) {
+        "Visual Studio was found at $install but its C++ tools are unusable. Open Visual Studio Installer > Modify and make sure `"Desktop development with C++`" (MSVC v143 x64/x86 build tools + Windows SDK) is ticked, then reboot."
+    } else {
+        "Visual C++ build tools not found."
+    }
+    throw @"
+$hint
+cargo needs link.exe from the "Desktop development with C++" workload. To install it:
+
+  winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+
+or download Build Tools for Visual Studio from https://visualstudio.microsoft.com/visual-cpp-build-tools/
+and tick "Desktop development with C++" (this also installs the Windows SDK that provides signtool).
+Then open a new PowerShell window and run this script again.
+"@
 }
 
 function Get-PlainPassword([object]$Value) {
@@ -219,17 +283,9 @@ try {
 
     $cargo = Find-Command 'cargo'
     if (-not $cargo) { throw "cargo not found. Install Rust from https://rustup.rs and reopen the shell." }
-    if (-not $SkipBuild -and -not (Test-MsvcToolchain)) {
-        throw @"
-Visual C++ build tools not found (cargo needs link.exe from Visual Studio).
-Install the "Desktop development with C++" workload, for example:
-
-  winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
-
-or download Build Tools for Visual Studio from https://visualstudio.microsoft.com/visual-cpp-build-tools/
-and tick "Desktop development with C++" (this also installs the Windows SDK that provides signtool).
-Then open a new PowerShell window and run this script again.
-"@
+    if (-not $SkipBuild) {
+        Write-Step "Visual C++ toolchain"
+        Assert-MsvcToolchain
     }
 
     # ── Icons ────────────────────────────────────────────────────────────────
@@ -253,7 +309,7 @@ Then open a new PowerShell window and run this script again.
         } else {
             $missing = $icons | Where-Object { -not (Test-Path $_.Ico) } | ForEach-Object { $_.Ico }
             if ($missing) {
-                Write-Warning "ImageMagick (magick) not found; icons not generated: $($missing -join ', '). The executable gets no embedded icon and the MSI step needs dwg.ico/dxf.ico."
+                Write-Warning "ImageMagick (magick) not found; icons not generated: $($missing -join ', '). The executable gets no embedded icon and the MSI step needs dwg.ico/dxf.ico. Install it with: winget install ImageMagick.ImageMagick (then open a new window)."
             } else {
                 Write-Host "ImageMagick not found; keeping the existing .ico files."
             }
