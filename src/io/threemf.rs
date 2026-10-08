@@ -141,6 +141,12 @@ pub fn parse_3mf(bytes: &[u8], color: [f32; 4]) -> Result<ThreeMf, String> {
 type Transform = [f64; 12];
 const IDENTITY: Transform = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0];
 
+/// The first element child called `name`.
+fn find<'a, 'input>(node: roxmltree::Node<'a, 'input>, name: &str) -> Option<roxmltree::Node<'a, 'input>> {
+    node.children()
+        .find(|c| c.is_element() && c.tag_name().name() == name)
+}
+
 fn parse_transform(text: Option<&str>) -> Transform {
     let Some(text) = text else { return IDENTITY };
     let values: Vec<f64> = text
@@ -204,7 +210,6 @@ pub fn parse_model_xml(xml: &str, color: [f32; 4]) -> Result<ThreeMf, String> {
     }
     let unit = root.attribute("unit").unwrap_or("millimeter").to_string();
     let mut objects: std::collections::HashMap<String, RawObject> = Default::default();
-    let find = |node: roxmltree::Node, name: &str| node.children().find(|c| c.is_element() && c.tag_name().name() == name);
     if let Some(resources) = find(root, "resources") {
         for object in resources.children().filter(|c| c.is_element() && c.tag_name().name() == "object") {
             let Some(id) = object.attribute("id") else { continue };
