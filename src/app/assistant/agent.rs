@@ -1088,6 +1088,7 @@ mod tests {
             serial: 0,
             events: tx,
             memory: MemoryStore::open_default(),
+            images_unsupported: false,
         };
         (session, gui)
     }
@@ -1156,12 +1157,14 @@ mod tests {
         let outcome = session.execute_tool(&call).unwrap();
         assert!(!outcome.is_error, "{}", outcome.text);
         assert!(outcome.text.contains("notes/drawing-conventions.md"));
-        let memory = session.memory.as_ref().unwrap();
-        assert!(memory.read_note("drawing-conventions").unwrap().contains("A-WALL"));
-        assert!(memory.prompt_section().contains("layers in use"));
+        {
+            let memory = session.memory.as_ref().unwrap();
+            assert!(memory.read_note("drawing-conventions").unwrap().contains("A-WALL"));
+            assert!(memory.prompt_section().contains("layers in use"));
+        }
         let bad = ToolCall { id: "m2".into(), name: "ocs_memory".into(), input: json!({"op": "read", "name": "nope"}) };
         assert!(session.execute_tool(&bad).is_err());
-        let _ = memory.delete_note("drawing-conventions");
+        let _ = session.memory.as_ref().unwrap().delete_note("drawing-conventions");
         drop(session);
         gui.join().unwrap();
     }
