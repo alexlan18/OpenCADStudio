@@ -105,6 +105,9 @@ struct Session {
     /// `agent/memory` beside the executable: notes the model keeps and the
     /// transcript of this conversation. `None` when no location is writable.
     memory: Option<MemoryStore>,
+    /// The endpoint rejected image content once; captures travel as text
+    /// metadata only from then on.
+    images_unsupported: bool,
 }
 
 fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEvent>) {
@@ -117,6 +120,7 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
         serial: 0,
         events,
         memory: MemoryStore::open_default(),
+        images_unsupported: false,
     };
     if let Some(memory) = &session.memory {
         log::info!("agent memory at {}", memory.root().display());
@@ -126,6 +130,7 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
             AgentCommand::Reset => {
                 session.messages.clear();
                 session.usage = Usage::default();
+                session.images_unsupported = false;
                 if let Some(memory) = session.memory.as_mut() {
                     memory.new_session();
                 }
@@ -136,6 +141,7 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
                     session.provider = settings.provider;
                     session.messages.clear();
                     session.usage = Usage::default();
+                    session.images_unsupported = false;
                     if let Some(memory) = session.memory.as_mut() {
                         memory.new_session();
                     }
@@ -458,14 +464,8 @@ impl Session {
                 self.emit(AssistantEvent::TurnFinished("cancelled".into()));
                 return;
             }
-            let body = provider::build_request(settings, &system, &self.messages, &tools);
             let started = Instant::now();
-            log::info!(
-                "model request round {round}: {} messages, {} bytes",
-                self.messages.len(),
-                body.to_string().len()
-            );
-            let response = match call_model(settings, &api_key, &body) {
+            let response = match self.call_model_round(settings, &api_key, &system, &tools, round) {
                 Ok(response) => response,
                 Err(error) => {
                     self.emit(AssistantEvent::Error(error));
@@ -514,7 +514,15 @@ impl Session {
                 self.emit(AssistantEvent::TurnFinished("end_turn".into()));
                 return;
             }
-            let outcomes = self.run_tool_calls(&turn.tool_calls);
+            let mut outcomes = self.run_tool_calls(&turn.tool_calls);
+            if self.images_unsupported {
+                for outcome in &mut outcomes {
+                    if outcome.image_png.take().is_some() {
+                        outcome.text.push_str("\n");
+                        outcome.text.push_str(provider::IMAGE_UNSUPPORTED_NOTE);
+                    }
+                }
+            }
             self.messages
                 .extend(provider::tool_result_messages(settings.provider, &outcomes));
             if cancelled() {
@@ -526,6 +534,43 @@ impl Session {
             "Stopped after {rounds} tool rounds; send another message to continue"
         )));
         self.emit(AssistantEvent::TurnFinished("max_rounds".into()));
+    }
+
+    /// One model call for `round`. An OpenAI-compatible endpoint that
+    /// answers 400 while the history carries an image is treated as
+    /// text-only: the images are replaced by a note and the call retried
+    /// once, so a capture never ends the conversation.
+    fn call_model_round(
+        &mut self,
+        settings: &AssistantSettings,
+        api_key: &str,
+        system: &str,
+        tools: &[ToolSpec],
+        round: u32,
+    ) -> Result<Value, String> {
+        let body = provider::build_request(settings, system, &self.messages, tools);
+        log::info!(
+            "model request round {round}: {} messages, {} bytes",
+            self.messages.len(),
+            body.to_string().len()
+        );
+        match call_model(settings, api_key, &body) {
+            Ok(response) => Ok(response),
+            Err(error)
+                if settings.provider == Provider::OpenAiCompatible
+                    && !self.images_unsupported
+                    && error.starts_with("HTTP 400")
+                    && provider::strip_images(&mut self.messages) > 0 =>
+            {
+                self.images_unsupported = true;
+                log::warn!(
+                    "model endpoint rejected image content ({error}); retrying round {round} with captures as text only"
+                );
+                let body = provider::build_request(settings, system, &self.messages, tools);
+                call_model(settings, api_key, &body)
+            }
+            Err(error) => Err(error),
+        }
     }
 
     fn run_tool_calls(&mut self, calls: &[ToolCall]) -> Vec<ToolOutcome> {
@@ -771,7 +816,20 @@ impl Session {
                 }
             }
         }
-        let result = self.gui_request(request, Duration::from_secs(30))?;
+        let mut result = self.gui_request(request.clone(), Duration::from_secs(30))?;
+        // The first frame after a camera change (view: extents) can come
+        // back empty on some drivers; one short retry covers it.
+        if result["ok"] != true
+            && result["error"]
+                .as_str()
+                .is_some_and(|e| e.contains("minimized or has no size"))
+        {
+            log::info!("capture returned no frame; retrying once");
+            std::thread::sleep(Duration::from_millis(300));
+            let mut retry = request;
+            retry["request_id"] = Value::String(self.next_id("ai"));
+            result = self.gui_request(retry, Duration::from_secs(30))?;
+        }
         if result["ok"] != true || result["status"] != "completed" {
             let _ = std::fs::remove_file(&path);
             return Ok(ToolOutcome {

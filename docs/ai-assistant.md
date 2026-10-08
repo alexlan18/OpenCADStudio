@@ -146,5 +146,9 @@ raises the level and also echoes the lines to the console.
   external MCP/REST client gets `busy`, and vice versa.
 - The conversation is not persisted; closing the application forgets it.
 - Streaming is not used; a long reply appears when it is complete.
+- Some OpenAI-compatible endpoints accept text only. When such a server
+  rejects a request carrying a capture image (HTTP 400), the assistant
+  replaces the images with a note, retries, and from then on sends captures
+  as their `_spatial` metadata alone; the panel still shows the image.
 - The API key is stored in plain text. Prefer the environment variable on
   shared machines.

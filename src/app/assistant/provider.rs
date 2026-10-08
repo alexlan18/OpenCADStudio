@@ -498,6 +498,39 @@ pub fn tool_result_messages(provider: Provider, outcomes: &[ToolOutcome]) -> Vec
     }
 }
 
+/// What replaces an image when the endpoint cannot take one.
+pub const IMAGE_UNSUPPORTED_NOTE: &str = "[capture image omitted: this model endpoint accepts text only; rely on the _spatial annotations in the tool result (entity handles, screen and world positions) instead]";
+
+/// Replace every image in the history by [`IMAGE_UNSUPPORTED_NOTE`]: the
+/// OpenAI-style `image_url` parts and Anthropic `image` blocks, including
+/// those nested in `tool_result` blocks. Returns how many were replaced.
+pub fn strip_images(messages: &mut [Value]) -> usize {
+    fn replace(part: &mut Value) -> usize {
+        if matches!(part["type"].as_str(), Some("image_url") | Some("image")) {
+            *part = json!({"type": "text", "text": IMAGE_UNSUPPORTED_NOTE});
+            return 1;
+        }
+        0
+    }
+    let mut count = 0;
+    for message in messages.iter_mut() {
+        let Some(content) = message.get_mut("content").and_then(Value::as_array_mut) else {
+            continue;
+        };
+        for part in content.iter_mut() {
+            count += replace(part);
+            if part["type"] == "tool_result" {
+                if let Some(inner) = part.get_mut("content").and_then(Value::as_array_mut) {
+                    for block in inner.iter_mut() {
+                        count += replace(block);
+                    }
+                }
+            }
+        }
+    }
+    count
+}
+
 /// Human-readable error from a non-success HTTP body.
 pub fn error_message(status: u16, body: &str) -> String {
     let detail = serde_json::from_str::<Value>(body)
@@ -845,6 +878,21 @@ mod tests {
             .as_str()
             .unwrap()
             .starts_with("data:image/png;base64,"));
+    }
+
+    #[test]
+    fn stripping_images_touches_both_wire_shapes_and_nothing_else() {
+        let outcomes = vec![ToolOutcome { call_id: "c".into(), text: "meta".into(), is_error: false, image_png: Some(vec![1]) }];
+        let mut openai = vec![user_message(Provider::OpenAiCompatible, "hi")];
+        openai.extend(tool_result_messages(Provider::OpenAiCompatible, &outcomes));
+        assert_eq!(strip_images(&mut openai), 1);
+        assert_eq!(openai[2]["content"][1]["type"], "text");
+        assert_eq!(openai[2]["content"][1]["text"], IMAGE_UNSUPPORTED_NOTE);
+        assert_eq!(openai[0]["content"], "hi");
+        assert_eq!(strip_images(&mut openai), 0);
+        let mut anthropic = tool_result_messages(Provider::Anthropic, &outcomes);
+        assert_eq!(strip_images(&mut anthropic), 1);
+        assert_eq!(anthropic[0]["content"][0]["content"][1]["type"], "text");
     }
 
     #[test]
