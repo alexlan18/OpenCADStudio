@@ -52,7 +52,8 @@
     pwsh shell\build.ps1 -PfxPath .\cert.pfx -PfxPassword (Read-Host -AsSecureString)
 
 .NOTES
-    Requirements: Rust (cargo), Visual Studio Build Tools, and optionally
+    Requirements: Rust (cargo), Visual Studio 2017+ or Build Tools for Visual
+    Studio with the "Desktop development with C++" workload, and optionally
     ImageMagick 7 (`magick`), WiX Toolset 3.x (`$env:WIX` or
     "C:\Program Files (x86)\WiX Toolset v3.*"), Windows SDK (signtool).
     Works in Windows PowerShell 5.1 and PowerShell 7.
@@ -157,6 +158,25 @@ function Find-WixBin {
     return $null
 }
 
+# The MSVC Rust target links with Visual Studio's link.exe. Without the
+# "Desktop development with C++" workload (or Build Tools with VC tools),
+# cargo fails deep inside the first build script, so check up front.
+function Test-MsvcToolchain {
+    if (Find-Command 'link.exe') {
+        # A Developer Command Prompt / VsDevCmd shell already exposes it.
+        $probe = & link.exe 2>&1 | Out-String
+        if ($probe -match 'Microsoft \(R\) Incremental Linker') { return $true }
+    }
+    $vswhere = 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe'
+    if (Test-Path $vswhere) {
+        $path = & $vswhere -latest -products * `
+            -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+            -property installationPath 2>$null
+        if ($path) { return $true }
+    }
+    return $false
+}
+
 function Get-PlainPassword([object]$Value) {
     if ($null -eq $Value) { return $null }
     if ($Value -is [securestring]) {
@@ -199,6 +219,18 @@ try {
 
     $cargo = Find-Command 'cargo'
     if (-not $cargo) { throw "cargo not found. Install Rust from https://rustup.rs and reopen the shell." }
+    if (-not $SkipBuild -and -not (Test-MsvcToolchain)) {
+        throw @"
+Visual C++ build tools not found (cargo needs link.exe from Visual Studio).
+Install the "Desktop development with C++" workload, for example:
+
+  winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+
+or download Build Tools for Visual Studio from https://visualstudio.microsoft.com/visual-cpp-build-tools/
+and tick "Desktop development with C++" (this also installs the Windows SDK that provides signtool).
+Then open a new PowerShell window and run this script again.
+"@
+    }
 
     # ── Icons ────────────────────────────────────────────────────────────────
     $winDir = Join-Path $repoRoot 'packaging\windows'

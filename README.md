@@ -179,7 +179,7 @@ pwsh shell\build.ps1 -Tag v2026.41   # name the outputs after a release tag
 pwsh shell\build.ps1 -SkipMsi        # portable .exe only (no WiX needed)
 ```
 
-Requirements beyond the Rust toolchain: ImageMagick (`magick`) for the icons, WiX Toolset 3.x for the MSI, and the Windows SDK's `signtool` plus a PFX certificate (`-PfxPath`, or `WINDOWS_PFX_BASE64` / `WINDOWS_PFX_PASSWORD`) for signing. Each is optional; the script skips what is missing and says so.
+Requirements beyond the Rust toolchain: Visual Studio's "Desktop development with C++" workload (Build Tools for Visual Studio is enough; the script checks for it before compiling), ImageMagick (`magick`) for the icons, WiX Toolset 3.x for the MSI, and the Windows SDK's `signtool` plus a PFX certificate (`-PfxPath`, or `WINDOWS_PFX_BASE64` / `WINDOWS_PFX_PASSWORD`) for signing. Each is optional; the script skips what is missing and says so.
 
 ### Web
 
