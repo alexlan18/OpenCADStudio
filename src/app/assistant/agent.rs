@@ -11,6 +11,7 @@
 //! interactive picks (`user_select`, `getpoint`) may wait up to ten minutes
 //! for the person at the screen.
 
+use super::memory::MemoryStore;
 use super::provider::{self, AssistantSettings, Provider, StopReason, ToolCall, ToolOutcome, ToolSpec, Usage};
 pub use super::AssistantEvent;
 use crate::app::control::{Envelope, Reply};
@@ -101,6 +102,9 @@ struct Session {
     usage: Usage,
     serial: u64,
     events: fmpsc::Sender<AssistantEvent>,
+    /// `agent/memory` beside the executable: notes the model keeps and the
+    /// transcript of this conversation. `None` when no location is writable.
+    memory: Option<MemoryStore>,
 }
 
 fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEvent>) {
@@ -112,12 +116,19 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
         usage: Usage::default(),
         serial: 0,
         events,
+        memory: MemoryStore::open_default(),
     };
+    if let Some(memory) = &session.memory {
+        log::info!("agent memory at {}", memory.root().display());
+    }
     while let Ok(command) = rx.recv() {
         match command {
             AgentCommand::Reset => {
                 session.messages.clear();
                 session.usage = Usage::default();
+                if let Some(memory) = session.memory.as_mut() {
+                    memory.new_session();
+                }
             }
             AgentCommand::Send { settings, text } => {
                 CANCEL.store(false, Ordering::SeqCst);
@@ -125,6 +136,9 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
                     session.provider = settings.provider;
                     session.messages.clear();
                     session.usage = Usage::default();
+                    if let Some(memory) = session.memory.as_mut() {
+                        memory.new_session();
+                    }
                 }
                 session.run_turn(&settings, &text);
             }
@@ -180,6 +194,11 @@ pub fn tool_specs() -> Vec<ToolSpec> {
                 input_schema: schema,
             }
         })
+        .chain(std::iter::once(ToolSpec {
+            name: "ocs_memory".into(),
+            description: "Read and write your persistent memory directory (agent/memory beside the application): list notes and session transcripts, read one, write/append/delete a note. Save durable facts (preferences, drawing conventions, how recurring tasks were done) and a short summary when a multi-step task finishes.".into(),
+            input_schema: MemoryStore::tool_schema(),
+        }))
         .collect()
 }
 
@@ -219,6 +238,7 @@ fn clip(text: String) -> String {
 
 impl Session {
     fn emit(&mut self, event: AssistantEvent) {
+        self.remember(&event);
         // The transcript in cad.log: every event the panel sees, once.
         match &event {
             AssistantEvent::Ready => log::info!("assistant worker ready"),
@@ -252,6 +272,40 @@ impl Session {
             ),
         }
         let _ = pollster::block_on(self.events.send(event));
+    }
+
+    /// Mirror the conversation into the session transcript under
+    /// `agent/memory/sessions`, as it happens.
+    fn remember(&mut self, event: &AssistantEvent) {
+        let Some(memory) = self.memory.as_mut() else { return };
+        match event {
+            AssistantEvent::AssistantText(text) => memory.record("Assistant", text),
+            AssistantEvent::ToolCall { id, name, input } => memory.record(
+                "Tool call",
+                &format!(
+                    "`{name}` ({id})\n\n```json\n{}\n```",
+                    crate::applog::preview(&input.to_string(), 2000)
+                ),
+            ),
+            AssistantEvent::ToolResult { id, ok, text, image_png } => memory.record(
+                "Tool result",
+                &format!(
+                    "{id}: {}{}\n\n```\n{}\n```",
+                    if *ok { "ok" } else { "FAILED" },
+                    image_png
+                        .as_ref()
+                        .map(|png| format!(", image {} bytes", png.len()))
+                        .unwrap_or_default(),
+                    crate::applog::preview(text, 1500)
+                ),
+            ),
+            AssistantEvent::Error(error) => memory.record("Error", error),
+            AssistantEvent::TurnFinished(reason) => memory.record("Turn finished", reason),
+            AssistantEvent::Ready
+            | AssistantEvent::TurnStarted
+            | AssistantEvent::Usage(_)
+            | AssistantEvent::Control(_) => {}
+        }
     }
 
     fn next_id(&mut self, prefix: &str) -> String {
@@ -384,7 +438,12 @@ impl Session {
             return;
         }
         let tools = tool_specs();
-        let system = system_prompt();
+        let mut system = system_prompt();
+        if let Some(memory) = self.memory.as_mut() {
+            memory.record("User", text);
+            system.push_str("\n\n");
+            system.push_str(&memory.prompt_section());
+        }
         log::info!(
             "turn start: provider={:?} model={} endpoint={} user: {}",
             settings.provider,
@@ -515,7 +574,14 @@ impl Session {
             "ocs_read" => self.tool_read(arguments)?,
             "ocs_execute" => self.tool_execute(arguments)?,
             "ocs_capture" => return self.tool_capture(call, arguments),
-            other => return Err(format!("unknown tool {other}; use ocs_read, ocs_execute or ocs_capture")),
+            "ocs_memory" => {
+                let memory = self
+                    .memory
+                    .as_ref()
+                    .ok_or_else(|| "the memory directory is unavailable (no writable agent/memory folder)".to_string())?;
+                memory.call(arguments)?
+            }
+            other => return Err(format!("unknown tool {other}; use ocs_read, ocs_execute, ocs_capture or ocs_memory")),
         };
         let is_error = result["ok"] == false;
         Ok(ToolOutcome {
@@ -767,7 +833,9 @@ mod tests {
     fn tool_specs_drop_session_plumbing_but_keep_the_three_tools() {
         let specs = tool_specs();
         let names: Vec<&str> = specs.iter().map(|s| s.name.as_str()).collect();
-        assert_eq!(names, ["ocs_read", "ocs_execute", "ocs_capture"]);
+        assert_eq!(names, ["ocs_read", "ocs_execute", "ocs_capture", "ocs_memory"]);
+        let memory = specs.iter().find(|s| s.name == "ocs_memory").unwrap();
+        assert_eq!(memory.input_schema["required"], json!(["op"]));
         for spec in &specs {
             assert!(spec.input_schema["properties"].get("ocs_session_id").is_none(), "{}", spec.name);
             let required = spec.input_schema["required"].as_array();
@@ -837,6 +905,7 @@ mod tests {
             usage: Usage::default(),
             serial: 0,
             events: tx,
+            memory: MemoryStore::open_default(),
         };
         (session, gui)
     }
@@ -890,6 +959,27 @@ mod tests {
         assert!(err.contains("read operation"));
         let err = session.tool_execute(&json!({"request": {"op": "run"}})).unwrap_err();
         assert!(err.contains("Missing cmd"), "{err}");
+        drop(session);
+        gui.join().unwrap();
+    }
+
+    #[test]
+    fn memory_tool_writes_notes_and_the_prompt_carries_the_index() {
+        let (mut session, gui) = session_with_fake_gui(|_, _| json!({"ok": true}));
+        let call = ToolCall {
+            id: "m1".into(),
+            name: "ocs_memory".into(),
+            input: json!({"op": "write", "name": "Drawing conventions", "description": "layers in use", "content": "# Layers\n\nWalls on A-WALL."}),
+        };
+        let outcome = session.execute_tool(&call).unwrap();
+        assert!(!outcome.is_error, "{}", outcome.text);
+        assert!(outcome.text.contains("notes/drawing-conventions.md"));
+        let memory = session.memory.as_ref().unwrap();
+        assert!(memory.read_note("drawing-conventions").unwrap().contains("A-WALL"));
+        assert!(memory.prompt_section().contains("layers in use"));
+        let bad = ToolCall { id: "m2".into(), name: "ocs_memory".into(), input: json!({"op": "read", "name": "nope"}) };
+        assert!(session.execute_tool(&bad).is_err());
+        let _ = memory.delete_note("drawing-conventions");
         drop(session);
         gui.join().unwrap();
     }

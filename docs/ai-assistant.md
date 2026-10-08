@@ -91,6 +91,30 @@ on the tool list, the system prompt and the newest message, and echo
 assistant turns back verbatim so thinking blocks stay valid. Tool results
 larger than ~120 KB are truncated with a hint to page or filter.
 
+## Memory
+
+The assistant keeps a memory directory at **`agent/memory` next to the
+executable** (user config directory when that folder is read-only):
+
+```
+agent/memory/
+├── MEMORY.md            index: one line per note, included in every system prompt
+├── notes/<name>.md      durable facts the model saves with the ocs_memory tool
+└── sessions/<time>.md   transcript of each conversation, written as it happens
+```
+
+- **Sessions** are written automatically: every user message, reply, tool
+  call (arguments) and tool result (outcome) is appended to the current
+  session file while the task runs, so the record survives a crash or a
+  closed window. *New chat* starts a new file.
+- **Notes** are the model's long-term memory. The system prompt asks it to
+  save durable facts — your preferences, the drawing's layer and block
+  conventions, how a recurring task was done — and to write a short summary
+  when a multi-step task finishes. The `ocs_memory` tool offers `list`,
+  `read`, `write`, `append` and `delete`; note names become lowercase slugs
+  (`Layer conventions` → `notes/layer-conventions.md`) and are capped at
+  64 KB. Everything is Markdown, so you can read or edit it yourself.
+
 ## Logging
 
 Every run appends to **`cad.log` next to the executable** (or in the user

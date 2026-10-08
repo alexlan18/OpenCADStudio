@@ -9,6 +9,8 @@
 
 #[cfg(not(target_arch = "wasm32"))]
 pub mod agent;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod memory;
 pub mod provider;
 
 pub use provider::{AssistantSettings, Effort, Provider, Usage};
