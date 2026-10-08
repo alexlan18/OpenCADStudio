@@ -219,6 +219,38 @@ fn clip(text: String) -> String {
 
 impl Session {
     fn emit(&mut self, event: AssistantEvent) {
+        // The transcript in cad.log: every event the panel sees, once.
+        match &event {
+            AssistantEvent::Ready => log::info!("assistant worker ready"),
+            AssistantEvent::TurnStarted => {}
+            AssistantEvent::AssistantText(text) => {
+                log::info!("assistant: {}", crate::applog::preview(text, 2000));
+            }
+            AssistantEvent::ToolCall { id, name, input } => log::info!(
+                "tool call {id}: {name} {}",
+                crate::applog::preview(&input.to_string(), 1000)
+            ),
+            AssistantEvent::ToolResult { id, ok, text, image_png } => log::info!(
+                "tool result {id}: ok={ok} {} bytes{}: {}",
+                text.len(),
+                image_png
+                    .as_ref()
+                    .map(|png| format!(" + image {} bytes", png.len()))
+                    .unwrap_or_default(),
+                crate::applog::preview(text, 500)
+            ),
+            AssistantEvent::Usage(usage) => log::debug!(
+                "usage so far: in={} out={}",
+                usage.input_tokens,
+                usage.output_tokens
+            ),
+            AssistantEvent::TurnFinished(reason) => log::info!("turn finished: {reason}"),
+            AssistantEvent::Error(error) => log::error!("{error}"),
+            AssistantEvent::Control(envelope) => log::debug!(
+                "gui request: {}",
+                crate::applog::preview(&envelope.request.to_string(), 500)
+            ),
+        }
         let _ = pollster::block_on(self.events.send(event));
     }
 
@@ -353,14 +385,27 @@ impl Session {
         }
         let tools = tool_specs();
         let system = system_prompt();
+        log::info!(
+            "turn start: provider={:?} model={} endpoint={} user: {}",
+            settings.provider,
+            settings.effective_model(),
+            provider::endpoint(settings),
+            crate::applog::preview(text, 2000)
+        );
         self.messages.push(provider::user_message(settings.provider, text));
         let rounds = settings.max_tool_rounds.max(1);
-        for _ in 0..rounds {
+        for round in 0..rounds {
             if cancelled() {
                 self.emit(AssistantEvent::TurnFinished("cancelled".into()));
                 return;
             }
             let body = provider::build_request(settings, &system, &self.messages, &tools);
+            let started = Instant::now();
+            log::info!(
+                "model request round {round}: {} messages, {} bytes",
+                self.messages.len(),
+                body.to_string().len()
+            );
             let response = match call_model(settings, &api_key, &body) {
                 Ok(response) => response,
                 Err(error) => {
@@ -377,6 +422,14 @@ impl Session {
                     return;
                 }
             };
+            log::info!(
+                "model response round {round}: stop={:?} tokens in={} out={} tool_calls={} in {} ms",
+                turn.stop,
+                turn.usage.input_tokens,
+                turn.usage.output_tokens,
+                turn.tool_calls.len(),
+                started.elapsed().as_millis()
+            );
             self.messages.push(turn.message.clone());
             self.usage += turn.usage;
             self.emit(AssistantEvent::Usage(self.usage));

@@ -91,6 +91,30 @@ on the tool list, the system prompt and the newest message, and echo
 assistant turns back verbatim so thinking blocks stay valid. Tool results
 larger than ~120 KB are truncated with a hint to page or filter.
 
+## Logging
+
+Every run appends to **`cad.log` next to the executable** (or in the user
+config directory when that folder is read-only, e.g. under `Program Files`).
+The assistant writes one line per step, so a conversation can be replayed
+after the fact:
+
+```
+2026-10-08T03:14:15.120Z INFO  OpenCADStudio::app::assistant::agent: turn start: provider=Anthropic model=claude-opus-5-5 endpoint=https://api.anthropic.com/v1/messages user: 在原点画一个半径50的圆
+2026-10-08T03:14:15.121Z INFO  OpenCADStudio::app::assistant::agent: model request round 0: 1 messages, 29211 bytes
+2026-10-08T03:14:19.870Z INFO  OpenCADStudio::app::assistant::agent: model response round 0: stop=ToolUse tokens in=7120 out=96 tool_calls=1 in 4749 ms
+2026-10-08T03:14:19.871Z INFO  OpenCADStudio::app::assistant::agent: tool call toolu_01…: ocs_execute {"request":{"op":"run","cmd":"CIRCLE 0,0 50"}}
+2026-10-08T03:14:19.902Z INFO  OpenCADStudio::automation: run: completed
+2026-10-08T03:14:19.903Z INFO  OpenCADStudio::app::assistant::agent: tool result toolu_01…: ok=true 412 bytes: {"ok":true,"status":"completed",…}
+2026-10-08T03:14:23.440Z INFO  OpenCADStudio::app::assistant::agent: assistant: 已在原点绘制半径 50 的圆（图层 0）。
+2026-10-08T03:14:23.441Z INFO  OpenCADStudio::app::assistant::agent: turn finished: end_turn
+```
+
+Automation requests from MCP / REST clients land in the same file under the
+`OpenCADStudio::automation` target, as do panics and third-party warnings.
+API keys are never logged. The file rotates to `cad.log.1` at 10 MB.
+`--log debug` (or `RUST_LOG=debug`, env_logger-style directives accepted)
+raises the level and also echoes the lines to the console.
+
 ## Limits and notes
 
 - Desktop builds only. The web build shows the panel but cannot call a model.

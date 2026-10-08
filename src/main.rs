@@ -92,14 +92,15 @@ fn main() -> iced::Result {
         // crash worth filing.
         OpenCADStudio::sys::crash_log::install();
 
-        // Opt-in logging. `--log LEVEL` seeds RUST_LOG; the subscriber then
-        // surfaces wgpu / iced / winit diagnostics that are otherwise silent.
+        // Logging: every run appends to cad.log beside the executable (the
+        // assistant's model and tool calls, automation requests, panics,
+        // third-party warnings). `--log LEVEL` / RUST_LOG raise the level and
+        // echo the lines to stderr so wgpu / iced / winit diagnostics that
+        // are otherwise silent show up while developing.
         if let Some(level) = &args.log {
             std::env::set_var("RUST_LOG", level);
         }
-        if std::env::var_os("RUST_LOG").is_some() {
-            let _ = env_logger::try_init();
-        }
+        OpenCADStudio::applog::init(args.log.as_deref());
 
         // GPU backend selection. Explicit `--backend` wins; `--safe-mode`
         // forces GL for flaky drivers. On Windows the preference order starts

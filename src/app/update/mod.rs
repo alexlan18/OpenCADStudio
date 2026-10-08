@@ -615,6 +615,7 @@ impl OpenCADStudio {
                     if response["ok"] == false {
                         let code = response["code"].as_str().unwrap_or("failed");
                         let detail = response["error"].as_str().unwrap_or("");
+                        log::warn!(target: "OpenCADStudio::automation", "{op}: {code} — {detail}");
                         self.command_line.push_error(&format!(
                             "automation {op}: {code} — {detail}"
                         ));
@@ -626,10 +627,21 @@ impl OpenCADStudio {
                         // These already narrate themselves in richer lines.
                         "user_select" | "getpoint" | "cancel"
                     ) {
+                        log::info!(
+                            target: "OpenCADStudio::automation",
+                            "{op}: {}",
+                            response["status"].as_str().unwrap_or("")
+                        );
                         self.command_line.push_info(&format!(
                             "automation {op}: {}",
                             response["status"].as_str().unwrap_or("")
                         ));
+                    } else {
+                        log::info!(
+                            target: "OpenCADStudio::automation",
+                            "{op}: {}",
+                            response["status"].as_str().unwrap_or("accepted")
+                        );
                     }
                 }
                 envelope.reply.send(response);
