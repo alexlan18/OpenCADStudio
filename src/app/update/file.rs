@@ -850,6 +850,8 @@ impl OpenCADStudio {
             format!("{}", self.auto_constrain_settings.angle_tolerance_deg);
         self.constraint_solve_mode = s.constraint_solve_mode;
         self.assistant.settings = s.assistant.clone();
+        self.assistant.show = s.assistant.panel_open;
+        self.ribbon.set_assistant(self.assistant.show);
         self.constraint_infer = s.constraint_infer;
         self.constraint_bar_display = s.constraint_bar_display.clamp(0, 3);
         self.constraint_bar_mode = s.constraint_bar_mode.clamp(0, 4095);
@@ -1256,6 +1258,13 @@ impl OpenCADStudio {
         let mut dock = cfg.dock;
         dock.ensure_settings();
         self.dock = dock;
+        // The AI assistant lives on the right edge unless the person moved
+        // it; profiles written before it existed have no slot for it yet.
+        let assistant = crate::ui::dock::PanelId::Assistant;
+        if self.assistant.show && self.dock.location(assistant).is_none() {
+            self.dock
+                .dock(assistant, crate::app::config::DockSide::Right, usize::MAX);
+        }
         self.annotation_auto_scale = cfg.annotation_auto_scale.clamp(-4, 4);
         self.ribbon.set_collapse_mode(cfg.ribbon.collapse);
         self.plot_dialog = cfg.plot;

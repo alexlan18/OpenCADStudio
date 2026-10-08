@@ -600,6 +600,7 @@ pub(super) fn on_ribbon_tool_click(&mut self, tool_id: String, event: ModuleEven
                     }
                     PanelId::Assistant => {
                         self.assistant.show = false;
+                        self.assistant.settings.panel_open = false;
                         self.ribbon.set_assistant(false);
                     }
                     PanelId::Properties => {

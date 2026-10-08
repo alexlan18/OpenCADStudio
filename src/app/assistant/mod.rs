@@ -217,6 +217,7 @@ impl OpenCADStudio {
     pub(in crate::app) fn set_assistant_panel(&mut self, open: bool) {
         let id = crate::ui::dock::PanelId::Assistant;
         self.assistant.show = open;
+        self.assistant.settings.panel_open = open;
         self.ribbon.set_assistant(open);
         if open {
             if self.dock.location(id).is_none() {
@@ -227,6 +228,7 @@ impl OpenCADStudio {
         } else if self.dock_expanded == Some(id) {
             self.dock_expanded = None;
         }
+        self.persist_settings_if_changed();
     }
 
     /// `AIASSIST` / `AIASSISTCLOSE` and the ribbon toggle.
@@ -454,7 +456,16 @@ mod tests {
     #[test]
     fn panel_toggles_through_commands_and_docks_on_the_right() {
         let mut app = OpenCADStudio::new();
+        // A fresh profile opens the panel on the right edge, auto-collapsed.
+        assert!(app.assistant.show);
+        assert_eq!(
+            app.dock.location(crate::ui::dock::PanelId::Assistant).map(|(side, _)| side),
+            Some(crate::app::config::DockSide::Right)
+        );
+        assert!(app.dock.auto_collapse(crate::ui::dock::PanelId::Assistant));
+        app.set_assistant_panel(false);
         assert!(!app.assistant.show);
+        assert!(!app.current_settings().assistant.panel_open);
         assert!(app.dispatch_assistant("AIASSIST", 0).is_some());
         assert!(app.assistant.show);
         assert_eq!(

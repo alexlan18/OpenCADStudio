@@ -141,6 +141,9 @@ pub struct AssistantSettings {
     /// Anthropic only: let the server re-run a declined request on a
     /// fallback model (`fallbacks: "default"`).
     pub refusal_fallback: bool,
+    /// The chat panel is open (docked on the right edge, auto-collapsing by
+    /// default) — remembered across sessions like the other palettes.
+    pub panel_open: bool,
 }
 
 impl Default for AssistantSettings {
@@ -154,6 +157,7 @@ impl Default for AssistantSettings {
             max_tool_rounds: 40,
             max_tokens: 16_000,
             refusal_fallback: true,
+            panel_open: true,
         }
     }
 }
@@ -850,6 +854,7 @@ mod tests {
         assert_eq!(parsed.model, "m");
         assert_eq!(parsed.max_tool_rounds, 40);
         assert!(parsed.refusal_fallback);
+        assert!(parsed.panel_open);
         let text = serde_json::to_string(&AssistantSettings::default()).unwrap();
         assert!(text.contains("\"effort\":\"default\""));
     }

@@ -118,7 +118,10 @@ impl DockPanel {
     fn for_id(id: PanelId) -> Self {
         Self {
             width: id.default_width(),
-            auto_collapse: false,
+            // The assistant sits on the right edge from the first launch, so
+            // it starts as a collapsed rail that expands on hover rather than
+            // taking drawing space until the person pins it.
+            auto_collapse: matches!(id, PanelId::Assistant),
         }
     }
 }

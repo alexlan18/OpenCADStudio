@@ -8,11 +8,15 @@ built-in assistant can do too — no more, no less.
 
 ## Opening the panel
 
+The panel is on the right edge from the first launch, collapsed to a narrow
+rail: hover or click the rail to expand it, and use the pin in its title bar
+to keep it open. Closing it with × remembers that choice; reopen it with:
+
 - Ribbon: **View › Palettes › AI Assistant**
 - Commands: `AIASSIST` (open), `AIASSISTCLOSE` (close)
 
-The panel is an ordinary dock panel: drag its title bar to the left or right
-edge, resize it with the divider, pin it to auto-collapse, close it with ×.
+It is an ordinary dock panel: drag its title bar to the left or right edge,
+resize it with the divider, pin it to stay expanded or auto-collapse.
 
 ## Settings (gear icon in the panel)
 
