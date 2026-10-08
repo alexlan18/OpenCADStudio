@@ -6163,3 +6163,9 @@ assistant =
     .ribbon-label =
         AI
         асистент
+    .chat-model = Модел за чат
+    .vision-model = Модел за изображения
+    .vision-hint = Описва снимките, когато моделът за чат не вижда изображения
+    .understands-images = Разбира изображения
+    .add-model = Добави модел
+    .remove-model = Премахни модела

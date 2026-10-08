@@ -6151,3 +6151,9 @@ assistant =
     .ribbon-label =
         AI
         सहायक
+    .chat-model = चैट मॉडल
+    .vision-model = विज़न मॉडल
+    .vision-hint = जब चैट मॉडल छवियाँ नहीं देख सकता तो कैप्चर का वर्णन करता है
+    .understands-images = छवियाँ समझता है
+    .add-model = मॉडल जोड़ें
+    .remove-model = मॉडल हटाएँ

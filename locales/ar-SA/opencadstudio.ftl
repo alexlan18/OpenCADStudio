@@ -6175,3 +6175,9 @@ assistant =
     .ribbon-label =
         مساعد
         الذكاء الاصطناعي
+    .chat-model = نموذج المحادثة
+    .vision-model = نموذج الرؤية
+    .vision-hint = يصف اللقطات عندما لا يستطيع نموذج المحادثة رؤية الصور
+    .understands-images = يفهم الصور
+    .add-model = إضافة نموذج
+    .remove-model = إزالة النموذج

@@ -850,6 +850,8 @@ impl OpenCADStudio {
             format!("{}", self.auto_constrain_settings.angle_tolerance_deg);
         self.constraint_solve_mode = s.constraint_solve_mode;
         self.assistant.settings = s.assistant.clone();
+        self.assistant.settings.normalize();
+        self.assistant.editing = self.assistant.settings.active.clone();
         self.assistant.show = s.assistant.panel_open;
         self.ribbon.set_assistant(self.assistant.show);
         self.constraint_infer = s.constraint_infer;

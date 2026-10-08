@@ -6164,3 +6164,9 @@ assistant =
     .ribbon-label =
         AI
         Assistant
+    .chat-model = Chat model
+    .vision-model = Vision model
+    .vision-hint = Describes captures when the chat model cannot see images
+    .understands-images = Understands images
+    .add-model = Add model
+    .remove-model = Remove model

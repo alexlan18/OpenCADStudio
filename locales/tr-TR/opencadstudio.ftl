@@ -6086,3 +6086,9 @@ assistant =
     .ribbon-label =
         Yapay Zekâ
         Asistanı
+    .chat-model = Sohbet modeli
+    .vision-model = Görsel model
+    .vision-hint = Sohbet modeli görselleri göremediğinde ekran görüntülerini açıklar
+    .understands-images = Görselleri anlar
+    .add-model = Model ekle
+    .remove-model = Modeli kaldır

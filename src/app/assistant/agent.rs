@@ -12,7 +12,7 @@
 //! for the person at the screen.
 
 use super::memory::MemoryStore;
-use super::provider::{self, AssistantSettings, Provider, StopReason, ToolCall, ToolOutcome, ToolSpec, Usage};
+use super::provider::{self, AssistantSettings, ModelProfile, Provider, StopReason, ToolCall, ToolOutcome, ToolSpec, Usage};
 pub use super::AssistantEvent;
 use crate::app::control::{Envelope, Reply};
 use iced::futures::{channel::mpsc as fmpsc, SinkExt, Stream};
@@ -137,8 +137,9 @@ fn run_loop(rx: mpsc::Receiver<AgentCommand>, events: fmpsc::Sender<AssistantEve
             }
             AgentCommand::Send { settings, text } => {
                 CANCEL.store(false, Ordering::SeqCst);
-                if session.provider != settings.provider {
-                    session.provider = settings.provider;
+                let chat_provider = settings.active().provider;
+                if session.provider != chat_provider {
+                    session.provider = chat_provider;
                     session.messages.clear();
                     session.usage = Usage::default();
                     session.images_unsupported = false;
@@ -178,6 +179,10 @@ pub fn tool_specs() -> Vec<ToolSpec> {
                     ] {
                         properties.remove(key);
                     }
+                    properties.insert(
+                        "question".into(),
+                        json!({"type": "string", "description": "What to look for in the capture. When a separate vision model describes the image for you (because your own model takes text only), this steers its description; be specific (alignment, overlaps, labels, proportions)."}),
+                    );
                     schema["additionalProperties"] = json!(false);
                 }
             }
@@ -190,7 +195,7 @@ pub fn tool_specs() -> Vec<ToolSpec> {
             let description = tool["description"].as_str().unwrap_or_default();
             let description = match tool["name"].as_str() {
                 Some("ocs_capture") => format!(
-                    "{description} The image is returned to you directly."
+                    "{description} The image is returned to you directly when your model accepts images; otherwise a configured vision model describes it (pass question) and you receive the description plus the _spatial metadata."
                 ),
                 _ => description.to_string(),
             };
@@ -425,15 +430,17 @@ impl Session {
 
     fn run_turn(&mut self, settings: &AssistantSettings, text: &str) {
         self.emit(AssistantEvent::TurnStarted);
-        if let Err(error) = settings.validate() {
+        let chat = settings.active().clone();
+        if let Err(error) = chat.validate() {
             self.emit(AssistantEvent::Error(error));
             self.emit(AssistantEvent::TurnFinished("error".into()));
             return;
         }
-        let Some(api_key) = settings.resolved_api_key() else {
+        let Some(api_key) = chat.resolved_api_key() else {
             self.emit(AssistantEvent::Error(format!(
-                "No API key: enter one in the assistant settings or set {}",
-                settings.provider.env_key()
+                "No API key for {:?}: enter one in the assistant settings or set {}",
+                chat.display_name(),
+                chat.provider.env_key()
             )));
             self.emit(AssistantEvent::TurnFinished("error".into()));
             return;
@@ -451,13 +458,18 @@ impl Session {
             system.push_str(&memory.prompt_section());
         }
         log::info!(
-            "turn start: provider={:?} model={} endpoint={} user: {}",
-            settings.provider,
-            settings.effective_model(),
-            provider::endpoint(settings),
+            "turn start: profile={:?} provider={:?} model={} endpoint={} vision={} user: {}",
+            chat.display_name(),
+            chat.provider,
+            chat.effective_model(),
+            provider::endpoint(&chat),
+            settings
+                .vision()
+                .map(|v| v.display_name())
+                .unwrap_or_else(|| if chat.vision { "self".into() } else { "none".into() }),
             crate::applog::preview(text, 2000)
         );
-        self.messages.push(provider::user_message(settings.provider, text));
+        self.messages.push(provider::user_message(chat.provider, text));
         let rounds = settings.max_tool_rounds.max(1);
         for round in 0..rounds {
             if cancelled() {
@@ -465,7 +477,7 @@ impl Session {
                 return;
             }
             let started = Instant::now();
-            let response = match self.call_model_round(settings, &api_key, &system, &tools, round) {
+            let response = match self.call_model_round(&chat, settings.max_tokens, &api_key, &system, &tools, round) {
                 Ok(response) => response,
                 Err(error) => {
                     self.emit(AssistantEvent::Error(error));
@@ -473,7 +485,7 @@ impl Session {
                     return;
                 }
             };
-            let turn = match provider::parse_response(settings.provider, &response) {
+            let turn = match provider::parse_response(chat.provider, &response) {
                 Ok(turn) => turn,
                 Err(error) => {
                     self.emit(AssistantEvent::Error(error));
@@ -515,16 +527,36 @@ impl Session {
                 return;
             }
             let mut outcomes = self.run_tool_calls(&turn.tool_calls);
-            if self.images_unsupported {
+            if !chat.vision || self.images_unsupported {
+                // The chat model cannot look at the capture itself: a vision
+                // profile describes it, or the metadata alone has to do.
+                let vision = settings.vision().cloned();
                 for outcome in &mut outcomes {
-                    if outcome.image_png.take().is_some() {
-                        outcome.text.push_str("\n");
-                        outcome.text.push_str(provider::IMAGE_UNSUPPORTED_NOTE);
+                    let Some(png) = outcome.image_png.take() else { continue };
+                    let described = vision.as_ref().and_then(|v| {
+                        match self.describe_image(v, settings.max_tokens, &png, outcome.vision_question.as_deref(), &outcome.text) {
+                            Ok(description) => Some(format!(
+                                "\n\nDescription of the capture by the vision model ({}):\n{description}",
+                                v.display_name()
+                            )),
+                            Err(error) => {
+                                log::warn!("vision model failed: {error}");
+                                self.emit(AssistantEvent::Error(format!("Vision model {}: {error}", v.display_name())));
+                                None
+                            }
+                        }
+                    });
+                    match described {
+                        Some(text) => outcome.text.push_str(&text),
+                        None => {
+                            outcome.text.push('\n');
+                            outcome.text.push_str(provider::IMAGE_UNSUPPORTED_NOTE);
+                        }
                     }
                 }
             }
             self.messages
-                .extend(provider::tool_result_messages(settings.provider, &outcomes));
+                .extend(provider::tool_result_messages(chat.provider, &outcomes));
             if cancelled() {
                 self.emit(AssistantEvent::TurnFinished("cancelled".into()));
                 return;
@@ -542,22 +574,23 @@ impl Session {
     /// once, so a capture never ends the conversation.
     fn call_model_round(
         &mut self,
-        settings: &AssistantSettings,
+        chat: &ModelProfile,
+        max_tokens: u32,
         api_key: &str,
         system: &str,
         tools: &[ToolSpec],
         round: u32,
     ) -> Result<Value, String> {
-        let body = provider::build_request(settings, system, &self.messages, tools);
+        let body = provider::build_request(chat, max_tokens, system, &self.messages, tools);
         log::info!(
             "model request round {round}: {} messages, {} bytes",
             self.messages.len(),
             body.to_string().len()
         );
-        match call_model(settings, api_key, &body) {
+        match call_model(chat, api_key, &body) {
             Ok(response) => Ok(response),
             Err(error)
-                if settings.provider == Provider::OpenAiCompatible
+                if chat.provider == Provider::OpenAiCompatible
                     && !self.images_unsupported
                     && error.starts_with("HTTP 400")
                     && provider::strip_images(&mut self.messages) > 0 =>
@@ -566,11 +599,70 @@ impl Session {
                 log::warn!(
                     "model endpoint rejected image content ({error}); retrying round {round} with captures as text only"
                 );
-                let body = provider::build_request(settings, system, &self.messages, tools);
-                call_model(settings, api_key, &body)
+                let body = provider::build_request(chat, max_tokens, system, &self.messages, tools);
+                call_model(chat, api_key, &body)
             }
             Err(error) => Err(error),
         }
+    }
+
+    /// Ask the vision profile to describe a capture for the chat model.
+    fn describe_image(
+        &mut self,
+        vision: &ModelProfile,
+        max_tokens: u32,
+        png: &[u8],
+        question: Option<&str>,
+        metadata: &str,
+    ) -> Result<String, String> {
+        vision.validate()?;
+        let api_key = vision
+            .resolved_api_key()
+            .ok_or_else(|| format!("no API key (set one or {})", vision.provider.env_key()))?;
+        let annotations = annotation_summary(metadata);
+        let prompt = format!(
+            "You are describing a screenshot of a CAD drawing viewport for another assistant that cannot see images. \
+             Describe precisely what is drawn: the shapes, how they are arranged, text labels, apparent proportions and \
+             dimensions, and anything that looks wrong (overlaps, gaps, misplaced or unreadable text, parts outside the view). \
+             Numbered Set-of-Marks tags, when present, identify entities; refer to them by tag and handle. \
+             Be concrete and concise; use the same language as the question when one is given.{}{}",
+            question
+                .filter(|q| !q.trim().is_empty())
+                .map(|q| format!("\n\nQuestion from the assistant: {q}"))
+                .unwrap_or_default(),
+            if annotations.is_empty() { String::new() } else { format!("\n\nEntities in view (tag: handle type layer):\n{annotations}") }
+        );
+        let messages = provider::vision_messages(vision.provider, &prompt, png);
+        let body = provider::build_request(
+            vision,
+            max_tokens.clamp(256, 4096),
+            "You describe CAD viewport images accurately for a text-only assistant.",
+            &messages,
+            &[],
+        );
+        let started = Instant::now();
+        log::info!(
+            "vision request: profile={:?} model={} image {} bytes",
+            vision.display_name(),
+            vision.effective_model(),
+            png.len()
+        );
+        let response = call_model(vision, &api_key, &body)?;
+        let turn = provider::parse_response(vision.provider, &response)?;
+        log::info!(
+            "vision response: tokens in={} out={} in {} ms: {}",
+            turn.usage.input_tokens,
+            turn.usage.output_tokens,
+            started.elapsed().as_millis(),
+            crate::applog::preview(&turn.text, 500)
+        );
+        if let Some(memory) = self.memory.as_mut() {
+            memory.record("Vision", &turn.text);
+        }
+        if turn.text.trim().is_empty() {
+            return Err("the vision model returned no text".into());
+        }
+        Ok(turn.text)
     }
 
     fn run_tool_calls(&mut self, calls: &[ToolCall]) -> Vec<ToolOutcome> {
@@ -587,6 +679,7 @@ impl Session {
                     text: "cancelled by the user before this tool ran".into(),
                     is_error: true,
                     image_png: None,
+                    vision_question: None,
                 }
             } else {
                 match self.execute_tool(call) {
@@ -596,6 +689,7 @@ impl Session {
                         text: error,
                         is_error: true,
                         image_png: None,
+                    vision_question: None,
                     },
                 }
             };
@@ -634,6 +728,7 @@ impl Session {
             text: clip(result.to_string()),
             is_error,
             image_png: None,
+                    vision_question: None,
         })
     }
 
@@ -837,6 +932,7 @@ impl Session {
                 text: clip(result.to_string()),
                 is_error: true,
                 image_png: None,
+                    vision_question: None,
             });
         }
         let bytes = std::fs::read(&path).map_err(|error| format!("capture file unreadable: {error}"))?;
@@ -850,8 +946,36 @@ impl Session {
             text: clip(meta.to_string()),
             is_error: false,
             image_png: Some(bytes),
+            vision_question: arguments["question"].as_str().map(str::to_owned),
         })
     }
+}
+
+/// `tag: handle type layer` lines from a capture's `_spatial.annotations`,
+/// so a vision model can name what it sees.
+fn annotation_summary(metadata: &str) -> String {
+    let Ok(meta) = serde_json::from_str::<Value>(metadata) else {
+        return String::new();
+    };
+    meta["_spatial"]["annotations"]
+        .as_array()
+        .map(|items| {
+            items
+                .iter()
+                .take(80)
+                .filter_map(|a| {
+                    Some(format!(
+                        "{}: {} {} {}",
+                        a["tag"].as_u64()?,
+                        a["handle"].as_str().unwrap_or("?"),
+                        a["type"].as_str().unwrap_or("?"),
+                        a["layer"].as_str().unwrap_or("")
+                    ))
+                })
+                .collect::<Vec<_>>()
+                .join("\n")
+        })
+        .unwrap_or_default()
 }
 
 fn insert_default(object: &mut Map<String, Value>, key: &str, value: Value) {
@@ -861,11 +985,11 @@ fn insert_default(object: &mut Map<String, Value>, key: &str, value: Value) {
 }
 
 /// One HTTP round trip to the model.
-fn call_model(settings: &AssistantSettings, api_key: &str, body: &Value) -> Result<Value, String> {
+fn call_model(profile: &ModelProfile, api_key: &str, body: &Value) -> Result<Value, String> {
     let agent = crate::network::agent_keeping_status_bodies(LLM_TIMEOUT);
-    let endpoint = provider::endpoint(settings);
+    let endpoint = provider::endpoint(profile);
     let mut request = agent.post(&endpoint);
-    for (name, value) in provider::headers(settings, api_key) {
+    for (name, value) in provider::headers(profile, api_key) {
         request = request.header(name, value.as_str());
     }
     let payload = serde_json::to_string(body).map_err(|error| error.to_string())?;

@@ -6162,3 +6162,9 @@ assistant =
     .ribbon-label =
         AI-
         asszisztens
+    .chat-model = Csevegőmodell
+    .vision-model = Képfelismerő modell
+    .vision-hint = Leírja a képernyőképeket, ha a csevegőmodell nem lát képeket
+    .understands-images = Érti a képeket
+    .add-model = Modell hozzáadása
+    .remove-model = Modell eltávolítása

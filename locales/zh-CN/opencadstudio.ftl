@@ -6146,3 +6146,9 @@ assistant =
     .ribbon-label =
         AI
         助手
+    .chat-model = 对话模型
+    .vision-model = 视觉模型
+    .vision-hint = 对话模型不支持图像时，由它描述截图
+    .understands-images = 支持图像输入
+    .add-model = 添加模型
+    .remove-model = 删除模型

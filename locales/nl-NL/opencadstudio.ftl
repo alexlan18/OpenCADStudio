@@ -6161,3 +6161,9 @@ assistant =
     .ribbon-label =
         AI-
         assistent
+    .chat-model = Chatmodel
+    .vision-model = Visiemodel
+    .vision-hint = Beschrijft schermafbeeldingen wanneer het chatmodel geen afbeeldingen kan zien
+    .understands-images = Begrijpt afbeeldingen
+    .add-model = Model toevoegen
+    .remove-model = Model verwijderen

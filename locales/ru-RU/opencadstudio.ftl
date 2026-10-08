@@ -6164,3 +6164,9 @@ assistant =
     .ribbon-label =
         ИИ-
         помощник
+    .chat-model = Модель для чата
+    .vision-model = Модель зрения
+    .vision-hint = Описывает снимки, когда модель для чата не видит изображения
+    .understands-images = Понимает изображения
+    .add-model = Добавить модель
+    .remove-model = Удалить модель

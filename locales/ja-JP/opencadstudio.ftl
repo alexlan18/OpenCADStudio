@@ -6151,3 +6151,9 @@ assistant =
     .ribbon-label =
         AI
         アシスタント
+    .chat-model = チャットモデル
+    .vision-model = 画像認識モデル
+    .vision-hint = チャットモデルが画像を扱えないとき、キャプチャを説明します
+    .understands-images = 画像を理解できる
+    .add-model = モデルを追加
+    .remove-model = モデルを削除

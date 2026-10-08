@@ -5761,6 +5761,12 @@ pub(super) fn message_attribute(source: &str) -> Option<(&'static str, &'static 
         "New chat" => Some(("assistant", "new-chat")),
         "The AI assistant needs the desktop application." => Some(("assistant", "desktop-only")),
         "AI\nAssistant" => Some(("assistant", "ribbon-label")),
+        "Chat model" => Some(("assistant", "chat-model")),
+        "Vision model" => Some(("assistant", "vision-model")),
+        "Describes captures when the chat model cannot see images" => Some(("assistant", "vision-hint")),
+        "Understands images" => Some(("assistant", "understands-images")),
+        "Add model" => Some(("assistant", "add-model")),
+        "Remove model" => Some(("assistant", "remove-model")),
         _ => None,
     }
 }

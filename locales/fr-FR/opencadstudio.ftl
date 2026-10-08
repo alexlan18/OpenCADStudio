@@ -6162,3 +6162,9 @@ assistant =
     .ribbon-label =
         Assistant
         IA
+    .chat-model = Modèle de discussion
+    .vision-model = Modèle de vision
+    .vision-hint = Décrit les captures lorsque le modèle de discussion ne voit pas les images
+    .understands-images = Comprend les images
+    .add-model = Ajouter un modèle
+    .remove-model = Supprimer le modèle

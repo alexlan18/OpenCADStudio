@@ -6161,3 +6161,9 @@ assistant =
     .ribbon-label =
         KI-
         Assistent
+    .chat-model = Chat-Modell
+    .vision-model = Bildmodell
+    .vision-hint = Beschreibt Bildschirmaufnahmen, wenn das Chat-Modell keine Bilder sehen kann
+    .understands-images = Versteht Bilder
+    .add-model = Modell hinzufügen
+    .remove-model = Modell entfernen

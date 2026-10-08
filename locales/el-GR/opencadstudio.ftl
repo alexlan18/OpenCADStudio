@@ -6163,3 +6163,9 @@ assistant =
     .ribbon-label =
         Βοηθός
         AI
+    .chat-model = Μοντέλο συνομιλίας
+    .vision-model = Μοντέλο όρασης
+    .vision-hint = Περιγράφει τις λήψεις όταν το μοντέλο συνομιλίας δεν βλέπει εικόνες
+    .understands-images = Κατανοεί εικόνες
+    .add-model = Προσθήκη μοντέλου
+    .remove-model = Αφαίρεση μοντέλου

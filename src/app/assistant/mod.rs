@@ -13,7 +13,7 @@ pub mod agent;
 pub mod memory;
 pub mod provider;
 
-pub use provider::{AssistantSettings, Effort, Provider, Usage};
+pub use provider::{AssistantSettings, Effort, ModelProfile, Provider, Usage};
 
 use super::{Message, OpenCADStudio};
 use crate::app::control::Envelope;
@@ -57,11 +57,22 @@ pub enum AssistantMsg {
     Stop,
     NewChat,
     ToggleSettings,
+    /// Which profile chats and drives the tools.
+    SelectChat(String),
+    /// Which profile describes captures for a text-only chat model ("" = none).
+    SelectVision(String),
+    /// Which profile the fields below edit.
+    SelectEditing(String),
+    AddProfile,
+    RemoveProfile,
+    /// Edits of the profile being edited.
+    ProfileName(String),
     Provider(Provider),
     BaseUrl(String),
     Model(String),
     ApiKey(String),
     Effort(Effort),
+    ProfileVision(bool),
     ToggleEntry(usize),
     Event(AssistantEvent),
 }
@@ -100,6 +111,8 @@ pub struct AssistantPanel {
     pub show: bool,
     pub settings: AssistantSettings,
     pub settings_open: bool,
+    /// Name of the profile whose fields the settings section edits.
+    pub editing: String,
     pub input: text_editor::Content,
     pub entries: Vec<Entry>,
     /// A turn is in flight (model call or tool rounds).
@@ -117,6 +130,7 @@ impl Default for AssistantPanel {
             show: false,
             settings: AssistantSettings::default(),
             settings_open: false,
+            editing: AssistantSettings::default().active,
             input: text_editor::Content::new(),
             entries: Vec::new(),
             running: false,
@@ -253,6 +267,20 @@ impl OpenCADStudio {
         }
     }
 
+    fn assistant_editing_profile(&mut self) -> Option<&mut ModelProfile> {
+        let name = self.assistant.editing.clone();
+        self.assistant.settings.profile_mut(&name)
+    }
+
+    /// Drop the transcript on both sides: the model's history belongs to one
+    /// wire format.
+    fn assistant_reset_transcript(&mut self) {
+        self.assistant.entries.clear();
+        self.assistant.usage = Usage::default();
+        #[cfg(not(target_arch = "wasm32"))]
+        let _ = agent::submit(agent::AgentCommand::Reset);
+    }
+
     fn assistant_scroll_to_end(&self) -> Task<Message> {
         iced::widget::operation::snap_to_end(self.assistant.scroll_id.clone())
     }
@@ -284,35 +312,126 @@ impl OpenCADStudio {
                 self.assistant.settings_open = !self.assistant.settings_open;
                 Task::none()
             }
+            AssistantMsg::SelectChat(name) => {
+                if self.assistant.settings.profile(&name).is_some() && self.assistant.settings.active != name {
+                    let before = self.assistant.settings.active().provider;
+                    self.assistant.settings.active = name.clone();
+                    self.assistant.editing = name;
+                    if self.assistant.settings.active().provider != before {
+                        self.assistant_reset_transcript();
+                    }
+                    self.persist_settings_if_changed();
+                }
+                Task::none()
+            }
+            AssistantMsg::SelectVision(name) => {
+                if name.is_empty() || self.assistant.settings.profile(&name).is_some() {
+                    self.assistant.settings.vision_model = name;
+                    self.persist_settings_if_changed();
+                }
+                Task::none()
+            }
+            AssistantMsg::SelectEditing(name) => {
+                if self.assistant.settings.profile(&name).is_some() {
+                    self.assistant.editing = name;
+                }
+                Task::none()
+            }
+            AssistantMsg::AddProfile => {
+                let name = self.assistant.settings.unused_name();
+                self.assistant.settings.profiles.push(ModelProfile::blank(name.clone()));
+                self.assistant.editing = name;
+                self.persist_settings_if_changed();
+                Task::none()
+            }
+            AssistantMsg::RemoveProfile => {
+                if self.assistant.settings.profiles.len() > 1 {
+                    let name = self.assistant.editing.clone();
+                    let was_chat = self.assistant.settings.active == name;
+                    let before = self.assistant.settings.active().provider;
+                    let settings = &mut self.assistant.settings;
+                    settings.profiles.retain(|p| p.name != name);
+                    if settings.vision_model == name {
+                        settings.vision_model.clear();
+                    }
+                    settings.normalize();
+                    self.assistant.editing = self.assistant.settings.active.clone();
+                    if was_chat && self.assistant.settings.active().provider != before {
+                        self.assistant_reset_transcript();
+                    }
+                    self.persist_settings_if_changed();
+                }
+                Task::none()
+            }
+            AssistantMsg::ProfileName(value) => {
+                let old = self.assistant.editing.clone();
+                let taken = self.assistant.settings.profile(&value).is_some_and(|p| p.name != old);
+                if !taken {
+                    if let Some(profile) = self.assistant.settings.profile_mut(&old) {
+                        profile.name = value.clone();
+                    }
+                    if self.assistant.settings.active == old {
+                        self.assistant.settings.active = value.clone();
+                    }
+                    if self.assistant.settings.vision_model == old {
+                        self.assistant.settings.vision_model = value.clone();
+                    }
+                    self.assistant.editing = value;
+                    self.persist_settings_if_changed();
+                }
+                Task::none()
+            }
             AssistantMsg::Provider(provider) => {
-                if self.assistant.settings.provider != provider {
-                    self.assistant.settings.provider = provider;
-                    // The two wire formats do not share a transcript.
-                    self.assistant.entries.clear();
-                    self.assistant.usage = Usage::default();
-                    #[cfg(not(target_arch = "wasm32"))]
-                    let _ = agent::submit(agent::AgentCommand::Reset);
+                let editing_chat = self.assistant.editing == self.assistant.settings.active;
+                let changed = self
+                    .assistant_editing_profile()
+                    .is_some_and(|p| p.provider != provider);
+                if changed {
+                    if let Some(profile) = self.assistant_editing_profile() {
+                        profile.provider = provider;
+                        // Claude models take images; an unknown server is text-only until told otherwise.
+                        profile.vision = provider == Provider::Anthropic;
+                    }
+                    if editing_chat {
+                        // The two wire formats do not share a transcript.
+                        self.assistant_reset_transcript();
+                    }
                     self.persist_settings_if_changed();
                 }
                 Task::none()
             }
             AssistantMsg::BaseUrl(value) => {
-                self.assistant.settings.base_url = value;
+                if let Some(profile) = self.assistant_editing_profile() {
+                    profile.base_url = value;
+                }
                 self.persist_settings_if_changed();
                 Task::none()
             }
             AssistantMsg::Model(value) => {
-                self.assistant.settings.model = value;
+                if let Some(profile) = self.assistant_editing_profile() {
+                    profile.model = value;
+                }
                 self.persist_settings_if_changed();
                 Task::none()
             }
             AssistantMsg::ApiKey(value) => {
-                self.assistant.settings.api_key = value;
+                if let Some(profile) = self.assistant_editing_profile() {
+                    profile.api_key = value;
+                }
                 self.persist_settings_if_changed();
                 Task::none()
             }
             AssistantMsg::Effort(effort) => {
-                self.assistant.settings.effort = effort;
+                if let Some(profile) = self.assistant_editing_profile() {
+                    profile.effort = effort;
+                }
+                self.persist_settings_if_changed();
+                Task::none()
+            }
+            AssistantMsg::ProfileVision(on) => {
+                if let Some(profile) = self.assistant_editing_profile() {
+                    profile.vision = on;
+                }
                 self.persist_settings_if_changed();
                 Task::none()
             }
@@ -534,13 +653,51 @@ mod tests {
     }
 
     #[test]
-    fn changing_provider_resets_the_transcript_and_persists() {
+    fn changing_the_chat_provider_resets_the_transcript_and_persists() {
         let mut app = OpenCADStudio::new();
+        assert_eq!(app.assistant.editing, app.assistant.settings.active);
         let _ = app.on_assistant(AssistantMsg::Event(AssistantEvent::AssistantText("x".into())));
         let _ = app.on_assistant(AssistantMsg::Provider(Provider::OpenAiCompatible));
         assert!(app.assistant.entries.is_empty());
-        assert_eq!(app.current_settings().assistant.provider, Provider::OpenAiCompatible);
+        let saved = app.current_settings().assistant;
+        assert_eq!(saved.active().provider, Provider::OpenAiCompatible);
+        assert!(!saved.active().vision, "an unknown server is text-only until told otherwise");
         let _ = app.on_assistant(AssistantMsg::Model("local-model".into()));
-        assert_eq!(app.current_settings().assistant.model, "local-model");
+        let _ = app.on_assistant(AssistantMsg::ProfileVision(true));
+        let saved = app.current_settings().assistant;
+        assert_eq!(saved.active().model, "local-model");
+        assert!(saved.active().vision);
+    }
+
+    #[test]
+    fn profiles_can_be_added_renamed_selected_and_removed() {
+        let mut app = OpenCADStudio::new();
+        let chat = app.assistant.settings.active.clone();
+        let _ = app.on_assistant(AssistantMsg::AddProfile);
+        assert_eq!(app.assistant.settings.profiles.len(), 2);
+        let added = app.assistant.editing.clone();
+        assert_ne!(added, chat);
+        assert_eq!(app.assistant.settings.active, chat, "adding does not switch the chat model");
+        let _ = app.on_assistant(AssistantMsg::ProfileName("GLM vision".into()));
+        assert!(app.assistant.settings.profile("GLM vision").is_some());
+        assert_eq!(app.assistant.editing, "GLM vision");
+        // A name already in use is refused.
+        let _ = app.on_assistant(AssistantMsg::ProfileName(chat.clone()));
+        assert_eq!(app.assistant.editing, "GLM vision");
+        let _ = app.on_assistant(AssistantMsg::SelectVision("GLM vision".into()));
+        assert_eq!(app.assistant.settings.vision().unwrap().name, "GLM vision");
+        let _ = app.on_assistant(AssistantMsg::ProfileName("GLM-4V".into()));
+        assert_eq!(app.assistant.settings.vision_model, "GLM-4V", "references follow a rename");
+        let _ = app.on_assistant(AssistantMsg::SelectChat("GLM-4V".into()));
+        assert_eq!(app.assistant.settings.active, "GLM-4V");
+        let _ = app.on_assistant(AssistantMsg::SelectEditing(chat.clone()));
+        let _ = app.on_assistant(AssistantMsg::RemoveProfile);
+        assert_eq!(app.assistant.settings.profiles.len(), 1);
+        assert_eq!(app.assistant.settings.active, "GLM-4V");
+        assert_eq!(app.assistant.editing, "GLM-4V");
+        // The last profile cannot be removed.
+        let _ = app.on_assistant(AssistantMsg::RemoveProfile);
+        assert_eq!(app.assistant.settings.profiles.len(), 1);
+        assert_eq!(app.current_settings().assistant.active, "GLM-4V");
     }
 }

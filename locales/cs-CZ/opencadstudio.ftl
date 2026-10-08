@@ -6160,3 +6160,9 @@ assistant =
     .ribbon-label =
         AI
         asistent
+    .chat-model = Model pro chat
+    .vision-model = Model pro obrázky
+    .vision-hint = Popisuje snímky, když model pro chat nevidí obrázky
+    .understands-images = Rozumí obrázkům
+    .add-model = Přidat model
+    .remove-model = Odebrat model

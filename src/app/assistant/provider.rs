@@ -121,10 +121,12 @@ impl fmt::Display for Effort {
     }
 }
 
-/// Persisted assistant preferences (`UserSettings::assistant`).
+/// One configured model: where it lives, how to authenticate, what it can do.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
-pub struct AssistantSettings {
+pub struct ModelProfile {
+    /// Display name; also the key the settings refer to it by.
+    pub name: String,
     pub provider: Provider,
     /// Empty means the provider default.
     pub base_url: String,
@@ -134,35 +136,61 @@ pub struct AssistantSettings {
     /// provider's environment variable.
     pub api_key: String,
     pub effort: Effort,
-    /// Tool-call rounds per user message before the assistant stops and asks.
-    pub max_tool_rounds: u32,
-    /// `max_tokens` per response.
-    pub max_tokens: u32,
+    /// The model accepts images, so captures are attached directly. A chat
+    /// model without it hands captures to the vision profile instead.
+    pub vision: bool,
     /// Anthropic only: let the server re-run a declined request on a
     /// fallback model (`fallbacks: "default"`).
     pub refusal_fallback: bool,
-    /// The chat panel is open (docked on the right edge, auto-collapsing by
-    /// default) — remembered across sessions like the other palettes.
-    pub panel_open: bool,
 }
 
-impl Default for AssistantSettings {
+impl Default for ModelProfile {
     fn default() -> Self {
         Self {
+            name: String::new(),
             provider: Provider::Anthropic,
             base_url: String::new(),
             model: String::new(),
             api_key: String::new(),
             effort: Effort::Default,
-            max_tool_rounds: 40,
-            max_tokens: 16_000,
+            vision: true,
             refusal_fallback: true,
-            panel_open: true,
         }
     }
 }
 
-impl AssistantSettings {
+impl ModelProfile {
+    /// The profile a fresh installation starts with.
+    pub fn default_claude() -> Self {
+        Self {
+            name: "Claude".into(),
+            ..Default::default()
+        }
+    }
+
+    /// A new, empty profile for a second (typically OpenAI-compatible) model.
+    pub fn blank(name: String) -> Self {
+        Self {
+            name,
+            provider: Provider::OpenAiCompatible,
+            vision: false,
+            ..Default::default()
+        }
+    }
+
+    /// What the UI shows: the name, else the model, else the provider.
+    pub fn display_name(&self) -> String {
+        if !self.name.trim().is_empty() {
+            return self.name.clone();
+        }
+        let model = self.effective_model();
+        if model.is_empty() {
+            self.provider.label().to_string()
+        } else {
+            model
+        }
+    }
+
     pub fn effective_base_url(&self) -> String {
         let raw = self.base_url.trim();
         let url = if raw.is_empty() {
@@ -197,7 +225,10 @@ impl AssistantSettings {
     /// The request can only be built when a model is known.
     pub fn validate(&self) -> Result<(), String> {
         if self.effective_model().is_empty() {
-            return Err("Set a model name in the assistant settings".into());
+            return Err(format!(
+                "Set a model name for profile {:?} in the assistant settings",
+                self.display_name()
+            ));
         }
         let url = self.effective_base_url();
         if !(url.starts_with("http://") || url.starts_with("https://")) {
@@ -213,6 +244,160 @@ impl AssistantSettings {
                 .trim_start_matches("https://")
                 .trim_start_matches("http://")
                 .starts_with("api.anthropic.com")
+    }
+}
+
+/// Persisted assistant preferences (`UserSettings::assistant`).
+///
+/// Several model profiles can be configured; one is the chat model and,
+/// optionally, another one with image input describes viewport captures
+/// when the chat model cannot see them.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct AssistantSettings {
+    /// Legacy single-model fields from earlier settings files; migrated into
+    /// `profiles` by [`AssistantSettings::normalize`] and never written again.
+    #[serde(skip_serializing)]
+    pub provider: Provider,
+    #[serde(skip_serializing)]
+    pub base_url: String,
+    #[serde(skip_serializing)]
+    pub model: String,
+    #[serde(skip_serializing)]
+    pub api_key: String,
+    #[serde(skip_serializing)]
+    pub effort: Effort,
+    #[serde(skip_serializing)]
+    pub refusal_fallback: bool,
+    /// Every configured model.
+    pub profiles: Vec<ModelProfile>,
+    /// Name of the profile that chats and drives the tools.
+    pub active: String,
+    /// Name of the profile that describes captures for a chat model without
+    /// image input; empty for none.
+    pub vision_model: String,
+    /// Tool-call rounds per user message before the assistant stops and asks.
+    pub max_tool_rounds: u32,
+    /// `max_tokens` per response.
+    pub max_tokens: u32,
+    /// The chat panel is open (docked on the right edge, auto-collapsing by
+    /// default) — remembered across sessions like the other palettes.
+    pub panel_open: bool,
+}
+
+impl Default for AssistantSettings {
+    fn default() -> Self {
+        let claude = ModelProfile::default_claude();
+        Self {
+            provider: Provider::Anthropic,
+            base_url: String::new(),
+            model: String::new(),
+            api_key: String::new(),
+            effort: Effort::Default,
+            refusal_fallback: true,
+            active: claude.name.clone(),
+            profiles: vec![claude],
+            vision_model: String::new(),
+            max_tool_rounds: 40,
+            max_tokens: 16_000,
+            panel_open: true,
+        }
+    }
+}
+
+impl AssistantSettings {
+    /// Repair after loading: migrate a legacy single-model file into the
+    /// first profile, make names unique and non-empty, and point `active`
+    /// and `vision_model` at profiles that exist.
+    pub fn normalize(&mut self) {
+        let legacy_configured =
+            !self.model.trim().is_empty() || !self.api_key.trim().is_empty() || !self.base_url.trim().is_empty()
+                || self.provider != Provider::Anthropic
+                || self.effort != Effort::Default;
+        if self.profiles.is_empty() || (legacy_configured && self.profiles == vec![ModelProfile::default_claude()]) {
+            let name = if !self.model.trim().is_empty() {
+                self.model.trim().to_string()
+            } else if self.provider == Provider::Anthropic {
+                "Claude".to_string()
+            } else {
+                self.provider.label().to_string()
+            };
+            let migrated = ModelProfile {
+                name,
+                provider: self.provider,
+                base_url: std::mem::take(&mut self.base_url),
+                model: std::mem::take(&mut self.model),
+                api_key: std::mem::take(&mut self.api_key),
+                effort: self.effort,
+                vision: self.provider == Provider::Anthropic,
+                refusal_fallback: self.refusal_fallback,
+            };
+            self.profiles = vec![migrated];
+            self.active.clear();
+        }
+        self.provider = Provider::Anthropic;
+        self.effort = Effort::Default;
+        self.refusal_fallback = true;
+        self.base_url.clear();
+        self.model.clear();
+        self.api_key.clear();
+        let mut seen: Vec<String> = Vec::new();
+        for (index, profile) in self.profiles.iter_mut().enumerate() {
+            let mut name = profile.name.trim().to_string();
+            if name.is_empty() {
+                name = format!("Model {}", index + 1);
+            }
+            let base = name.clone();
+            let mut suffix = 2;
+            while seen.contains(&name) {
+                name = format!("{base} {suffix}");
+                suffix += 1;
+            }
+            seen.push(name.clone());
+            profile.name = name;
+        }
+        if !self.profiles.iter().any(|p| p.name == self.active) {
+            self.active = self.profiles[0].name.clone();
+        }
+        if !self.vision_model.is_empty() && !self.profiles.iter().any(|p| p.name == self.vision_model) {
+            self.vision_model.clear();
+        }
+    }
+
+    pub fn profile(&self, name: &str) -> Option<&ModelProfile> {
+        self.profiles.iter().find(|p| p.name == name)
+    }
+
+    pub fn profile_mut(&mut self, name: &str) -> Option<&mut ModelProfile> {
+        self.profiles.iter_mut().find(|p| p.name == name)
+    }
+
+    /// The chat model (the first profile when `active` names none).
+    pub fn active(&self) -> &ModelProfile {
+        self.profile(&self.active)
+            .or_else(|| self.profiles.first())
+            .expect("normalize keeps at least one profile")
+    }
+
+    /// The profile that describes captures when the chat model cannot see
+    /// them, if one is configured.
+    pub fn vision(&self) -> Option<&ModelProfile> {
+        if self.vision_model.is_empty() {
+            return None;
+        }
+        self.profile(&self.vision_model)
+    }
+
+    /// A profile name not used yet.
+    pub fn unused_name(&self) -> String {
+        let mut index = self.profiles.len() + 1;
+        loop {
+            let candidate = format!("Model {index}");
+            if self.profile(&candidate).is_none() {
+                return candidate;
+            }
+            index += 1;
+        }
     }
 }
 
@@ -275,11 +460,14 @@ pub struct ToolOutcome {
     pub is_error: bool,
     /// PNG bytes for captures; shown to the model as an image.
     pub image_png: Option<Vec<u8>>,
+    /// What the model asked to look for in a capture (`question`), for a
+    /// vision profile describing it on the chat model's behalf.
+    pub vision_question: Option<String>,
 }
 
-pub fn endpoint(settings: &AssistantSettings) -> String {
-    let base = settings.effective_base_url();
-    match settings.provider {
+pub fn endpoint(profile: &ModelProfile) -> String {
+    let base = profile.effective_base_url();
+    match profile.provider {
         Provider::Anthropic => format!("{base}/v1/messages"),
         Provider::OpenAiCompatible => format!("{base}/chat/completions"),
     }
@@ -292,19 +480,19 @@ fn supports_default_fallback(model: &str) -> bool {
         || model.starts_with("claude-sonnet-5-5")
 }
 
-fn uses_fallback(settings: &AssistantSettings) -> bool {
-    settings.refusal_fallback
-        && settings.official_anthropic_host()
-        && supports_default_fallback(&settings.effective_model())
+fn uses_fallback(profile: &ModelProfile) -> bool {
+    profile.refusal_fallback
+        && profile.official_anthropic_host()
+        && supports_default_fallback(&profile.effective_model())
 }
 
-pub fn headers(settings: &AssistantSettings, api_key: &str) -> Vec<(&'static str, String)> {
+pub fn headers(profile: &ModelProfile, api_key: &str) -> Vec<(&'static str, String)> {
     let mut out = vec![("content-type", "application/json".to_string())];
-    match settings.provider {
+    match profile.provider {
         Provider::Anthropic => {
             out.push(("x-api-key", api_key.to_string()));
             out.push(("anthropic-version", "2023-06-01".to_string()));
-            if uses_fallback(settings) {
+            if uses_fallback(profile) {
                 out.push(("anthropic-beta", "server-side-fallback-2026-07-01".to_string()));
             }
         }
@@ -317,12 +505,13 @@ pub fn headers(settings: &AssistantSettings, api_key: &str) -> Vec<(&'static str
 
 /// Build the request body for one model call.
 pub fn build_request(
-    settings: &AssistantSettings,
+    profile: &ModelProfile,
+    max_tokens: u32,
     system: &str,
     messages: &[Value],
     tools: &[ToolSpec],
 ) -> Value {
-    match settings.provider {
+    match profile.provider {
         Provider::Anthropic => {
             let mut tool_values: Vec<Value> = tools
                 .iter()
@@ -343,8 +532,8 @@ pub fn build_request(
                 mark_last_block_cached(last);
             }
             let mut body = json!({
-                "model": settings.effective_model(),
-                "max_tokens": settings.max_tokens.max(256),
+                "model": profile.effective_model(),
+                "max_tokens": max_tokens.max(256),
                 "system": [{
                     "type": "text",
                     "text": system,
@@ -353,10 +542,10 @@ pub fn build_request(
                 "tools": tool_values,
                 "messages": messages,
             });
-            if let Some(effort) = settings.effort.wire() {
+            if let Some(effort) = profile.effort.wire() {
                 body["output_config"] = json!({"effort": effort});
             }
-            if uses_fallback(settings) {
+            if uses_fallback(profile) {
                 body["fallbacks"] = json!("default");
             }
             body
@@ -379,9 +568,9 @@ pub fn build_request(
                 })
                 .collect();
             let mut body = json!({
-                "model": settings.effective_model(),
+                "model": profile.effective_model(),
                 "messages": all,
-                "max_tokens": settings.max_tokens.max(256),
+                "max_tokens": max_tokens.max(256),
             });
             if !tool_values.is_empty() {
                 body["tools"] = Value::Array(tool_values);
@@ -417,6 +606,22 @@ pub fn user_message(provider: Provider, text: &str) -> Value {
     match provider {
         Provider::Anthropic => json!({"role": "user", "content": [{"type": "text", "text": text}]}),
         Provider::OpenAiCompatible => json!({"role": "user", "content": text}),
+    }
+}
+
+/// The single user turn sent to a vision profile asking it to describe a
+/// capture on behalf of a chat model that cannot see images.
+pub fn vision_messages(provider: Provider, prompt: &str, png: &[u8]) -> Vec<Value> {
+    use base64::Engine as _;
+    match provider {
+        Provider::Anthropic => vec![json!({"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": base64::engine::general_purpose::STANDARD.encode(png)}},
+            {"type": "text", "text": prompt},
+        ]})],
+        Provider::OpenAiCompatible => vec![json!({"role": "user", "content": [
+            {"type": "text", "text": prompt},
+            {"type": "image_url", "image_url": {"url": png_data_url(png)}},
+        ]})],
     }
 }
 
@@ -707,8 +912,8 @@ fn parse_openai(body: &Value) -> Result<Turn, String> {
 mod tests {
     use super::*;
 
-    fn settings(provider: Provider) -> AssistantSettings {
-        AssistantSettings {
+    fn profile(provider: Provider) -> ModelProfile {
+        ModelProfile {
             provider,
             ..Default::default()
         }
@@ -724,23 +929,23 @@ mod tests {
 
     #[test]
     fn defaults_resolve_per_provider() {
-        let s = settings(Provider::Anthropic);
+        let s = profile(Provider::Anthropic);
         assert_eq!(s.effective_model(), "claude-opus-5-5");
         assert_eq!(endpoint(&s), "https://api.anthropic.com/v1/messages");
-        let mut o = settings(Provider::OpenAiCompatible);
+        let mut o = profile(Provider::OpenAiCompatible);
         o.base_url = "http://localhost:11434/v1/".into();
         o.model = "qwen3".into();
         assert_eq!(endpoint(&o), "http://localhost:11434/v1/chat/completions");
-        assert!(settings(Provider::OpenAiCompatible).validate().is_err());
+        assert!(profile(Provider::OpenAiCompatible).validate().is_err());
         assert!(o.validate().is_ok());
     }
 
     #[test]
     fn anthropic_request_has_cache_breakpoints_effort_and_fallback() {
-        let mut s = settings(Provider::Anthropic);
+        let mut s = profile(Provider::Anthropic);
         s.effort = Effort::High;
         let messages = vec![user_message(Provider::Anthropic, "draw a line")];
-        let body = build_request(&s, "SYSTEM", &messages, &tools());
+        let body = build_request(&s, 16_000, "SYSTEM", &messages, &tools());
         assert_eq!(body["model"], "claude-opus-5-5");
         assert_eq!(body["system"][0]["cache_control"]["type"], "ephemeral");
         assert_eq!(body["tools"][0]["input_schema"]["type"], "object");
@@ -758,22 +963,22 @@ mod tests {
 
     #[test]
     fn fallback_is_skipped_off_the_official_host_or_on_older_models() {
-        let mut s = settings(Provider::Anthropic);
+        let mut s = profile(Provider::Anthropic);
         s.base_url = "https://gateway.example.com".into();
-        let body = build_request(&s, "S", &[], &[]);
+        let body = build_request(&s, 16_000, "S", &[], &[]);
         assert!(body.get("fallbacks").is_none());
         assert!(!headers(&s, "k").iter().any(|(k, _)| *k == "anthropic-beta"));
-        let mut s = settings(Provider::Anthropic);
+        let mut s = profile(Provider::Anthropic);
         s.model = "claude-haiku-4-5".into();
-        assert!(build_request(&s, "S", &[], &[]).get("fallbacks").is_none());
+        assert!(build_request(&s, 16_000, "S", &[], &[]).get("fallbacks").is_none());
     }
 
     #[test]
     fn openai_request_wraps_tools_as_functions() {
-        let mut s = settings(Provider::OpenAiCompatible);
+        let mut s = profile(Provider::OpenAiCompatible);
         s.model = "gpt-test".into();
         let messages = vec![user_message(Provider::OpenAiCompatible, "hi")];
-        let body = build_request(&s, "SYSTEM", &messages, &tools());
+        let body = build_request(&s, 16_000, "SYSTEM", &messages, &tools());
         assert_eq!(body["messages"][0]["role"], "system");
         assert_eq!(body["messages"][1]["content"], "hi");
         assert_eq!(body["tools"][0]["type"], "function");
@@ -858,8 +1063,8 @@ mod tests {
     #[test]
     fn tool_results_follow_each_wire_shape() {
         let outcomes = vec![
-            ToolOutcome { call_id: "a".into(), text: "ok".into(), is_error: false, image_png: None },
-            ToolOutcome { call_id: "b".into(), text: "meta".into(), is_error: true, image_png: Some(vec![1, 2, 3]) },
+            ToolOutcome { call_id: "a".into(), text: "ok".into(), is_error: false, image_png: None, vision_question: None },
+            ToolOutcome { call_id: "b".into(), text: "meta".into(), is_error: true, image_png: Some(vec![1, 2, 3]), vision_question: None },
         ];
         let anthropic = tool_result_messages(Provider::Anthropic, &outcomes);
         assert_eq!(anthropic.len(), 1);
@@ -882,7 +1087,7 @@ mod tests {
 
     #[test]
     fn stripping_images_touches_both_wire_shapes_and_nothing_else() {
-        let outcomes = vec![ToolOutcome { call_id: "c".into(), text: "meta".into(), is_error: false, image_png: Some(vec![1]) }];
+        let outcomes = vec![ToolOutcome { call_id: "c".into(), text: "meta".into(), is_error: false, image_png: Some(vec![1]), vision_question: None }];
         let mut openai = vec![user_message(Provider::OpenAiCompatible, "hi")];
         openai.extend(tool_result_messages(Provider::OpenAiCompatible, &outcomes));
         assert_eq!(strip_images(&mut openai), 1);
@@ -896,14 +1101,64 @@ mod tests {
     }
 
     #[test]
-    fn settings_round_trip_through_json_with_defaults() {
-        let parsed: AssistantSettings = serde_json::from_str(r#"{"provider":"open_ai_compatible","model":"m"}"#).unwrap();
-        assert_eq!(parsed.provider, Provider::OpenAiCompatible);
-        assert_eq!(parsed.model, "m");
-        assert_eq!(parsed.max_tool_rounds, 40);
-        assert!(parsed.refusal_fallback);
-        assert!(parsed.panel_open);
-        let text = serde_json::to_string(&AssistantSettings::default()).unwrap();
-        assert!(text.contains("\"effort\":\"default\""));
+    fn settings_migrate_legacy_single_model_files_and_keep_profiles_consistent() {
+        // A settings file written before profiles existed.
+        let mut legacy: AssistantSettings = serde_json::from_str(
+            r#"{"provider":"open_ai_compatible","base_url":"https://open.bigmodel.cn/api/coding/paas/v4","model":"glm-5.3","api_key":"k","effort":"default"}"#,
+        )
+        .unwrap();
+        legacy.normalize();
+        assert_eq!(legacy.profiles.len(), 1);
+        let chat = legacy.active();
+        assert_eq!(chat.name, "glm-5.3");
+        assert_eq!(chat.provider, Provider::OpenAiCompatible);
+        assert_eq!(chat.model, "glm-5.3");
+        assert_eq!(chat.api_key, "k");
+        assert!(!chat.vision, "unknown OpenAI-compatible models default to text only");
+        assert!(legacy.vision().is_none());
+        assert!(legacy.model.is_empty(), "legacy fields are cleared after migration");
+        let written: Value = serde_json::to_value(&legacy).unwrap();
+        assert!(written.get("model").is_none(), "legacy keys are not written back");
+        assert_eq!(written["profiles"][0]["model"], "glm-5.3");
+        assert_eq!(written["active"], "glm-5.3");
+        let reloaded: AssistantSettings = serde_json::from_value(written).unwrap();
+        assert_eq!(reloaded.active().api_key, "k");
+
+        // A fresh default: one Claude profile that can see images.
+        let fresh = AssistantSettings::default();
+        assert_eq!(fresh.active().name, "Claude");
+        assert!(fresh.active().vision);
+        assert_eq!(fresh.max_tool_rounds, 40);
+        assert!(fresh.panel_open);
+
+        // Duplicate / empty names and dangling references are repaired.
+        let mut messy = AssistantSettings {
+            profiles: vec![
+                ModelProfile { name: "".into(), ..Default::default() },
+                ModelProfile { name: "GLM".into(), ..ModelProfile::blank(String::new()) },
+                ModelProfile { name: "GLM".into(), ..ModelProfile::blank(String::new()) },
+            ],
+            active: "missing".into(),
+            vision_model: "gone".into(),
+            ..Default::default()
+        };
+        messy.normalize();
+        let names: Vec<&str> = messy.profiles.iter().map(|p| p.name.as_str()).collect();
+        assert_eq!(names, ["Model 1", "GLM", "GLM 2"]);
+        assert_eq!(messy.active, "Model 1");
+        assert!(messy.vision_model.is_empty());
+        assert_eq!(messy.unused_name(), "Model 4");
+        messy.vision_model = "GLM 2".into();
+        assert_eq!(messy.vision().unwrap().name, "GLM 2");
+    }
+
+    #[test]
+    fn vision_messages_carry_the_image_in_each_wire_shape() {
+        let anthropic = vision_messages(Provider::Anthropic, "describe", &[1, 2, 3]);
+        assert_eq!(anthropic[0]["content"][0]["type"], "image");
+        assert_eq!(anthropic[0]["content"][1]["text"], "describe");
+        let openai = vision_messages(Provider::OpenAiCompatible, "describe", &[1, 2, 3]);
+        assert_eq!(openai[0]["content"][0]["text"], "describe");
+        assert!(openai[0]["content"][1]["image_url"]["url"].as_str().unwrap().starts_with("data:image/png;base64,"));
     }
 }

@@ -20,21 +20,30 @@ resize it with the divider, pin it to stay expanded or auto-collapse.
 
 ## Settings (gear icon in the panel)
 
+Several **model profiles** can be configured. One is the **chat model** that
+talks to you and drives the tools; optionally another one with image input
+is the **vision model** that describes viewport captures when the chat model
+cannot see them (many OpenAI-compatible text endpoints reject images).
+
 | Field | Meaning |
 |---|---|
+| Chat model | The profile used for the conversation and tool calls. Switching to a profile with a different provider starts a new conversation. |
+| Vision model | *None*, or the profile that describes captures for a text-only chat model. Its description (guided by the `question` the chat model passes to `ocs_capture`) is returned together with the capture's `_spatial` metadata. |
+| Profile | Which profile the fields below edit; **+** adds one, the bin removes it (the last profile stays). |
+| Name | How the profile is listed. |
 | Provider | **Anthropic (Claude)** — the Anthropic Messages API, spoken natively. **OpenAI-compatible** — any server speaking Chat Completions (`/chat/completions` with `tools`): local inference servers, model gateways, other vendors. |
 | Base URL | Empty uses the provider default (`https://api.anthropic.com` or `https://api.openai.com/v1`). Set it for a gateway or a local server, e.g. `http://localhost:11434/v1`. |
 | Model | Empty uses the provider default (`claude-opus-5-5` for Anthropic; OpenAI-compatible needs a name). |
 | API key | Stored **in plain text** in the user settings file (`settings.json`). Leave it empty to use the `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` environment variable instead. |
 | Effort | Anthropic only: `output_config.effort` (`low` … `max`). *Default* leaves it to the server. |
+| Understands images | The model accepts image input, so captures are attached directly. On by default for Anthropic, off for a new OpenAI-compatible profile; tick it for multimodal models (GLM-4V, Qwen-VL, GPT-4o…). |
 
-Switching provider starts a new conversation: the two wire formats do not
-share a transcript.
-
-Advanced values live in `settings.json` under `"assistant"`:
-`max_tool_rounds` (default 40 tool rounds per message), `max_tokens`
-(default 16000 per reply) and `refusal_fallback` (Anthropic: send
-`fallbacks: "default"` so a declined request is retried on a fallback model).
+A settings file from before profiles existed is migrated into a single
+profile named after its model. Advanced values live in `settings.json` under
+`"assistant"`: `max_tool_rounds` (default 40 tool rounds per message),
+`max_tokens` (default 16000 per reply) and, per profile, `refusal_fallback`
+(Anthropic: send `fallbacks: "default"` so a declined request is retried on
+a fallback model).
 
 ## Using it
 
@@ -146,9 +155,10 @@ raises the level and also echoes the lines to the console.
   external MCP/REST client gets `busy`, and vice versa.
 - The conversation is not persisted; closing the application forgets it.
 - Streaming is not used; a long reply appears when it is complete.
-- Some OpenAI-compatible endpoints accept text only. When such a server
-  rejects a request carrying a capture image (HTTP 400), the assistant
-  replaces the images with a note, retries, and from then on sends captures
-  as their `_spatial` metadata alone; the panel still shows the image.
+- Some OpenAI-compatible endpoints accept text only. Untick *Understands
+  images* for such a chat model and pick a vision model; if a server still
+  rejects a request carrying an image (HTTP 400), the assistant replaces the
+  images with a note, retries, and from then on routes captures through the
+  vision model or the metadata alone. The panel always shows the image.
 - The API key is stored in plain text. Prefer the environment variable on
   shared machines.

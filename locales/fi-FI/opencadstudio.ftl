@@ -6160,3 +6160,9 @@ assistant =
     .ribbon-label =
         Tekoäly-
         avustaja
+    .chat-model = Keskustelumalli
+    .vision-model = Kuvamalli
+    .vision-hint = Kuvailee kaappaukset, kun keskustelumalli ei näe kuvia
+    .understands-images = Ymmärtää kuvia
+    .add-model = Lisää malli
+    .remove-model = Poista malli

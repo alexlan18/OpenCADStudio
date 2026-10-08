@@ -6162,3 +6162,9 @@ assistant =
     .ribbon-label =
         AI
         어시스턴트
+    .chat-model = 대화 모델
+    .vision-model = 비전 모델
+    .vision-hint = 대화 모델이 이미지를 볼 수 없을 때 캡처를 설명합니다
+    .understands-images = 이미지 이해 가능
+    .add-model = 모델 추가
+    .remove-model = 모델 제거
