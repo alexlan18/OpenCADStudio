@@ -2,6 +2,7 @@ mod alias;
 mod automation;
 pub(crate) mod control;
 pub(crate) mod assistant;
+pub(crate) mod print3d;
 pub(crate) fn automation_action_names() -> &'static [&'static str] {
     control::action_names()
 }
@@ -827,6 +828,10 @@ pub(super) struct OpenCADStudio {
     pub(crate) show_browser: bool,
     /// Point Cloud Manager palette (POINTCLOUDMANAGER).
     pub(crate) pc_manager: crate::ui::window::pc_manager::PcManager,
+    /// 3D printing: Cura hand-over and CuraEngine slicing (transient state).
+    pub(crate) print3d: print3d::Print3dState,
+    /// 3D printing preferences (Cura location, slicing profile).
+    pub(crate) print3d_settings: print3d::Print3dSettings,
     pub(crate) count_palette: crate::ui::window::count_palette::CountPalette,
     /// The AI assistant chat panel (View › Palettes › AI Assistant).
     pub(crate) assistant: assistant::AssistantPanel,
@@ -3942,6 +3947,7 @@ pub enum Message {
     PcManager(crate::ui::window::pc_manager::PcManagerMsg),
     Count(crate::ui::window::count_palette::CountMsg),
     Assistant(assistant::AssistantMsg),
+    Print3d(print3d::Print3dMsg),
     SheetSet(crate::ui::window::sheet_set::SheetSetMsg),
     PdfImportPickResult(Result<(std::path::PathBuf, std::sync::Arc<Vec<u8>>), String>),
     /// Result of the PDFATTACH file picker.
@@ -4273,6 +4279,8 @@ impl OpenCADStudio {
             show_external_references: false,
             show_browser: false,
             pc_manager: Default::default(),
+            print3d: Default::default(),
+            print3d_settings: Default::default(),
             count_palette: Default::default(),
             assistant: Default::default(),
             sheet_set: Default::default(),

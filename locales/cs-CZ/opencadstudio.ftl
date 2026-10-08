@@ -6166,3 +6166,52 @@ assistant =
     .understands-images = Rozumí obrázkům
     .add-model = Přidat model
     .remove-model = Odebrat model
+
+print3d =
+    .group-title = 3D tisk
+    .label-import-mesh =
+        Import
+        sítě
+    .label-export-3mf =
+        Export
+        3MF
+    .label-send-cura =
+        Poslat
+        do Cury
+    .label-slice-gcode =
+        Slicování
+        G-code
+    .import-mesh = Importovat síť
+    .mesh-files = Soubory sítí
+    .export-3mf = Exportovat 3MF
+    .threemf-files = Soubory 3MF
+    .select-cura = Vyberte spustitelný soubor Cura
+    .save-gcode = Uložit G-code
+    .gcode-files = Soubory G-code
+    .ctx-3mf-export = Export 3MF
+    .ctx-mesh-import = Import sítě
+    .ctx-slicing = Slicování G-code
+    .threemf-out-no-mesh = 3MFOUT: ve výkresu nejsou žádná data 3D sítě.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: použití GCODESET <název> <hodnota>. Nastavení: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: ve výkresu nejsou žádná data 3D sítě.
+    .cura-not-found-pick = CURA: Cura nebyla nalezena. Vyberte její spustitelný soubor (CURAPATH si ho zapamatuje).
+    .gcode-no-mesh = GCODE: ve výkresu nejsou žádná data 3D sítě.
+    .gcode-running = GCODE: slicování již běží.
+    .gcode-no-engine = GCODE: CuraEngine nebo definice tiskárny nebyly nalezeny. Nainstalujte UltiMaker Cura a ukažte na ni příkazem CURAPATH.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: vedle Cury nebyl nalezen CuraEngine ani definice tiskárny; GCODE je potřebuje, CURA ne.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: importováno __ocs_fmt_0__ sítí z "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: exportováno do "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura nebyla nalezena. Vyberte ji příkazem CURAPATH.
+    .cura-opened = CURA: "__ocs_fmt_0__" otevřeno v __ocs_fmt_1__
+    .gcode-slicing = GCODE: slicování pomocí CuraEngine…
+    .gcode-done = GCODE: zapsáno "__ocs_fmt_0__" — čas tisku __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ vrstev
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Export
+        STL

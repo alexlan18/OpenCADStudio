@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Export STL">
+  <g stroke="#526B80" stroke-width="1.1" stroke-linejoin="round" fill="#DCE7F0">
+    <path d="M6 13 16 8 26 13 16 18Z"/>
+    <path d="M6 13 16 18V25L6 20Z" fill="#A9BFCE"/>
+    <path d="M16 18 26 13V20L16 25Z" fill="#718C9E"/>
+  </g>
+  <path d="M8 10 16 6l8 4" fill="none" stroke="#526B80" stroke-width="0.8" stroke-dasharray="1.5 1"/>
+  <path d="M26 30v-8M22.5 25.5 26 22l3.5 3.5" fill="none" stroke="#2F7D4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

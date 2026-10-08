@@ -6157,3 +6157,52 @@ assistant =
     .understands-images = 画像を理解できる
     .add-model = モデルを追加
     .remove-model = モデルを削除
+
+print3d =
+    .group-title = 3D プリント
+    .label-import-mesh =
+        メッシュ
+        インポート
+    .label-export-3mf =
+        3MF
+        エクスポート
+    .label-send-cura =
+        Cura に
+        送る
+    .label-slice-gcode =
+        スライス
+        G-code
+    .import-mesh = メッシュをインポート
+    .mesh-files = メッシュファイル
+    .export-3mf = 3MF をエクスポート
+    .threemf-files = 3MF ファイル
+    .select-cura = Cura の実行ファイルを選択
+    .save-gcode = G-code を保存
+    .gcode-files = G-code ファイル
+    .ctx-3mf-export = 3MF エクスポート
+    .ctx-mesh-import = メッシュのインポート
+    .ctx-slicing = G-code スライス
+    .threemf-out-no-mesh = 3MFOUT: この図面に 3D メッシュデータがありません。
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: 使い方 GCODESET <名前> <値>。設定: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: この図面に 3D メッシュデータがありません。
+    .cura-not-found-pick = CURA: Cura が見つかりません。実行ファイルを選択してください（CURAPATH が記憶します）。
+    .gcode-no-mesh = GCODE: この図面に 3D メッシュデータがありません。
+    .gcode-running = GCODE: スライスはすでに実行中です。
+    .gcode-no-engine = GCODE: CuraEngine またはプリンター定義が見つかりません。UltiMaker Cura をインストールし、CURAPATH で場所を指定してください。
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: Cura の横に CuraEngine またはプリンター定義が見つかりません。GCODE には両方が必要ですが、CURA は不要です。
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: "__ocs_fmt_1__" から __ocs_fmt_0__ 個のメッシュをインポートしました。
+    .threemf-out-done = 3MFOUT: "__ocs_fmt_0__" にエクスポートしました
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura が見つかりません。CURAPATH で選択してください。
+    .cura-opened = CURA: "__ocs_fmt_0__" を __ocs_fmt_1__ で開きました
+    .gcode-slicing = GCODE: CuraEngine でスライス中…
+    .gcode-done = GCODE: "__ocs_fmt_0__" を書き出しました — 印刷時間 __ocs_fmt_1__、フィラメント __ocs_fmt_2__、__ocs_fmt_3__ 層
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        エクスポート

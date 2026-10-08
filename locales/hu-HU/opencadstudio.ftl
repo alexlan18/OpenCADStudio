@@ -6168,3 +6168,52 @@ assistant =
     .understands-images = Érti a képeket
     .add-model = Modell hozzáadása
     .remove-model = Modell eltávolítása
+
+print3d =
+    .group-title = 3D nyomtatás
+    .label-import-mesh =
+        Háló
+        importálása
+    .label-export-3mf =
+        3MF
+        exportálása
+    .label-send-cura =
+        Küldés
+        a Curába
+    .label-slice-gcode =
+        Szeletelés
+        G-code
+    .import-mesh = Háló importálása
+    .mesh-files = Hálófájlok
+    .export-3mf = 3MF exportálása
+    .threemf-files = 3MF-fájlok
+    .select-cura = Válassza ki a Cura futtatható fájlját
+    .save-gcode = G-code mentése
+    .gcode-files = G-code-fájlok
+    .ctx-3mf-export = 3MF-export
+    .ctx-mesh-import = Hálóimport
+    .ctx-slicing = G-code szeletelés
+    .threemf-out-no-mesh = 3MFOUT: nincs 3D hálóadat ebben a rajzban.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: használat GCODESET <név> <érték>. Beállítások: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: nincs 3D hálóadat ebben a rajzban.
+    .cura-not-found-pick = CURA: a Cura nem található. Válassza ki a futtatható fájlját (a CURAPATH megjegyzi).
+    .gcode-no-mesh = GCODE: nincs 3D hálóadat ebben a rajzban.
+    .gcode-running = GCODE: már fut egy szeletelés.
+    .gcode-no-engine = GCODE: a CuraEngine vagy a nyomtatódefiníciók nem találhatók. Telepítse az UltiMaker Curát, és adja meg a CURAPATH paranccsal.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: a Cura mellett nem található a CuraEngine vagy a nyomtatódefiníció; a GCODE-nak mindkettő kell, a CURA-nak nem.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ háló importálva innen: "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: exportálva ide: "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: a Cura nem található. Válassza ki a CURAPATH paranccsal.
+    .cura-opened = CURA: "__ocs_fmt_0__" megnyitva itt: __ocs_fmt_1__
+    .gcode-slicing = GCODE: szeletelés a CuraEngine-nel…
+    .gcode-done = GCODE: "__ocs_fmt_0__" kiírva — nyomtatási idő __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ réteg
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        exportálása

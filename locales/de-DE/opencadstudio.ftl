@@ -6167,3 +6167,52 @@ assistant =
     .understands-images = Versteht Bilder
     .add-model = Modell hinzufügen
     .remove-model = Modell entfernen
+
+print3d =
+    .group-title = 3D-Druck
+    .label-import-mesh =
+        Netz
+        importieren
+    .label-export-3mf =
+        3MF
+        exportieren
+    .label-send-cura =
+        An Cura
+        senden
+    .label-slice-gcode =
+        Slicen
+        G-Code
+    .import-mesh = Netz importieren
+    .mesh-files = Netzdateien
+    .export-3mf = 3MF exportieren
+    .threemf-files = 3MF-Dateien
+    .select-cura = Cura-Programmdatei auswählen
+    .save-gcode = G-Code speichern
+    .gcode-files = G-Code-Dateien
+    .ctx-3mf-export = 3MF-Export
+    .ctx-mesh-import = Netzimport
+    .ctx-slicing = G-Code-Slicing
+    .threemf-out-no-mesh = 3MFOUT: Keine 3D-Netzdaten in dieser Zeichnung.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: Aufruf GCODESET <Name> <Wert>. Einstellungen: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: Keine 3D-Netzdaten in dieser Zeichnung.
+    .cura-not-found-pick = CURA: Cura wurde nicht gefunden. Wählen Sie die Programmdatei (CURAPATH merkt sie sich).
+    .gcode-no-mesh = GCODE: Keine 3D-Netzdaten in dieser Zeichnung.
+    .gcode-running = GCODE: Es läuft bereits ein Slicing.
+    .gcode-no-engine = GCODE: CuraEngine oder die Druckerdefinitionen wurden nicht gefunden. Installieren Sie UltiMaker Cura und zeigen Sie mit CURAPATH darauf.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine oder die Druckerdefinitionen wurden neben Cura nicht gefunden; GCODE braucht beides, CURA nicht.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ Netz(e) aus "__ocs_fmt_1__" importiert.
+    .threemf-out-done = 3MFOUT: exportiert nach "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura wurde nicht gefunden. Wählen Sie es mit CURAPATH aus.
+    .cura-opened = CURA: "__ocs_fmt_0__" in __ocs_fmt_1__ geöffnet
+    .gcode-slicing = GCODE: Slicing mit CuraEngine …
+    .gcode-done = GCODE: "__ocs_fmt_0__" geschrieben – Druckzeit __ocs_fmt_1__, Filament __ocs_fmt_2__, __ocs_fmt_3__ Schichten
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        exportieren

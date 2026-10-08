@@ -6181,3 +6181,52 @@ assistant =
     .understands-images = يفهم الصور
     .add-model = إضافة نموذج
     .remove-model = إزالة النموذج
+
+print3d =
+    .group-title = طباعة ثلاثية الأبعاد
+    .label-import-mesh =
+        استيراد
+        شبكة
+    .label-export-3mf =
+        تصدير
+        3MF
+    .label-send-cura =
+        إرسال
+        إلى Cura
+    .label-slice-gcode =
+        تقطيع
+        G-code
+    .import-mesh = استيراد شبكة
+    .mesh-files = ملفات الشبكات
+    .export-3mf = تصدير 3MF
+    .threemf-files = ملفات 3MF
+    .select-cura = اختر الملف التنفيذي لـ Cura
+    .save-gcode = حفظ G-code
+    .gcode-files = ملفات G-code
+    .ctx-3mf-export = تصدير 3MF
+    .ctx-mesh-import = استيراد الشبكة
+    .ctx-slicing = تقطيع G-code
+    .threemf-out-no-mesh = 3MFOUT: لا توجد بيانات شبكة ثلاثية الأبعاد في هذا الرسم.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: الاستخدام GCODESET <الاسم> <القيمة>. الإعدادات: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: لا توجد بيانات شبكة ثلاثية الأبعاد في هذا الرسم.
+    .cura-not-found-pick = CURA: لم يتم العثور على Cura. اختر ملفه التنفيذي (CURAPATH يتذكره).
+    .gcode-no-mesh = GCODE: لا توجد بيانات شبكة ثلاثية الأبعاد في هذا الرسم.
+    .gcode-running = GCODE: عملية تقطيع قيد التشغيل بالفعل.
+    .gcode-no-engine = GCODE: لم يتم العثور على CuraEngine أو تعريفات الطابعة. ثبّت UltiMaker Cura وشغّل CURAPATH للإشارة إليه.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: لم يتم العثور على CuraEngine أو تعريفات الطابعة بجوار Cura؛ يحتاجهما GCODE بينما يعمل CURA بدونهما.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: تم استيراد __ocs_fmt_0__ شبكة من "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: تم التصدير إلى "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: لم يتم العثور على Cura. شغّل CURAPATH لاختياره.
+    .cura-opened = CURA: تم فتح "__ocs_fmt_0__" في __ocs_fmt_1__
+    .gcode-slicing = GCODE: جارٍ التقطيع بواسطة CuraEngine…
+    .gcode-done = GCODE: كُتب "__ocs_fmt_0__" — وقت الطباعة __ocs_fmt_1__، الخيوط __ocs_fmt_2__، __ocs_fmt_3__ طبقة
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        تصدير
+        STL

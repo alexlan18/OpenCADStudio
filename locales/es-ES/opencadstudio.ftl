@@ -6169,3 +6169,52 @@ assistant =
     .understands-images = Entiende imágenes
     .add-model = Añadir modelo
     .remove-model = Quitar modelo
+
+print3d =
+    .group-title = Impresión 3D
+    .label-import-mesh =
+        Importar
+        malla
+    .label-export-3mf =
+        Exportar
+        3MF
+    .label-send-cura =
+        Enviar
+        a Cura
+    .label-slice-gcode =
+        Laminar
+        G-code
+    .import-mesh = Importar malla
+    .mesh-files = Archivos de malla
+    .export-3mf = Exportar 3MF
+    .threemf-files = Archivos 3MF
+    .select-cura = Seleccione el ejecutable de Cura
+    .save-gcode = Guardar G-code
+    .gcode-files = Archivos G-code
+    .ctx-3mf-export = Exportación 3MF
+    .ctx-mesh-import = Importación de malla
+    .ctx-slicing = Laminado G-code
+    .threemf-out-no-mesh = 3MFOUT: no hay datos de malla 3D en este dibujo.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: uso GCODESET <nombre> <valor>. Ajustes: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: no hay datos de malla 3D en este dibujo.
+    .cura-not-found-pick = CURA: no se encontró Cura. Seleccione su ejecutable (CURAPATH lo recuerda).
+    .gcode-no-mesh = GCODE: no hay datos de malla 3D en este dibujo.
+    .gcode-running = GCODE: ya hay un laminado en curso.
+    .gcode-no-engine = GCODE: no se encontró CuraEngine ni sus definiciones de impresora. Instale UltiMaker Cura y ejecute CURAPATH para indicarlo.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: no se encontró CuraEngine ni sus definiciones junto a Cura; GCODE los necesita, CURA no.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ malla(s) importada(s) desde "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: exportado a "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: no se encontró Cura. Ejecute CURAPATH para seleccionarlo.
+    .cura-opened = CURA: "__ocs_fmt_0__" abierto en __ocs_fmt_1__
+    .gcode-slicing = GCODE: laminando con CuraEngine…
+    .gcode-done = GCODE: escrito "__ocs_fmt_0__" — tiempo __ocs_fmt_1__, filamento __ocs_fmt_2__, __ocs_fmt_3__ capas
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Exportar
+        STL

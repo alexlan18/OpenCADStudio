@@ -6168,3 +6168,52 @@ assistant =
     .understands-images = Rozumie obrazy
     .add-model = Dodaj model
     .remove-model = Usuń model
+
+print3d =
+    .group-title = Druk 3D
+    .label-import-mesh =
+        Importuj
+        siatkę
+    .label-export-3mf =
+        Eksportuj
+        3MF
+    .label-send-cura =
+        Wyślij
+        do Cury
+    .label-slice-gcode =
+        Cięcie
+        G-code
+    .import-mesh = Importuj siatkę
+    .mesh-files = Pliki siatek
+    .export-3mf = Eksportuj 3MF
+    .threemf-files = Pliki 3MF
+    .select-cura = Wybierz plik wykonywalny Cura
+    .save-gcode = Zapisz G-code
+    .gcode-files = Pliki G-code
+    .ctx-3mf-export = Eksport 3MF
+    .ctx-mesh-import = Import siatki
+    .ctx-slicing = Cięcie G-code
+    .threemf-out-no-mesh = 3MFOUT: brak danych siatki 3D w tym rysunku.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: użycie GCODESET <nazwa> <wartość>. Ustawienia: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: brak danych siatki 3D w tym rysunku.
+    .cura-not-found-pick = CURA: nie znaleziono Cury. Wybierz jej plik wykonywalny (CURAPATH go zapamięta).
+    .gcode-no-mesh = GCODE: brak danych siatki 3D w tym rysunku.
+    .gcode-running = GCODE: cięcie już trwa.
+    .gcode-no-engine = GCODE: nie znaleziono CuraEngine ani definicji drukarki. Zainstaluj UltiMaker Cura i wskaż ją poleceniem CURAPATH.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: obok Cury nie znaleziono CuraEngine ani definicji drukarki; GCODE ich wymaga, CURA nie.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: zaimportowano __ocs_fmt_0__ siatek z "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: wyeksportowano do "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: nie znaleziono Cury. Uruchom CURAPATH, aby ją wybrać.
+    .cura-opened = CURA: otwarto "__ocs_fmt_0__" w __ocs_fmt_1__
+    .gcode-slicing = GCODE: cięcie w CuraEngine…
+    .gcode-done = GCODE: zapisano "__ocs_fmt_0__" — czas druku __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ warstw
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Eksportuj
+        STL

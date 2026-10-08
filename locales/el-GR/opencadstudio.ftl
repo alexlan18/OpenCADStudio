@@ -6169,3 +6169,52 @@ assistant =
     .understands-images = Κατανοεί εικόνες
     .add-model = Προσθήκη μοντέλου
     .remove-model = Αφαίρεση μοντέλου
+
+print3d =
+    .group-title = Εκτύπωση 3D
+    .label-import-mesh =
+        Εισαγωγή
+        πλέγματος
+    .label-export-3mf =
+        Εξαγωγή
+        3MF
+    .label-send-cura =
+        Αποστολή
+        στο Cura
+    .label-slice-gcode =
+        Τεμαχισμός
+        G-code
+    .import-mesh = Εισαγωγή πλέγματος
+    .mesh-files = Αρχεία πλέγματος
+    .export-3mf = Εξαγωγή 3MF
+    .threemf-files = Αρχεία 3MF
+    .select-cura = Επιλέξτε το εκτελέσιμο του Cura
+    .save-gcode = Αποθήκευση G-code
+    .gcode-files = Αρχεία G-code
+    .ctx-3mf-export = Εξαγωγή 3MF
+    .ctx-mesh-import = Εισαγωγή πλέγματος
+    .ctx-slicing = Τεμαχισμός G-code
+    .threemf-out-no-mesh = 3MFOUT: δεν υπάρχουν δεδομένα πλέγματος 3D στο σχέδιο.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: χρήση GCODESET <όνομα> <τιμή>. Ρυθμίσεις: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: δεν υπάρχουν δεδομένα πλέγματος 3D στο σχέδιο.
+    .cura-not-found-pick = CURA: το Cura δεν βρέθηκε. Επιλέξτε το εκτελέσιμό του (το CURAPATH το θυμάται).
+    .gcode-no-mesh = GCODE: δεν υπάρχουν δεδομένα πλέγματος 3D στο σχέδιο.
+    .gcode-running = GCODE: εκτελείται ήδη τεμαχισμός.
+    .gcode-no-engine = GCODE: δεν βρέθηκε το CuraEngine ή οι ορισμοί εκτυπωτή. Εγκαταστήστε το UltiMaker Cura και υποδείξτε το με CURAPATH.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: δίπλα στο Cura δεν βρέθηκε το CuraEngine ή οι ορισμοί εκτυπωτή· το GCODE τα χρειάζεται, το CURA όχι.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: εισήχθησαν __ocs_fmt_0__ πλέγματα από "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: εξαγωγή σε "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: το Cura δεν βρέθηκε. Εκτελέστε CURAPATH για να το επιλέξετε.
+    .cura-opened = CURA: άνοιξε το "__ocs_fmt_0__" στο __ocs_fmt_1__
+    .gcode-slicing = GCODE: τεμαχισμός με το CuraEngine…
+    .gcode-done = GCODE: γράφτηκε το "__ocs_fmt_0__" — χρόνος __ocs_fmt_1__, νήμα __ocs_fmt_2__, __ocs_fmt_3__ στρώσεις
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Εξαγωγή
+        STL

@@ -6169,3 +6169,52 @@ assistant =
     .understands-images = Entende imagens
     .add-model = Adicionar modelo
     .remove-model = Remover modelo
+
+print3d =
+    .group-title = Impressão 3D
+    .label-import-mesh =
+        Importar
+        malha
+    .label-export-3mf =
+        Exportar
+        3MF
+    .label-send-cura =
+        Enviar
+        para o Cura
+    .label-slice-gcode =
+        Fatiar
+        G-code
+    .import-mesh = Importar malha
+    .mesh-files = Arquivos de malha
+    .export-3mf = Exportar 3MF
+    .threemf-files = Arquivos 3MF
+    .select-cura = Selecione o executável do Cura
+    .save-gcode = Salvar G-code
+    .gcode-files = Arquivos G-code
+    .ctx-3mf-export = Exportação 3MF
+    .ctx-mesh-import = Importação de malha
+    .ctx-slicing = Fatiamento G-code
+    .threemf-out-no-mesh = 3MFOUT: não há dados de malha 3D neste desenho.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: uso GCODESET <nome> <valor>. Configurações: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: não há dados de malha 3D neste desenho.
+    .cura-not-found-pick = CURA: o Cura não foi encontrado. Selecione o executável (CURAPATH o memoriza).
+    .gcode-no-mesh = GCODE: não há dados de malha 3D neste desenho.
+    .gcode-running = GCODE: já há um fatiamento em andamento.
+    .gcode-no-engine = GCODE: CuraEngine ou as definições de impressora não foram encontrados. Instale o UltiMaker Cura e execute CURAPATH para apontá-lo.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine ou as definições de impressora não foram encontrados junto ao Cura; GCODE precisa de ambos, CURA não.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ malha(s) importada(s) de "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: exportado para "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: o Cura não foi encontrado. Execute CURAPATH para selecioná-lo.
+    .cura-opened = CURA: "__ocs_fmt_0__" aberto em __ocs_fmt_1__
+    .gcode-slicing = GCODE: fatiando com o CuraEngine…
+    .gcode-done = GCODE: gravado "__ocs_fmt_0__" — tempo __ocs_fmt_1__, filamento __ocs_fmt_2__, __ocs_fmt_3__ camadas
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Exportar
+        STL

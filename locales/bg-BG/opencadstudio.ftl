@@ -6169,3 +6169,52 @@ assistant =
     .understands-images = Разбира изображения
     .add-model = Добави модел
     .remove-model = Премахни модела
+
+print3d =
+    .group-title = 3D печат
+    .label-import-mesh =
+        Импорт
+        на мрежа
+    .label-export-3mf =
+        Експорт
+        3MF
+    .label-send-cura =
+        Изпрати
+        в Cura
+    .label-slice-gcode =
+        Нарязване
+        G-code
+    .import-mesh = Импорт на мрежа
+    .mesh-files = Файлове с мрежи
+    .export-3mf = Експорт 3MF
+    .threemf-files = 3MF файлове
+    .select-cura = Изберете изпълнимия файл на Cura
+    .save-gcode = Запази G-code
+    .gcode-files = G-code файлове
+    .ctx-3mf-export = 3MF експорт
+    .ctx-mesh-import = Импорт на мрежа
+    .ctx-slicing = Нарязване G-code
+    .threemf-out-no-mesh = 3MFOUT: в чертежа няма 3D мрежови данни.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: употреба GCODESET <име> <стойност>. Настройки: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: в чертежа няма 3D мрежови данни.
+    .cura-not-found-pick = CURA: Cura не е намерена. Изберете изпълнимия файл (CURAPATH го запомня).
+    .gcode-no-mesh = GCODE: в чертежа няма 3D мрежови данни.
+    .gcode-running = GCODE: вече тече нарязване.
+    .gcode-no-engine = GCODE: CuraEngine или дефинициите на принтера не са намерени. Инсталирайте UltiMaker Cura и ги посочете с CURAPATH.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine или дефинициите на принтера не са до Cura; GCODE се нуждае от тях, CURA не.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: импортирани __ocs_fmt_0__ мрежи от "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: експортирано в "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura не е намерена. Изпълнете CURAPATH, за да я изберете.
+    .cura-opened = CURA: "__ocs_fmt_0__" е отворен в __ocs_fmt_1__
+    .gcode-slicing = GCODE: нарязване с CuraEngine…
+    .gcode-done = GCODE: записан "__ocs_fmt_0__" — време __ocs_fmt_1__, филамент __ocs_fmt_2__, __ocs_fmt_3__ слоя
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Експорт
+        STL

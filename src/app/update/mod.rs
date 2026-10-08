@@ -95,7 +95,7 @@ mod context_menu;
 mod blocks_palette;
 mod dialog;
 mod dynamic;
-mod file;
+pub(in crate::app) mod file;
 pub(in crate::app) use file::background_task;
 mod page_setup_import;
 mod style;
@@ -1836,6 +1836,7 @@ impl OpenCADStudio {
             Message::PcManager(message) => self.update_pc_manager(message),
             Message::Count(message) => self.on_count(message),
             Message::Assistant(message) => self.on_assistant(message),
+            Message::Print3d(message) => self.on_print3d(message),
             Message::SheetSet(message) => self.on_sheet_set(message),
             Message::RibbonSelectTab(idx) => {
                 self.ribbon.select(idx);

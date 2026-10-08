@@ -716,6 +716,7 @@ impl OpenCADStudio {
             auto_constrain: self.auto_constrain_settings.clone(),
             constraint_solve_mode: self.constraint_solve_mode,
             assistant: self.assistant.settings.clone(),
+            print3d: self.print3d_settings.clone(),
             constraint_infer: self.constraint_infer,
             constraint_bar_display: self.constraint_bar_display,
             constraint_bar_mode: self.constraint_bar_mode,
@@ -850,6 +851,7 @@ impl OpenCADStudio {
             format!("{}", self.auto_constrain_settings.angle_tolerance_deg);
         self.constraint_solve_mode = s.constraint_solve_mode;
         self.assistant.settings = s.assistant.clone();
+        self.print3d_settings = s.print3d.clone();
         self.assistant.settings.normalize();
         self.assistant.editing = self.assistant.settings.active.clone();
         self.assistant.show = s.assistant.panel_open;
@@ -2111,16 +2113,24 @@ impl OpenCADStudio {
         // STL gets the highest-resolution LOD (slot 0) so the
         // exported geometry isn't downgraded by the view-dependent
         // mesh LOD ladder used for rendering.
-        let meshes: Vec<crate::scene::model::mesh_model::MeshModel> = self.tabs[i]
+        let mut meshes: Vec<crate::scene::model::mesh_model::MeshModel> = self.tabs[i]
             .scene
             .meshes
             .values()
             .filter_map(|s| s.lods.first().cloned())
             .collect();
+        // STL carries no unit; slicers read it as millimetres, so convert
+        // from the drawing's INSUNITS (a unitless drawing counts as mm).
+        let scale = crate::app::print3d::drawing_unit_mm(
+            self.tabs[i].scene.document.header.insertion_units,
+        );
         let worker_path = path.clone();
         background_task(
             crate::t!("STL export"),
             move || {
+                for mesh in &mut meshes {
+                    crate::app::print3d::scale_mesh(mesh, scale);
+                }
                 let mesh_refs: Vec<_> = meshes.iter().collect();
                 let bytes = crate::io::stl::build_stl(&mesh_refs)
                     .ok_or_else(|| "no mesh data to export".to_string())?;

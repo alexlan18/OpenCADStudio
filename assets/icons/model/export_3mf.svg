@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Export 3MF">
+  <g stroke="#526B80" stroke-width="1.1" stroke-linejoin="round" fill="#DCE7F0">
+    <path d="M6 12 16 7 26 12 16 17Z"/>
+    <path d="M6 12 16 17V25L6 20Z" fill="#A9BFCE"/>
+    <path d="M16 17 26 12V20L16 25Z" fill="#718C9E"/>
+  </g>
+  <path d="M26 30v-8M22.5 25.5 26 22l3.5 3.5" fill="none" stroke="#2F7D4F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -6166,3 +6166,52 @@ assistant =
     .understands-images = Ymmärtää kuvia
     .add-model = Lisää malli
     .remove-model = Poista malli
+
+print3d =
+    .group-title = 3D-tulostus
+    .label-import-mesh =
+        Tuo
+        verkko
+    .label-export-3mf =
+        Vie
+        3MF
+    .label-send-cura =
+        Lähetä
+        Curaan
+    .label-slice-gcode =
+        Viipaloi
+        G-code
+    .import-mesh = Tuo verkko
+    .mesh-files = Verkkotiedostot
+    .export-3mf = Vie 3MF
+    .threemf-files = 3MF-tiedostot
+    .select-cura = Valitse Curan suoritettava tiedosto
+    .save-gcode = Tallenna G-code
+    .gcode-files = G-code-tiedostot
+    .ctx-3mf-export = 3MF-vienti
+    .ctx-mesh-import = Verkon tuonti
+    .ctx-slicing = G-code-viipalointi
+    .threemf-out-no-mesh = 3MFOUT: piirustuksessa ei ole 3D-verkkodataa.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: käyttö GCODESET <nimi> <arvo>. Asetukset: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: piirustuksessa ei ole 3D-verkkodataa.
+    .cura-not-found-pick = CURA: Curaa ei löytynyt. Valitse sen suoritettava tiedosto (CURAPATH muistaa sen).
+    .gcode-no-mesh = GCODE: piirustuksessa ei ole 3D-verkkodataa.
+    .gcode-running = GCODE: viipalointi on jo käynnissä.
+    .gcode-no-engine = GCODE: CuraEnginea tai tulostinmäärityksiä ei löytynyt. Asenna UltiMaker Cura ja osoita siihen CURAPATH-komennolla.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEnginea tai tulostinmäärityksiä ei löytynyt Curan vierestä; GCODE tarvitsee molemmat, CURA ei.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: tuotiin __ocs_fmt_0__ verkkoa tiedostosta "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: viety kohteeseen "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Curaa ei löytynyt. Valitse se CURAPATH-komennolla.
+    .cura-opened = CURA: "__ocs_fmt_0__" avattu ohjelmassa __ocs_fmt_1__
+    .gcode-slicing = GCODE: viipaloidaan CuraEnginellä…
+    .gcode-done = GCODE: kirjoitettiin "__ocs_fmt_0__" — tulostusaika __ocs_fmt_1__, filamentti __ocs_fmt_2__, __ocs_fmt_3__ kerrosta
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Vie
+        STL

@@ -6164,3 +6164,52 @@ assistant =
     .understands-images = 支援影像輸入
     .add-model = 新增模型
     .remove-model = 移除模型
+
+print3d =
+    .group-title = 3D 列印
+    .label-import-mesh =
+        匯入
+        網格
+    .label-export-3mf =
+        匯出
+        3MF
+    .label-send-cura =
+        傳送到
+        Cura
+    .label-slice-gcode =
+        切片
+        G-code
+    .import-mesh = 匯入網格
+    .mesh-files = 網格檔案
+    .export-3mf = 匯出 3MF
+    .threemf-files = 3MF 檔案
+    .select-cura = 選擇 Cura 可執行檔
+    .save-gcode = 儲存 G-code
+    .gcode-files = G-code 檔案
+    .ctx-3mf-export = 3MF 匯出
+    .ctx-mesh-import = 網格匯入
+    .ctx-slicing = G-code 切片
+    .threemf-out-no-mesh = 3MFOUT：此圖面中沒有 3D 網格資料。
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET：用法 GCODESET <名稱> <值>。可用設定：__ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA：此圖面中沒有 3D 網格資料。
+    .cura-not-found-pick = CURA：找不到 Cura。請選擇其可執行檔（CURAPATH 會記住）。
+    .gcode-no-mesh = GCODE：此圖面中沒有 3D 網格資料。
+    .gcode-running = GCODE：已有切片工作在執行。
+    .gcode-no-engine = GCODE：找不到 CuraEngine 或其印表機定義。請安裝 UltiMaker Cura 並執行 CURAPATH 指定其位置。
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH：Cura 旁邊找不到 CuraEngine 或印表機定義；GCODE 需要兩者，CURA 不需要。
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT：已從 "__ocs_fmt_1__" 匯入 __ocs_fmt_0__ 個網格。
+    .threemf-out-done = 3MFOUT：已匯出到 "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA：找不到 Cura。請執行 CURAPATH 選擇它。
+    .cura-opened = CURA：已用 __ocs_fmt_1__ 開啟 "__ocs_fmt_0__"
+    .gcode-slicing = GCODE：正在用 CuraEngine 切片…
+    .gcode-done = GCODE：已寫入 "__ocs_fmt_0__"——列印時間 __ocs_fmt_1__，耗材 __ocs_fmt_2__，共 __ocs_fmt_3__ 層
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        匯出
+        STL

@@ -6157,3 +6157,52 @@ assistant =
     .understands-images = छवियाँ समझता है
     .add-model = मॉडल जोड़ें
     .remove-model = मॉडल हटाएँ
+
+print3d =
+    .group-title = 3D प्रिंट
+    .label-import-mesh =
+        मेश
+        आयात
+    .label-export-3mf =
+        3MF
+        निर्यात
+    .label-send-cura =
+        Cura को
+        भेजें
+    .label-slice-gcode =
+        स्लाइस
+        G-code
+    .import-mesh = मेश आयात करें
+    .mesh-files = मेश फ़ाइलें
+    .export-3mf = 3MF निर्यात करें
+    .threemf-files = 3MF फ़ाइलें
+    .select-cura = Cura एक्ज़ीक्यूटेबल चुनें
+    .save-gcode = G-code सहेजें
+    .gcode-files = G-code फ़ाइलें
+    .ctx-3mf-export = 3MF निर्यात
+    .ctx-mesh-import = मेश आयात
+    .ctx-slicing = G-code स्लाइसिंग
+    .threemf-out-no-mesh = 3MFOUT: इस ड्राइंग में कोई 3D मेश डेटा नहीं है।
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: उपयोग GCODESET <नाम> <मान>। सेटिंग्स: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: इस ड्राइंग में कोई 3D मेश डेटा नहीं है।
+    .cura-not-found-pick = CURA: Cura नहीं मिला। इसका एक्ज़ीक्यूटेबल चुनें (CURAPATH इसे याद रखता है)।
+    .gcode-no-mesh = GCODE: इस ड्राइंग में कोई 3D मेश डेटा नहीं है।
+    .gcode-running = GCODE: एक स्लाइस पहले से चल रही है।
+    .gcode-no-engine = GCODE: CuraEngine या प्रिंटर परिभाषाएँ नहीं मिलीं। UltiMaker Cura स्थापित करें और CURAPATH से उसका पथ बताएँ।
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: Cura के साथ CuraEngine या प्रिंटर परिभाषाएँ नहीं मिलीं; GCODE को दोनों चाहिए, CURA को नहीं।
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: "__ocs_fmt_1__" से __ocs_fmt_0__ मेश आयात किए गए।
+    .threemf-out-done = 3MFOUT: "__ocs_fmt_0__" में निर्यात किया गया
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura नहीं मिला। चुनने के लिए CURAPATH चलाएँ।
+    .cura-opened = CURA: "__ocs_fmt_0__" को __ocs_fmt_1__ में खोला गया
+    .gcode-slicing = GCODE: CuraEngine से स्लाइस हो रहा है…
+    .gcode-done = GCODE: "__ocs_fmt_0__" लिखा — प्रिंट समय __ocs_fmt_1__, फ़िलामेंट __ocs_fmt_2__, __ocs_fmt_3__ परतें
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        निर्यात

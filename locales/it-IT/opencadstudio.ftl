@@ -6168,3 +6168,52 @@ assistant =
     .understands-images = Comprende le immagini
     .add-model = Aggiungi modello
     .remove-model = Rimuovi modello
+
+print3d =
+    .group-title = Stampa 3D
+    .label-import-mesh =
+        Importa
+        mesh
+    .label-export-3mf =
+        Esporta
+        3MF
+    .label-send-cura =
+        Invia
+        a Cura
+    .label-slice-gcode =
+        Slicing
+        G-code
+    .import-mesh = Importa mesh
+    .mesh-files = File mesh
+    .export-3mf = Esporta 3MF
+    .threemf-files = File 3MF
+    .select-cura = Seleziona l'eseguibile di Cura
+    .save-gcode = Salva G-code
+    .gcode-files = File G-code
+    .ctx-3mf-export = Esportazione 3MF
+    .ctx-mesh-import = Importazione mesh
+    .ctx-slicing = Slicing G-code
+    .threemf-out-no-mesh = 3MFOUT: nessun dato mesh 3D in questo disegno.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: uso GCODESET <nome> <valore>. Impostazioni: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: nessun dato mesh 3D in questo disegno.
+    .cura-not-found-pick = CURA: Cura non trovato. Seleziona l'eseguibile (CURAPATH lo ricorda).
+    .gcode-no-mesh = GCODE: nessun dato mesh 3D in questo disegno.
+    .gcode-running = GCODE: uno slicing è già in corso.
+    .gcode-no-engine = GCODE: CuraEngine o le definizioni della stampante non sono stati trovati. Installa UltiMaker Cura ed esegui CURAPATH per indicarlo.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine o le definizioni della stampante non sono accanto a Cura; GCODE ne ha bisogno, CURA no.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ mesh importate da "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: esportato in "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura non trovato. Esegui CURAPATH per selezionarlo.
+    .cura-opened = CURA: "__ocs_fmt_0__" aperto in __ocs_fmt_1__
+    .gcode-slicing = GCODE: slicing con CuraEngine…
+    .gcode-done = GCODE: scritto "__ocs_fmt_0__" — tempo __ocs_fmt_1__, filamento __ocs_fmt_2__, __ocs_fmt_3__ strati
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Esporta
+        STL

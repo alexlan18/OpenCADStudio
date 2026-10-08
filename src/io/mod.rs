@@ -17,6 +17,7 @@ pub mod print_to_printer;
 pub mod recovery;
 pub mod step;
 pub mod stl;
+pub mod threemf;
 pub mod xref;
 pub mod xref_model;
 pub mod linetypes;

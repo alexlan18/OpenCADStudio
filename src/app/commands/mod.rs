@@ -335,6 +335,9 @@ impl OpenCADStudio {
         if let Some(t) = self.dispatch_assistant(cmd, i) {
             return Some(t);
         }
+        if let Some(t) = self.dispatch_print3d(cmd, i) {
+            return Some(t);
+        }
         if let Some(t) = self.dispatch_draw(cmd, i) {
             return Some(t);
         }

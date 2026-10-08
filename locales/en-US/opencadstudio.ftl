@@ -6170,3 +6170,52 @@ assistant =
     .understands-images = Understands images
     .add-model = Add model
     .remove-model = Remove model
+
+print3d =
+    .group-title = 3D Print
+    .label-import-mesh =
+        Import
+        Mesh
+    .label-export-3mf =
+        Export
+        3MF
+    .label-send-cura =
+        Send to
+        Cura
+    .label-slice-gcode =
+        Slice
+        G-code
+    .import-mesh = Import Mesh
+    .mesh-files = Mesh Files
+    .export-3mf = Export 3MF
+    .threemf-files = 3MF Files
+    .select-cura = Select the Cura executable
+    .save-gcode = Save G-code
+    .gcode-files = G-code Files
+    .ctx-3mf-export = 3MF export
+    .ctx-mesh-import = Mesh import
+    .ctx-slicing = G-code slicing
+    .threemf-out-no-mesh = 3MFOUT: no 3D mesh data in this drawing.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: usage GCODESET <name> <value>. Settings: {}
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: no 3D mesh data in this drawing.
+    .cura-not-found-pick = CURA: Cura was not found. Select its executable (CURAPATH remembers it).
+    .gcode-no-mesh = GCODE: no 3D mesh data in this drawing.
+    .gcode-running = GCODE: a slice is already running.
+    .gcode-no-engine = GCODE: CuraEngine or its printer definitions were not found. Install UltiMaker Cura and run CURAPATH to point at it.
+    .curapath-using = CURAPATH: using "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine or its printer definitions were not found next to Cura; GCODE needs both, CURA works without them.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: imported {} mesh(es) from "{}".
+    .threemf-out-done = 3MFOUT: exported to "{}"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura was not found. Run CURAPATH to select it.
+    .cura-opened = CURA: opened "{}" in {}
+    .gcode-slicing = GCODE: slicing with CuraEngine…
+    .gcode-done = GCODE: wrote "{}" — print time {}, filament {}, {} layers
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Export
+        STL

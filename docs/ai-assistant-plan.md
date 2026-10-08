@@ -104,3 +104,15 @@ MCP 的 4 个工具（`ocs_sessions`、`ocs_read`、`ocs_execute`、`ocs_capture
    ```
 
    为给磁盘腾空间，已删除 `target/debug/incremental`（约 1 GB 的增量编译缓存，可随时重建）。
+
+## 6. Cura 集成（2026-10-08）
+
+用户要求"将本项目代码和 Ultimaker/Cura 合并，实现 CAD 与模型文件切换并集成在一个软件中"。**源码级合并不可行**：Cura 是 Python + PyQt6（Uranium 框架）加 C++ 的 CuraEngine，与本项目（Rust + iced）语言、框架、运行时完全不同，且 Cura 前端 LGPL-3、引擎 AGPL-3，二者约 30 万行代码无法嵌入本程序。采用的方案是把"建模 → 打印"做成一条工作流，见 `docs/3d-print.md`：
+
+- 网格导入（STL/3MF/OBJ，按图纸单位缩放）、3MF 导出；
+- `CURA`：导出 3MF 并直接在已安装的 Cura 中打开（自动探测安装位置，`CURAPATH` 可手动指定）；
+- `GCODE`：在本软件内直接调用 Cura 自带的 CuraEngine 切片并保存 G-code，切片参数用 `GCODESET` 调整；
+- 功能区 Model › 3D Print 四个按钮；所有命令均可由 AI 助手和 MCP 调用。
+
+未做：软件内 G-code 分层预览、特定打印机/材料 Profile（交给 Cura）、File › Open 直接打开 .stl/.3mf。本机无法安装 Cura 验证 CuraEngine 调用，需要在装有 Cura 的机器上实测 `CURA` 与 `GCODE`。
+

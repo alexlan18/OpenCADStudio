@@ -96,6 +96,124 @@ pub fn build_stl(meshes: &[&MeshModel]) -> Option<Vec<u8>> {
     Some(buf)
 }
 
+
+/// Parse an STL file (binary or ASCII) into one mesh with flat per-face
+/// normals. Returns `None` when no triangle could be read.
+pub fn parse_stl(bytes: &[u8], color: [f32; 4]) -> Option<MeshModel> {
+    let tris = if looks_ascii(bytes) {
+        parse_ascii(bytes)
+    } else {
+        parse_binary(bytes)
+    };
+    if tris.is_empty() {
+        return None;
+    }
+    let mut verts = Vec::with_capacity(tris.len() * 3);
+    let mut normals = Vec::with_capacity(tris.len() * 3);
+    let mut indices = Vec::with_capacity(tris.len() * 3);
+    for tri in tris {
+        let n = face_normal(tri);
+        for v in tri {
+            indices.push(verts.len() as u32);
+            verts.push(v);
+            normals.push(n);
+        }
+    }
+    Some(MeshModel {
+        name: String::new(),
+        verts,
+        verts_low: Vec::new(),
+        normals,
+        indices,
+        triangle_material_handles: Vec::new(),
+        triangle_colors: Vec::new(),
+        color,
+        selected: false,
+    })
+}
+
+fn face_normal(tri: [[f32; 3]; 3]) -> [f32; 3] {
+    let [a, b, c] = tri;
+    let u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+    let v = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    let n = [
+        u[1] * v[2] - u[2] * v[1],
+        u[2] * v[0] - u[0] * v[2],
+        u[0] * v[1] - u[1] * v[0],
+    ];
+    let len = (n[0] * n[0] + n[1] * n[1] + n[2] * n[2]).sqrt();
+    if len > 0.0 {
+        [n[0] / len, n[1] / len, n[2] / len]
+    } else {
+        [0.0, 0.0, 1.0]
+    }
+}
+
+/// A binary STL of N triangles is exactly 84 + 50 N bytes; anything else
+/// that starts with `solid` is ASCII.
+fn looks_ascii(bytes: &[u8]) -> bool {
+    if bytes.len() >= 84 {
+        let count = u32::from_le_bytes([bytes[80], bytes[81], bytes[82], bytes[83]]) as usize;
+        if bytes.len() == 84 + count * 50 {
+            return false;
+        }
+    }
+    let start = bytes.iter().take_while(|b| b.is_ascii_whitespace()).count();
+    bytes[start..].starts_with(b"solid")
+}
+
+fn parse_binary(bytes: &[u8]) -> Vec<[[f32; 3]; 3]> {
+    if bytes.len() < 84 {
+        return Vec::new();
+    }
+    let count = u32::from_le_bytes([bytes[80], bytes[81], bytes[82], bytes[83]]) as usize;
+    let available = (bytes.len() - 84) / 50;
+    let f = |at: usize| f32::from_le_bytes([bytes[at], bytes[at + 1], bytes[at + 2], bytes[at + 3]]);
+    (0..count.min(available))
+        .map(|t| {
+            let base = 84 + t * 50 + 12; // skip the normal
+            let v = |k: usize| [f(base + k * 12), f(base + k * 12 + 4), f(base + k * 12 + 8)];
+            [v(0), v(1), v(2)]
+        })
+        .filter(|tri| tri.iter().all(|v| v.iter().all(|c| c.is_finite())))
+        .collect()
+}
+
+fn parse_ascii(bytes: &[u8]) -> Vec<[[f32; 3]; 3]> {
+    let text = String::from_utf8_lossy(bytes);
+    let mut tris = Vec::new();
+    let mut current: Vec<[f32; 3]> = Vec::with_capacity(3);
+    for line in text.lines() {
+        let mut words = line.split_whitespace();
+        match words.next() {
+            Some("vertex") => {
+                let mut v = [0f32; 3];
+                let mut ok = true;
+                for c in &mut v {
+                    *c = match words.next().and_then(|w| w.parse::<f32>().ok()) {
+                        Some(value) if value.is_finite() => value,
+                        _ => {
+                            ok = false;
+                            break;
+                        }
+                    };
+                }
+                if ok {
+                    current.push(v);
+                }
+            }
+            Some("endfacet") => {
+                if current.len() == 3 {
+                    tris.push([current[0], current[1], current[2]]);
+                }
+                current.clear();
+            }
+            _ => {}
+        }
+    }
+    tris
+}
+
 #[cfg(test)]
 mod tests {
     use super::build_stl;
@@ -179,5 +297,32 @@ mod tests {
         );
         let stl = build_stl(&[&mesh]).expect("stl");
         assert_eq!(first_facet_normal(&stl), [0.0, 1.0, 0.0]);
+    }
+
+    #[test]
+    fn stl_round_trips_through_binary_and_reads_ascii() {
+        let mesh = MeshModel {
+            name: String::new(),
+            verts: vec![[0.0, 0.0, 0.0], [10.0, 0.0, 0.0], [0.0, 10.0, 0.0], [0.0, 0.0, 10.0]],
+            verts_low: Vec::new(),
+            normals: Vec::new(),
+            indices: vec![0, 1, 2, 0, 1, 3],
+            triangle_material_handles: Vec::new(),
+            triangle_colors: Vec::new(),
+            color: [1.0; 4],
+            selected: false,
+        };
+        let bytes = build_stl(&[&mesh]).expect("stl");
+        let parsed = super::parse_stl(&bytes, [0.5; 4]).expect("parse binary");
+        assert_eq!(parsed.indices.len(), 6);
+        assert_eq!(parsed.verts.len(), 6);
+        assert_eq!(parsed.verts[1], [10.0, 0.0, 0.0]);
+        assert_eq!(parsed.normals[0], [0.0, 0.0, 1.0]);
+        let ascii = b"solid tri\n facet normal 0 0 1\n  outer loop\n   vertex 0 0 0\n   vertex 1 0 0\n   vertex 0 1 0\n  endloop\n endfacet\nendsolid tri\n";
+        let parsed = super::parse_stl(ascii, [0.5; 4]).expect("parse ascii");
+        assert_eq!(parsed.indices, vec![0, 1, 2]);
+        assert_eq!(parsed.verts[2], [0.0, 1.0, 0.0]);
+        assert!(super::parse_stl(b"solid empty\nendsolid empty\n", [0.5; 4]).is_none());
+        assert!(super::parse_stl(&[0u8; 10], [0.5; 4]).is_none());
     }
 }

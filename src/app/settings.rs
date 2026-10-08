@@ -528,6 +528,8 @@ pub struct UserSettings {
     pub constraint_solve_mode: bool,
     /// Built-in AI assistant: provider, model, key and reasoning effort.
     pub assistant: crate::app::assistant::AssistantSettings,
+    /// 3D printing: where Cura lives and the slicing profile.
+    pub print3d: crate::app::print3d::Print3dSettings,
     /// Apply eligible geometric constraints while creating geometry.
     #[serde(default)]
     pub constraint_infer: bool,
@@ -860,6 +862,7 @@ impl Default for UserSettings {
             auto_constrain: AutoConstrainSettings::default(),
             constraint_solve_mode: true,
             assistant: Default::default(),
+            print3d: Default::default(),
             constraint_infer: false,
             constraint_bar_display: 3,
             constraint_bar_mode: 4095,

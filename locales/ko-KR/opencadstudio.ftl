@@ -6168,3 +6168,52 @@ assistant =
     .understands-images = 이미지 이해 가능
     .add-model = 모델 추가
     .remove-model = 모델 제거
+
+print3d =
+    .group-title = 3D 프린팅
+    .label-import-mesh =
+        메시
+        가져오기
+    .label-export-3mf =
+        3MF
+        내보내기
+    .label-send-cura =
+        Cura로
+        보내기
+    .label-slice-gcode =
+        슬라이스
+        G-code
+    .import-mesh = 메시 가져오기
+    .mesh-files = 메시 파일
+    .export-3mf = 3MF 내보내기
+    .threemf-files = 3MF 파일
+    .select-cura = Cura 실행 파일 선택
+    .save-gcode = G-code 저장
+    .gcode-files = G-code 파일
+    .ctx-3mf-export = 3MF 내보내기
+    .ctx-mesh-import = 메시 가져오기
+    .ctx-slicing = G-code 슬라이싱
+    .threemf-out-no-mesh = 3MFOUT: 이 도면에 3D 메시 데이터가 없습니다.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: 사용법 GCODESET <이름> <값>. 설정: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: 이 도면에 3D 메시 데이터가 없습니다.
+    .cura-not-found-pick = CURA: Cura를 찾을 수 없습니다. 실행 파일을 선택하세요(CURAPATH가 기억합니다).
+    .gcode-no-mesh = GCODE: 이 도면에 3D 메시 데이터가 없습니다.
+    .gcode-running = GCODE: 이미 슬라이싱이 진행 중입니다.
+    .gcode-no-engine = GCODE: CuraEngine 또는 프린터 정의를 찾을 수 없습니다. UltiMaker Cura를 설치하고 CURAPATH로 위치를 지정하세요.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: Cura 옆에서 CuraEngine 또는 프린터 정의를 찾을 수 없습니다. GCODE에는 둘 다 필요하지만 CURA는 필요 없습니다.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: "__ocs_fmt_1__"에서 메시 __ocs_fmt_0__개를 가져왔습니다.
+    .threemf-out-done = 3MFOUT: "__ocs_fmt_0__"(으)로 내보냈습니다
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura를 찾을 수 없습니다. CURAPATH로 선택하세요.
+    .cura-opened = CURA: "__ocs_fmt_0__"을(를) __ocs_fmt_1__(으)로 열었습니다
+    .gcode-slicing = GCODE: CuraEngine으로 슬라이싱 중…
+    .gcode-done = GCODE: "__ocs_fmt_0__" 저장 — 출력 시간 __ocs_fmt_1__, 필라멘트 __ocs_fmt_2__, __ocs_fmt_3__개 레이어
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        내보내기

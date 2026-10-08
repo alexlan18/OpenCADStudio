@@ -14,6 +14,11 @@ use crate::modules::{CadModule, IconKind, ModuleEvent, RibbonGroup, RibbonItem, 
 pub struct ModelModule;
 
 const BOX_ICON: &[u8] = include_bytes!("../../../assets/icons/model/box.svg");
+const MESH_IMPORT_ICON: &[u8] = include_bytes!("../../../assets/icons/model/mesh_import.svg");
+const EXPORT_3MF_ICON: &[u8] = include_bytes!("../../../assets/icons/model/export_3mf.svg");
+const EXPORT_STL_ICON: &[u8] = include_bytes!("../../../assets/icons/model/export_stl.svg");
+const SEND_CURA_ICON: &[u8] = include_bytes!("../../../assets/icons/model/send_cura.svg");
+const SLICE_GCODE_ICON: &[u8] = include_bytes!("../../../assets/icons/model/slice.svg");
 const CYLINDER_ICON: &[u8] = include_bytes!("../../../assets/icons/model/cylinder.svg");
 const CONE_ICON: &[u8] = include_bytes!("../../../assets/icons/model/cone.svg");
 const SPHERE_ICON: &[u8] = include_bytes!("../../../assets/icons/model/sphere.svg");
@@ -95,6 +100,17 @@ impl CadModule for ModelModule {
                         RibbonItem::LargeTool(tool("FILLETEDGE", "Fillet Edge", FILLET_ICON)),
                         RibbonItem::LargeTool(tool("CHAMFEREDGE", "Chamfer", CHAMFER_ICON)),
                         RibbonItem::LargeTool(tool("SHELL", "Shell", SHELL_ICON)),
+                    ],
+                },
+                // ── 3D Print: mesh exchange with slicers and the Cura bridge ──
+                RibbonGroup {
+                    title: "3D Print",
+                    tools: vec![
+                        RibbonItem::LargeTool(tool("MESHIMPORT", "Import\nMesh", MESH_IMPORT_ICON)),
+                        RibbonItem::LargeTool(tool("STLOUT", "Export\nSTL", EXPORT_STL_ICON)),
+                        RibbonItem::LargeTool(tool("3MFOUT", "Export\n3MF", EXPORT_3MF_ICON)),
+                        RibbonItem::LargeTool(tool("CURA", "Send to\nCura", SEND_CURA_ICON)),
+                        RibbonItem::LargeTool(tool("GCODE", "Slice\nG-code", SLICE_GCODE_ICON)),
                     ],
                 },
             ]

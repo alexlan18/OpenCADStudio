@@ -6167,3 +6167,52 @@ assistant =
     .understands-images = Begrijpt afbeeldingen
     .add-model = Model toevoegen
     .remove-model = Model verwijderen
+
+print3d =
+    .group-title = 3D-printen
+    .label-import-mesh =
+        Mesh
+        importeren
+    .label-export-3mf =
+        3MF
+        exporteren
+    .label-send-cura =
+        Naar Cura
+        sturen
+    .label-slice-gcode =
+        Slicen
+        G-code
+    .import-mesh = Mesh importeren
+    .mesh-files = Meshbestanden
+    .export-3mf = 3MF exporteren
+    .threemf-files = 3MF-bestanden
+    .select-cura = Selecteer het Cura-programma
+    .save-gcode = G-code opslaan
+    .gcode-files = G-code-bestanden
+    .ctx-3mf-export = 3MF-export
+    .ctx-mesh-import = Mesh-import
+    .ctx-slicing = G-code slicen
+    .threemf-out-no-mesh = 3MFOUT: geen 3D-meshgegevens in deze tekening.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: gebruik GCODESET <naam> <waarde>. Instellingen: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: geen 3D-meshgegevens in deze tekening.
+    .cura-not-found-pick = CURA: Cura niet gevonden. Selecteer het programma (CURAPATH onthoudt het).
+    .gcode-no-mesh = GCODE: geen 3D-meshgegevens in deze tekening.
+    .gcode-running = GCODE: er loopt al een slice.
+    .gcode-no-engine = GCODE: CuraEngine of de printerdefinities zijn niet gevonden. Installeer UltiMaker Cura en voer CURAPATH uit om ernaar te wijzen.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: CuraEngine of de printerdefinities zijn niet naast Cura gevonden; GCODE heeft beide nodig, CURA niet.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: __ocs_fmt_0__ mesh(es) geïmporteerd uit "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT: geëxporteerd naar "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura niet gevonden. Voer CURAPATH uit om het te selecteren.
+    .cura-opened = CURA: "__ocs_fmt_0__" geopend in __ocs_fmt_1__
+    .gcode-slicing = GCODE: slicen met CuraEngine…
+    .gcode-done = GCODE: "__ocs_fmt_0__" geschreven — printtijd __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ lagen
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        exporteren

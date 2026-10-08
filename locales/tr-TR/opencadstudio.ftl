@@ -6092,3 +6092,52 @@ assistant =
     .understands-images = Görselleri anlar
     .add-model = Model ekle
     .remove-model = Modeli kaldır
+
+print3d =
+    .group-title = 3B Baskı
+    .label-import-mesh =
+        Mesh
+        içe aktar
+    .label-export-3mf =
+        3MF
+        dışa aktar
+    .label-send-cura =
+        Cura'ya
+        gönder
+    .label-slice-gcode =
+        Dilimle
+        G-code
+    .import-mesh = Mesh içe aktar
+    .mesh-files = Mesh dosyaları
+    .export-3mf = 3MF dışa aktar
+    .threemf-files = 3MF dosyaları
+    .select-cura = Cura yürütülebilir dosyasını seçin
+    .save-gcode = G-code kaydet
+    .gcode-files = G-code dosyaları
+    .ctx-3mf-export = 3MF dışa aktarma
+    .ctx-mesh-import = Mesh içe aktarma
+    .ctx-slicing = G-code dilimleme
+    .threemf-out-no-mesh = 3MFOUT: bu çizimde 3B mesh verisi yok.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET: kullanım GCODESET <ad> <değer>. Ayarlar: __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA: bu çizimde 3B mesh verisi yok.
+    .cura-not-found-pick = CURA: Cura bulunamadı. Yürütülebilir dosyasını seçin (CURAPATH hatırlar).
+    .gcode-no-mesh = GCODE: bu çizimde 3B mesh verisi yok.
+    .gcode-running = GCODE: zaten bir dilimleme çalışıyor.
+    .gcode-no-engine = GCODE: CuraEngine veya yazıcı tanımları bulunamadı. UltiMaker Cura'yı kurun ve CURAPATH ile konumunu gösterin.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH: Cura'nın yanında CuraEngine veya yazıcı tanımları bulunamadı; GCODE ikisine de ihtiyaç duyar, CURA duymaz.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT: "__ocs_fmt_1__" dosyasından __ocs_fmt_0__ mesh içe aktarıldı.
+    .threemf-out-done = 3MFOUT: "__ocs_fmt_0__" konumuna dışa aktarıldı
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA: Cura bulunamadı. Seçmek için CURAPATH çalıştırın.
+    .cura-opened = CURA: "__ocs_fmt_0__" __ocs_fmt_1__ içinde açıldı
+    .gcode-slicing = GCODE: CuraEngine ile dilimleniyor…
+    .gcode-done = GCODE: "__ocs_fmt_0__" yazıldı — baskı süresi __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ katman
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        STL
+        dışa aktar

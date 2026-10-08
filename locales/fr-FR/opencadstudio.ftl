@@ -6168,3 +6168,52 @@ assistant =
     .understands-images = Comprend les images
     .add-model = Ajouter un modèle
     .remove-model = Supprimer le modèle
+
+print3d =
+    .group-title = Impression 3D
+    .label-import-mesh =
+        Importer
+        maillage
+    .label-export-3mf =
+        Exporter
+        3MF
+    .label-send-cura =
+        Envoyer
+        à Cura
+    .label-slice-gcode =
+        Trancher
+        G-code
+    .import-mesh = Importer un maillage
+    .mesh-files = Fichiers de maillage
+    .export-3mf = Exporter en 3MF
+    .threemf-files = Fichiers 3MF
+    .select-cura = Sélectionner l'exécutable de Cura
+    .save-gcode = Enregistrer le G-code
+    .gcode-files = Fichiers G-code
+    .ctx-3mf-export = Export 3MF
+    .ctx-mesh-import = Import de maillage
+    .ctx-slicing = Tranchage G-code
+    .threemf-out-no-mesh = 3MFOUT : aucune donnée de maillage 3D dans ce dessin.
+    .gcodesettings = GCODESETTINGS: __ocs_fmt_0__
+    .gcodeset-usage = GCODESET : usage GCODESET <nom> <valeur>. Réglages : __ocs_fmt_0__
+    .gcodeset = GCODESET: __ocs_fmt_0__
+    .cura-no-mesh = CURA : aucune donnée de maillage 3D dans ce dessin.
+    .cura-not-found-pick = CURA : Cura est introuvable. Sélectionnez son exécutable (CURAPATH s'en souvient).
+    .gcode-no-mesh = GCODE : aucune donnée de maillage 3D dans ce dessin.
+    .gcode-running = GCODE : un tranchage est déjà en cours.
+    .gcode-no-engine = GCODE : CuraEngine ou ses définitions d'imprimante sont introuvables. Installez UltiMaker Cura et exécutez CURAPATH pour l'indiquer.
+    .curapath-using = CURAPATH: "__ocs_fmt_0__"
+    .curapath-no-engine = CURAPATH : CuraEngine ou ses définitions d'imprimante sont introuvables à côté de Cura ; GCODE en a besoin, CURA non.
+    .meshimport-error = MESHIMPORT: __ocs_fmt_0__
+    .meshimport-done = MESHIMPORT : __ocs_fmt_0__ maillage(s) importé(s) depuis "__ocs_fmt_1__".
+    .threemf-out-done = 3MFOUT : exporté vers "__ocs_fmt_0__"
+    .threemf-out-error = 3MFOUT: __ocs_fmt_0__
+    .cura-error = CURA: __ocs_fmt_0__
+    .cura-not-found = CURA : Cura est introuvable. Exécutez CURAPATH pour le sélectionner.
+    .cura-opened = CURA : "__ocs_fmt_0__" ouvert dans __ocs_fmt_1__
+    .gcode-slicing = GCODE : tranchage avec CuraEngine…
+    .gcode-done = GCODE : "__ocs_fmt_0__" écrit — durée __ocs_fmt_1__, filament __ocs_fmt_2__, __ocs_fmt_3__ couches
+    .gcode-error = GCODE: __ocs_fmt_0__
+    .label-export-stl =
+        Exporter
+        STL

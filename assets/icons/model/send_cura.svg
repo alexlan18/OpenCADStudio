@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Send to Cura">
+  <path d="M5 8h22v18H5Z" fill="#DCE7F0" stroke="#526B80" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M5 8h22v4H5Z" fill="#718C9E" stroke="#526B80" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M12 12v6h8v-6" fill="none" stroke="#526B80" stroke-width="1.1"/>
+  <path d="M16 18v4" stroke="#526B80" stroke-width="1.1"/>
+  <path d="M12 23h8" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round"/>
+</svg>
