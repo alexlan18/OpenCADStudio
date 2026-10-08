@@ -116,3 +116,15 @@ MCP 的 4 个工具（`ocs_sessions`、`ocs_read`、`ocs_execute`、`ocs_capture
 
 未做：软件内 G-code 分层预览、特定打印机/材料 Profile（交给 Cura）、File › Open 直接打开 .stl/.3mf。本机无法安装 Cura 验证 CuraEngine 调用，需要在装有 Cura 的机器上实测 `CURA` 与 `GCODE`。
 
+### 验证状态（2026-10-08，Cura 集成与多模型配置之后）
+
+- 库代码（可执行程序本身）：`cargo check --lib` 在本机通过（含 3MF 解析器生命周期修复 df109208）。
+- 测试代码：`cargo check --tests` 连续三次被内核 OOM 杀掉（SIGKILL），随后本机的 `target/` 与 cargo 缓存被清理以释放磁盘，无法再在本机重建依赖验证。请在开发机或 CI 上运行：
+
+  ```sh
+  cargo check --lib --tests
+  cargo test --lib assistant print3d threemf stl i18n::tests
+  ```
+
+- `CURA` / `GCODE` 需要装有 UltiMaker Cura 的机器实测（CuraEngine 的命令行参数见 `src/app/print3d.rs::engine_args`）。
+
