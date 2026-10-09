@@ -1837,6 +1837,7 @@ impl OpenCADStudio {
             Message::Count(message) => self.on_count(message),
             Message::Assistant(message) => self.on_assistant(message),
             Message::Print3d(message) => self.on_print3d(message),
+            Message::Alu(message) => self.on_alu(message),
             Message::SheetSet(message) => self.on_sheet_set(message),
             Message::RibbonSelectTab(idx) => {
                 self.ribbon.select(idx);

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Connect">
+  <path d="M5 5h8v22H5Z" fill="#DCE7F0" stroke="#526B80" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M13 12h14v8H13Z" fill="#DCE7F0" stroke="#526B80" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M13 8h6v4h-2v-2h-4Z M13 20h4v2h2v4h-6Z" fill="#2F7D4F" stroke="#2F7D4F" stroke-width="0.6" stroke-linejoin="round"/>
+</svg>

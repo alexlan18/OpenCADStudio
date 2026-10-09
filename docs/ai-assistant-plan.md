@@ -128,3 +128,28 @@ MCP 的 4 个工具（`ocs_sessions`、`ocs_read`、`ocs_execute`、`ocs_capture
 
 - `CURA` / `GCODE` 需要装有 UltiMaker Cura 的机器实测（CuraEngine 的命令行参数见 `src/app/print3d.rs::engine_args`）。
 
+## 7. 铝型材设计（2026-10-09）
+
+用户要求参考 MayCAD 增加铝型材设计功能。实现为新的功能区选项卡 **Aluminium**（`src/app/aluprofile.rs`、`src/modules/alu/mod.rs`，文档 `docs/alu-profiles.md`）：
+
+- 参数化 T 型槽型材目录（6/8/10 槽系列，17 种规格，含零件号、重量），截面按模数自动生成并挤出为真实实体（内核 B-rep，减去中心孔）；
+- `ALUPROFILE` 放置（向导：型材按钮 → 长度 → 起点 → 终点）、`ALUFRAME` 一键箱体框架（12 根 + 连接件）；
+- `ALUCONNECT` 自动在端面贴合处放置角码连接件（对应 MayCAD 的自动选择/放置连接件）；
+- `ALUBOM` 带零件号/重量的物料清单表格、`ALUCUTLIST` 原料下料优化（FFD 装箱，默认 6000 mm，锯缝 3 mm）、`ALUBOMCSV` 导出；
+- 成员用 `OCS_ALU` 扩展数据标记，保存后仍可识别；全部命令可被 AI 助手/MCP 调用。
+
+未做：2D 加工图自动生成（用布局视口 + 清单表格替代）、更多连接件种类（角撑、内置连接器、端盖）、厂商精确截面。本机已无构建目录，代码推送后需在开发机编译验证（`cargo check --lib --tests`、`cargo test --lib aluprofile`）。
+
+## 7. 铝型材设计（2026-10-09）
+
+参考 MayTec MayCAD 的工作流（型材目录、按长度/方向放置、整体框架、自动连接件、零件清单、优化切割清单、导出），在本项目中新增 **Aluminium** 功能区选项卡与命令（`src/app/aluprofile.rs`、`src/modules/alu/`，文档 `docs/alu-profiles.md`）：
+
+- `ALUPROFILE`：从目录（20/30/40/45/50/60/80/90 系列，共 17 种规格，含槽宽、芯孔、kg/m）选型材，按长度和方向放置为真实 3D 实体（内核 B-rep 拉伸 + 芯孔布尔），缺少参数时交互式向导补齐；
+- `ALUFRAME`：一条命令生成 12 根型材的箱形框架并自动加角码；
+- `ALUCONNECT`：检测"型材端面贴合另一型材侧面"的接头，自动放置对应系列的角码（重复运行不会重复放置）；
+- `ALULENGTH`：改变选中型材长度；
+- `ALUBOM` / `ALUCUTLIST` / `ALUBOMCSV`：零件清单（表格实体 + 命令行）、按库存长度（默认 6000 mm，锯缝 3 mm）的首次适应递减装箱切割清单、CSV 导出；
+- 型材与角码带 `OCS_ALU` 扩展数据（种类、件号、名称、长度、起点、方向），AI 助手与 MCP 可直接调用全部命令。
+
+未做：MayCAD 的"导出到 SolidWorks"对应为本项目已有的 STEP/STL/3MF 导出；2D 工程图自动生成未做；目录尺寸为通用 T 槽系列近似，可按实际供应商数据调整 `CATALOG`。本机依赖缓存已清空，类型检查需重建依赖（数小时），请在开发机运行 `cargo check --lib --tests` 与 `cargo test --lib aluprofile`。
+

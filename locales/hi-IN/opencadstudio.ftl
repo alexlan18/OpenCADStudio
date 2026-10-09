@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = एनोटेट
     .insert = सम्मिलित करें
     .model = मॉडल
+    .alu = एल्युमिनियम
     .layout = लेआउट
     .manage = प्रबंधित करें
     .view = देखें
@@ -6206,3 +6207,39 @@ print3d =
     .label-export-stl =
         STL
         निर्यात
+
+alu =
+    .profiles = प्रोफ़ाइल
+    .joints = जोड़
+    .lists = सूचियाँ
+    .frame = फ़्रेम
+    .catalog = कैटलॉग
+    .parts-list =
+        पुर्ज़ा
+        सूची
+    .cut-list = कटिंग सूची
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = लंबाई mm (Enter: अंतिम बिंदु चुनें):
+    .prompt-frame-length = फ़्रेम की लंबाई mm:
+    .prompt-frame-width = फ़्रेम की चौड़ाई mm:
+    .prompt-frame-height = फ़्रेम की ऊँचाई mm:
+    .prompt-start = आरंभ बिंदु:
+    .prompt-corner = कोने का बिंदु:
+    .prompt-end = अंतिम बिंदु (दिशा):
+    .opt-end-point = अंतिम बिंदु
+    .unknown-profile = ALUPROFILE: अज्ञात प्रोफ़ाइल "__ocs_fmt_0__"। ALUCATALOG सूची दिखाता है।
+    .solid-failed = ALUPROFILE: ठोस नहीं बनाया जा सका।
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ प्रोफ़ाइल और __ocs_fmt_1__ कनेक्टर रखे गए।
+    .connect-none = ALUCONNECT: कोई नया जोड़ नहीं (प्रोफ़ाइल सिरे दूसरे प्रोफ़ाइल की सतह को छूने चाहिए)।
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: उपयोग ALULENGTH <mm>, पहले प्रोफ़ाइल चुनें।
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: इस ड्राइंग में कोई एल्युमिनियम प्रोफ़ाइल नहीं है।
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = पुर्ज़ा सूची सहेजें
+    .csv-files = CSV फ़ाइलें
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

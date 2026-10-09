@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Profile">
+  <path d="M5 5h22v22H5Z" fill="#DCE7F0" stroke="#526B80" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M13 5v3h-3v3h3v2h6v-2h3V8h-3V5M5 13h3v-3h3v3h2v6h-2v3H8v-3H5M27 13h-3v-3h-3v3h-2v6h2v3h3v-3h3M13 27v-3h-3v-3h3v-2h6v2h3v3h-3v3" fill="#A9BFCE" stroke="#526B80" stroke-width="0.9" stroke-linejoin="round"/>
+  <circle cx="16" cy="16" r="2.2" fill="#718C9E" stroke="#526B80" stroke-width="0.9"/>
+</svg>

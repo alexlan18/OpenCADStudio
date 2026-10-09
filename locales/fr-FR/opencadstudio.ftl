@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Annoter
     .insert = Insérer
     .model = Modèle
+    .alu = Aluminium
     .layout = Mise en page
     .manage = Gérer
     .view = Affichage
@@ -6217,3 +6218,39 @@ print3d =
     .label-export-stl =
         Exporter
         STL
+
+alu =
+    .profiles = Profilés
+    .joints = Assemblages
+    .lists = Listes
+    .frame = Cadre
+    .catalog = Catalogue
+    .parts-list =
+        Nomen-
+        clature
+    .cut-list = Liste de coupe
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Longueur en mm (Entrée : choisir le point final) :
+    .prompt-frame-length = Longueur du cadre en mm :
+    .prompt-frame-width = Largeur du cadre en mm :
+    .prompt-frame-height = Hauteur du cadre en mm :
+    .prompt-start = Point de départ :
+    .prompt-corner = Point d'angle :
+    .prompt-end = Point final (direction) :
+    .opt-end-point = Point final
+    .unknown-profile = ALUPROFILE : profilé inconnu "__ocs_fmt_0__". ALUCATALOG les liste.
+    .solid-failed = ALUPROFILE : le solide n'a pas pu être construit.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME : __ocs_fmt_0__ profilés et __ocs_fmt_1__ connecteurs placés.
+    .connect-none = ALUCONNECT : aucun nouvel assemblage (les extrémités doivent toucher la face d'un autre profilé).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH : usage ALULENGTH <mm> avec les profilés sélectionnés.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM : aucun profilé aluminium dans ce dessin.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Enregistrer la nomenclature
+    .csv-files = Fichiers CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

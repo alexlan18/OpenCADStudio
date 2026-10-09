@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = 注釈
     .insert = 挿入
     .model = モデル
+    .alu = アルミ
     .layout = レイアウト
     .manage = 管理
     .view = 表示
@@ -6206,3 +6207,39 @@ print3d =
     .label-export-stl =
         STL
         エクスポート
+
+alu =
+    .profiles = プロファイル
+    .joints = 接合
+    .lists = リスト
+    .frame = フレーム
+    .catalog = カタログ
+    .parts-list =
+        部品
+        リスト
+    .cut-list = カットリスト
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = 長さ mm（Enter: 終点を指定）:
+    .prompt-frame-length = フレームの長さ mm:
+    .prompt-frame-width = フレームの幅 mm:
+    .prompt-frame-height = フレームの高さ mm:
+    .prompt-start = 始点:
+    .prompt-corner = コーナー点:
+    .prompt-end = 終点（方向）:
+    .opt-end-point = 終点
+    .unknown-profile = ALUPROFILE: 不明なプロファイル "__ocs_fmt_0__"。ALUCATALOG で一覧できます。
+    .solid-failed = ALUPROFILE: ソリッドを作成できませんでした。
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: 部材 __ocs_fmt_0__ 本と接続部品 __ocs_fmt_1__ 個を配置しました。
+    .connect-none = ALUCONNECT: 新しい接合部が見つかりません（部材端が他の部材の面に接している必要があります）。
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: 使い方 ALULENGTH <mm>（先に部材を選択）。
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: この図面にアルミプロファイルがありません。
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = 部品リストを保存
+    .csv-files = CSV ファイル
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

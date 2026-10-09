@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Feliratozás
     .insert = Beszúrás
     .model = Modell
+    .alu = Alumínium
     .layout = Elrendezés
     .manage = Kezelés
     .view = Nézet
@@ -6217,3 +6218,39 @@ print3d =
     .label-export-stl =
         STL
         exportálása
+
+alu =
+    .profiles = Profilok
+    .joints = Kötések
+    .lists = Listák
+    .frame = Keret
+    .catalog = Katalógus
+    .parts-list =
+        Darab-
+        jegyzék
+    .cut-list = Szabásjegyzék
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Hossz mm-ben (Enter: végpont kijelölése):
+    .prompt-frame-length = Keret hossza mm-ben:
+    .prompt-frame-width = Keret szélessége mm-ben:
+    .prompt-frame-height = Keret magassága mm-ben:
+    .prompt-start = Kezdőpont:
+    .prompt-corner = Sarokpont:
+    .prompt-end = Végpont (irány):
+    .opt-end-point = Végpont
+    .unknown-profile = ALUPROFILE: ismeretlen profil "__ocs_fmt_0__". Az ALUCATALOG felsorolja őket.
+    .solid-failed = ALUPROFILE: a test nem hozható létre.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ profil és __ocs_fmt_1__ összekötő elhelyezve.
+    .connect-none = ALUCONNECT: nincs új kötés (a profilvégnek egy másik profil lapját kell érintenie).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: használat ALULENGTH <mm> kijelölt profilokkal.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: nincs alumíniumprofil ebben a rajzban.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Darabjegyzék mentése
+    .csv-files = CSV-fájlok
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

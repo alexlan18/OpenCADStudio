@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = 註解
     .insert = 插入
     .model = 模型
+    .alu = 鋁型材
     .layout = 配置
     .manage = 管理
     .view = 視圖
@@ -6213,3 +6214,39 @@ print3d =
     .label-export-stl =
         匯出
         STL
+
+alu =
+    .profiles = 型材
+    .joints = 連接
+    .lists = 清單
+    .frame = 框架
+    .catalog = 目錄
+    .parts-list =
+        物料
+        清單
+    .cut-list = 切割清單
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = 長度（mm）（Enter：點選終點）：
+    .prompt-frame-length = 框架長度（mm）：
+    .prompt-frame-width = 框架寬度（mm）：
+    .prompt-frame-height = 框架高度（mm）：
+    .prompt-start = 起點：
+    .prompt-corner = 角點：
+    .prompt-end = 終點（方向）：
+    .opt-end-point = 終點
+    .unknown-profile = ALUPROFILE：未知型材 "__ocs_fmt_0__"。ALUCATALOG 可列出全部型材。
+    .solid-failed = ALUPROFILE：無法建立實體。
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME：已放置 __ocs_fmt_0__ 根型材和 __ocs_fmt_1__ 個連接件。
+    .connect-none = ALUCONNECT：找不到新的連接點（型材端面須貼合另一根型材的側面）。
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH：用法 ALULENGTH <mm>，需先選取型材。
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM：此圖面中沒有鋁型材。
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = 儲存物料清單
+    .csv-files = CSV 檔案
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

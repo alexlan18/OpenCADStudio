@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Анотиране
     .insert = Вмъкване
     .model = Модел
+    .alu = Алуминий
     .layout = Оформление
     .manage = Управление
     .view = Изглед
@@ -6218,3 +6219,39 @@ print3d =
     .label-export-stl =
         Експорт
         STL
+
+alu =
+    .profiles = Профили
+    .joints = Съединения
+    .lists = Списъци
+    .frame = Рамка
+    .catalog = Каталог
+    .parts-list =
+        Списък
+        части
+    .cut-list = Списък за рязане
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Дължина в mm (Enter: изберете крайна точка):
+    .prompt-frame-length = Дължина на рамката в mm:
+    .prompt-frame-width = Ширина на рамката в mm:
+    .prompt-frame-height = Височина на рамката в mm:
+    .prompt-start = Начална точка:
+    .prompt-corner = Ъглова точка:
+    .prompt-end = Крайна точка (посока):
+    .opt-end-point = Крайна точка
+    .unknown-profile = ALUPROFILE: непознат профил "__ocs_fmt_0__". ALUCATALOG ги изброява.
+    .solid-failed = ALUPROFILE: тялото не може да бъде построено.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: поставени __ocs_fmt_0__ профила и __ocs_fmt_1__ съединителя.
+    .connect-none = ALUCONNECT: няма нови съединения (краят на профил трябва да опира в стена на друг профил).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: употреба ALULENGTH <mm> с избрани профили.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: в чертежа няма алуминиеви профили.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Запази списъка с части
+    .csv-files = CSV файлове
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

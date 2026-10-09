@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = 注释
     .insert = 插入
     .model = 模型
+    .alu = 铝型材
     .layout = 布局
     .manage = 管理
     .view = 视图
@@ -6201,3 +6202,39 @@ print3d =
     .label-export-stl =
         导出
         STL
+
+alu =
+    .profiles = 型材
+    .joints = 连接
+    .lists = 清单
+    .frame = 框架
+    .catalog = 目录
+    .parts-list =
+        物料
+        清单
+    .cut-list = 切割清单
+    .prompt-profile = 型材 <__ocs_fmt_0__>：
+    .prompt-length = 长度（mm）（回车：拾取终点）：
+    .prompt-frame-length = 框架长度（mm）：
+    .prompt-frame-width = 框架宽度（mm）：
+    .prompt-frame-height = 框架高度（mm）：
+    .prompt-start = 起点：
+    .prompt-corner = 角点：
+    .prompt-end = 终点（方向）：
+    .opt-end-point = 终点
+    .unknown-profile = ALUPROFILE：未知型材 "__ocs_fmt_0__"。ALUCATALOG 可列出全部型材。
+    .solid-failed = ALUPROFILE：无法生成实体。
+    .profile-placed = ALUPROFILE：已放置 __ocs_fmt_0__ × __ocs_fmt_1__ mm。
+    .frame-placed = ALUFRAME：已放置 __ocs_fmt_0__ 根型材和 __ocs_fmt_1__ 个连接件。
+    .connect-none = ALUCONNECT：未找到新的连接点（型材端面须贴合另一根型材的侧面）。
+    .connect-added = ALUCONNECT：已添加 __ocs_fmt_0__ 个连接件。
+    .length-usage = ALULENGTH：用法 ALULENGTH <mm>，需先选中型材。
+    .length-done = ALULENGTH：已将 __ocs_fmt_0__ 根型材设为 __ocs_fmt_1__ mm。
+    .bom-empty = ALUBOM：此图纸中没有铝型材。
+    .bom-done = ALUBOM：__ocs_fmt_0__ 行，__ocs_fmt_1__ 根型材，__ocs_fmt_2__ kg。
+    .cutlist-part = ALUCUTLIST：__ocs_fmt_0__：__ocs_fmt_1__ 根 __ocs_fmt_2__ mm 原料，余料 __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV：已写入 "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV：__ocs_fmt_0__
+    .save-parts-list = 保存物料清单
+    .csv-files = CSV 文件
+    .catalog-summary = ALUCATALOG：共 __ocs_fmt_0__ 种型材。用法 ALUPROFILE <名称> <长度> <x,y,z> <X|Y|Z|dx,dy,dz>

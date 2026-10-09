@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Επισημείωση
     .insert = Εισαγωγή
     .model = Μοντέλο
+    .alu = Αλουμίνιο
     .layout = Διάταξη
     .manage = Διαχείριση
     .view = Προβολή
@@ -6218,3 +6219,39 @@ print3d =
     .label-export-stl =
         Εξαγωγή
         STL
+
+alu =
+    .profiles = Προφίλ
+    .joints = Συνδέσεις
+    .lists = Λίστες
+    .frame = Πλαίσιο
+    .catalog = Κατάλογος
+    .parts-list =
+        Λίστα
+        εξαρτημάτων
+    .cut-list = Λίστα κοπής
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Μήκος σε mm (Enter: επιλογή τελικού σημείου):
+    .prompt-frame-length = Μήκος πλαισίου σε mm:
+    .prompt-frame-width = Πλάτος πλαισίου σε mm:
+    .prompt-frame-height = Ύψος πλαισίου σε mm:
+    .prompt-start = Αρχικό σημείο:
+    .prompt-corner = Γωνιακό σημείο:
+    .prompt-end = Τελικό σημείο (κατεύθυνση):
+    .opt-end-point = Τελικό σημείο
+    .unknown-profile = ALUPROFILE: άγνωστο προφίλ "__ocs_fmt_0__". Το ALUCATALOG τα απαριθμεί.
+    .solid-failed = ALUPROFILE: δεν ήταν δυνατή η δημιουργία του στερεού.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: τοποθετήθηκαν __ocs_fmt_0__ προφίλ και __ocs_fmt_1__ σύνδεσμοι.
+    .connect-none = ALUCONNECT: δεν βρέθηκαν νέες συνδέσεις (τα άκρα πρέπει να αγγίζουν την έδρα άλλου προφίλ).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: χρήση ALULENGTH <mm> με επιλεγμένα προφίλ.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: δεν υπάρχουν προφίλ αλουμινίου στο σχέδιο.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Αποθήκευση λίστας εξαρτημάτων
+    .csv-files = Αρχεία CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

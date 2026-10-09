@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Anotar
     .insert = Inserir
     .model = Modelo
+    .alu = Alumínio
     .layout = Layout
     .manage = Gerenciar
     .view = Exibir
@@ -6218,3 +6219,39 @@ print3d =
     .label-export-stl =
         Exportar
         STL
+
+alu =
+    .profiles = Perfis
+    .joints = Junções
+    .lists = Listas
+    .frame = Estrutura
+    .catalog = Catálogo
+    .parts-list =
+        Lista de
+        peças
+    .cut-list = Lista de corte
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Comprimento em mm (Enter: escolher o ponto final):
+    .prompt-frame-length = Comprimento da estrutura em mm:
+    .prompt-frame-width = Largura da estrutura em mm:
+    .prompt-frame-height = Altura da estrutura em mm:
+    .prompt-start = Ponto inicial:
+    .prompt-corner = Ponto do canto:
+    .prompt-end = Ponto final (direção):
+    .opt-end-point = Ponto final
+    .unknown-profile = ALUPROFILE: perfil desconhecido "__ocs_fmt_0__". ALUCATALOG lista todos.
+    .solid-failed = ALUPROFILE: o sólido não pôde ser construído.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ perfis e __ocs_fmt_1__ conectores colocados.
+    .connect-none = ALUCONNECT: nenhuma junção nova (as extremidades devem tocar a face de outro perfil).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: uso ALULENGTH <mm> com os perfis selecionados.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: não há perfis de alumínio neste desenho.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Salvar lista de peças
+    .csv-files = Arquivos CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

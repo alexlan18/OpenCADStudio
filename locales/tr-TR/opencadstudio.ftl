@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Açıklama
     .insert = Ekle
     .model = Model
+    .alu = Alüminyum
     .layout = Yerleşim
     .manage = Yönet
     .view = Görünüm
@@ -6141,3 +6142,39 @@ print3d =
     .label-export-stl =
         STL
         dışa aktar
+
+alu =
+    .profiles = Profiller
+    .joints = Bağlantılar
+    .lists = Listeler
+    .frame = Çerçeve
+    .catalog = Katalog
+    .parts-list =
+        Parça
+        listesi
+    .cut-list = Kesim listesi
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Uzunluk mm (Enter: bitiş noktasını seç):
+    .prompt-frame-length = Çerçeve uzunluğu mm:
+    .prompt-frame-width = Çerçeve genişliği mm:
+    .prompt-frame-height = Çerçeve yüksekliği mm:
+    .prompt-start = Başlangıç noktası:
+    .prompt-corner = Köşe noktası:
+    .prompt-end = Bitiş noktası (yön):
+    .opt-end-point = Bitiş noktası
+    .unknown-profile = ALUPROFILE: bilinmeyen profil "__ocs_fmt_0__". ALUCATALOG listeler.
+    .solid-failed = ALUPROFILE: katı oluşturulamadı.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ profil ve __ocs_fmt_1__ bağlantı yerleştirildi.
+    .connect-none = ALUCONNECT: yeni bağlantı yok (profil uçları başka bir profilin yüzüne değmeli).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: kullanım ALULENGTH <mm>, önce profilleri seçin.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: bu çizimde alüminyum profil yok.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Parça listesini kaydet
+    .csv-files = CSV dosyaları
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

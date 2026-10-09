@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Annotate
     .insert = Insert
     .model = Model
+    .alu = Aluminium
     .layout = Layout
     .manage = Manage
     .view = View
@@ -6219,3 +6220,39 @@ print3d =
     .label-export-stl =
         Export
         STL
+
+alu =
+    .profiles = Profiles
+    .joints = Joints
+    .lists = Lists
+    .frame = Frame
+    .catalog = Catalog
+    .parts-list =
+        Parts
+        List
+    .cut-list = Cut List
+    .prompt-profile = Profile <{}>:
+    .prompt-length = Length in mm (Enter: pick the end point):
+    .prompt-frame-length = Frame length in mm:
+    .prompt-frame-width = Frame width in mm:
+    .prompt-frame-height = Frame height in mm:
+    .prompt-start = Start point:
+    .prompt-corner = Corner point:
+    .prompt-end = End point (direction):
+    .opt-end-point = End point
+    .unknown-profile = ALUPROFILE: unknown profile "{}". ALUCATALOG lists them.
+    .solid-failed = ALUPROFILE: the solid could not be built.
+    .profile-placed = ALUPROFILE: {} × {} mm placed.
+    .frame-placed = ALUFRAME: {} members and {} connectors placed.
+    .connect-none = ALUCONNECT: no new joints found (profile ends must touch another profile's face).
+    .connect-added = ALUCONNECT: {} connector(s) added.
+    .length-usage = ALULENGTH: usage ALULENGTH <mm> with the profiles selected.
+    .length-done = ALULENGTH: {} profile(s) set to {} mm.
+    .bom-empty = ALUBOM: no aluminium profiles in this drawing.
+    .bom-done = ALUBOM: {} rows, {} profiles, {:.2} kg.
+    .cutlist-part = ALUCUTLIST: {}: {} bar(s) of {} mm, waste {:.1} %
+    .csv-written = ALUBOMCSV: written "{}"
+    .csv-error = ALUBOMCSV: {}
+    .save-parts-list = Save parts list
+    .csv-files = CSV Files
+    .catalog-summary = ALUCATALOG: {} profiles. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

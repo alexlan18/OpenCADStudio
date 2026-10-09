@@ -29,6 +29,7 @@ pub mod draw;
 pub mod insert;
 pub mod parametric;
 pub mod model;
+pub mod alu;
 pub mod layout;
 pub mod manage;
 pub mod view;

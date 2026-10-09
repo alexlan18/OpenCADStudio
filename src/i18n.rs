@@ -355,6 +355,7 @@ pub fn ribbon_module_title(id: &str, fallback: &str) -> String {
         "annotate" => crate::tr!("ribbon-tab", "annotate"),
         "insert" => crate::tr!("ribbon-tab", "insert"),
         "model" => crate::tr!("ribbon-tab", "model"),
+        "alu" => crate::tr!("ribbon-tab", "alu"),
         "layout" => crate::tr!("ribbon-tab", "layout"),
         "manage" => crate::tr!("ribbon-tab", "manage"),
         "view" => crate::tr!("ribbon-tab", "view"),

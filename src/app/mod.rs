@@ -3,6 +3,7 @@ mod automation;
 pub(crate) mod control;
 pub(crate) mod assistant;
 pub(crate) mod print3d;
+pub(crate) mod aluprofile;
 pub(crate) fn automation_action_names() -> &'static [&'static str] {
     control::action_names()
 }
@@ -3948,6 +3949,7 @@ pub enum Message {
     Count(crate::ui::window::count_palette::CountMsg),
     Assistant(assistant::AssistantMsg),
     Print3d(print3d::Print3dMsg),
+    Alu(aluprofile::AluMsg),
     SheetSet(crate::ui::window::sheet_set::SheetSetMsg),
     PdfImportPickResult(Result<(std::path::PathBuf, std::sync::Arc<Vec<u8>>), String>),
     /// Result of the PDFATTACH file picker.

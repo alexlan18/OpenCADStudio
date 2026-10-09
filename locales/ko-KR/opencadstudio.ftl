@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = 주석
     .insert = 삽입
     .model = 모델
+    .alu = 알루미늄
     .layout = 배치
     .manage = 관리
     .view = 보기
@@ -6217,3 +6218,39 @@ print3d =
     .label-export-stl =
         STL
         내보내기
+
+alu =
+    .profiles = 프로파일
+    .joints = 연결
+    .lists = 목록
+    .frame = 프레임
+    .catalog = 카탈로그
+    .parts-list =
+        부품
+        목록
+    .cut-list = 절단 목록
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = 길이 mm (Enter: 끝점 선택):
+    .prompt-frame-length = 프레임 길이 mm:
+    .prompt-frame-width = 프레임 너비 mm:
+    .prompt-frame-height = 프레임 높이 mm:
+    .prompt-start = 시작점:
+    .prompt-corner = 모서리점:
+    .prompt-end = 끝점(방향):
+    .opt-end-point = 끝점
+    .unknown-profile = ALUPROFILE: 알 수 없는 프로파일 "__ocs_fmt_0__". ALUCATALOG로 목록을 확인하세요.
+    .solid-failed = ALUPROFILE: 솔리드를 만들 수 없습니다.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: 부재 __ocs_fmt_0__개와 커넥터 __ocs_fmt_1__개를 배치했습니다.
+    .connect-none = ALUCONNECT: 새 접합부가 없습니다(프로파일 끝이 다른 프로파일 면에 닿아야 합니다).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: 사용법 ALULENGTH <mm>, 먼저 프로파일을 선택하세요.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: 이 도면에 알루미늄 프로파일이 없습니다.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = 부품 목록 저장
+    .csv-files = CSV 파일
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

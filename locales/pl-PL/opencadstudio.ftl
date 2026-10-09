@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Opisy
     .insert = Wstaw
     .model = Model
+    .alu = Aluminium
     .layout = Układ
     .manage = Zarządzaj
     .view = Widok
@@ -6217,3 +6218,39 @@ print3d =
     .label-export-stl =
         Eksportuj
         STL
+
+alu =
+    .profiles = Profile
+    .joints = Połączenia
+    .lists = Listy
+    .frame = Rama
+    .catalog = Katalog
+    .parts-list =
+        Lista
+        części
+    .cut-list = Lista cięć
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Długość w mm (Enter: wskaż punkt końcowy):
+    .prompt-frame-length = Długość ramy w mm:
+    .prompt-frame-width = Szerokość ramy w mm:
+    .prompt-frame-height = Wysokość ramy w mm:
+    .prompt-start = Punkt początkowy:
+    .prompt-corner = Punkt narożny:
+    .prompt-end = Punkt końcowy (kierunek):
+    .opt-end-point = Punkt końcowy
+    .unknown-profile = ALUPROFILE: nieznany profil "__ocs_fmt_0__". ALUCATALOG wyświetla listę.
+    .solid-failed = ALUPROFILE: nie udało się zbudować bryły.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: umieszczono __ocs_fmt_0__ profili i __ocs_fmt_1__ łączników.
+    .connect-none = ALUCONNECT: brak nowych połączeń (koniec profilu musi dotykać ściany innego profilu).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: użycie ALULENGTH <mm> z zaznaczonymi profilami.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: brak profili aluminiowych w tym rysunku.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Zapisz listę części
+    .csv-files = Pliki CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

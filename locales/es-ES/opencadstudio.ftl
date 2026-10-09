@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Anotar
     .insert = Insertar
     .model = Modelo
+    .alu = Aluminio
     .layout = Presentación
     .manage = Administrar
     .view = Vista
@@ -6218,3 +6219,39 @@ print3d =
     .label-export-stl =
         Exportar
         STL
+
+alu =
+    .profiles = Perfiles
+    .joints = Uniones
+    .lists = Listas
+    .frame = Bastidor
+    .catalog = Catálogo
+    .parts-list =
+        Lista de
+        piezas
+    .cut-list = Lista de corte
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Longitud en mm (Intro: elegir el punto final):
+    .prompt-frame-length = Longitud del bastidor en mm:
+    .prompt-frame-width = Anchura del bastidor en mm:
+    .prompt-frame-height = Altura del bastidor en mm:
+    .prompt-start = Punto inicial:
+    .prompt-corner = Punto de esquina:
+    .prompt-end = Punto final (dirección):
+    .opt-end-point = Punto final
+    .unknown-profile = ALUPROFILE: perfil desconocido "__ocs_fmt_0__". ALUCATALOG los enumera.
+    .solid-failed = ALUPROFILE: no se pudo construir el sólido.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ perfiles y __ocs_fmt_1__ conectores colocados.
+    .connect-none = ALUCONNECT: no hay uniones nuevas (los extremos deben tocar la cara de otro perfil).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: uso ALULENGTH <mm> con los perfiles seleccionados.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: no hay perfiles de aluminio en este dibujo.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Guardar lista de piezas
+    .csv-files = Archivos CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

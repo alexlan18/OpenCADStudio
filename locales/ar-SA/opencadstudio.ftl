@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = تعليقات توضيحية
     .insert = إدراج
     .model = نموذج
+    .alu = ألمنيوم
     .layout = تخطيط
     .manage = إدارة
     .view = عرض
@@ -6230,3 +6231,39 @@ print3d =
     .label-export-stl =
         تصدير
         STL
+
+alu =
+    .profiles = المقاطع
+    .joints = الوصلات
+    .lists = القوائم
+    .frame = إطار
+    .catalog = الكتالوج
+    .parts-list =
+        قائمة
+        الأجزاء
+    .cut-list = قائمة القطع
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = الطول بالمم (Enter: اختر نقطة النهاية):
+    .prompt-frame-length = طول الإطار بالمم:
+    .prompt-frame-width = عرض الإطار بالمم:
+    .prompt-frame-height = ارتفاع الإطار بالمم:
+    .prompt-start = نقطة البداية:
+    .prompt-corner = نقطة الزاوية:
+    .prompt-end = نقطة النهاية (الاتجاه):
+    .opt-end-point = نقطة النهاية
+    .unknown-profile = ALUPROFILE: مقطع غير معروف "__ocs_fmt_0__". يعرض ALUCATALOG القائمة.
+    .solid-failed = ALUPROFILE: تعذر إنشاء المجسم.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: تم وضع __ocs_fmt_0__ مقطعًا و __ocs_fmt_1__ موصلًا.
+    .connect-none = ALUCONNECT: لا توجد وصلات جديدة (يجب أن يلامس طرف المقطع وجه مقطع آخر).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: الاستخدام ALULENGTH <مم> مع تحديد المقاطع.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: لا توجد مقاطع ألمنيوم في هذا الرسم.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = حفظ قائمة الأجزاء
+    .csv-files = ملفات CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

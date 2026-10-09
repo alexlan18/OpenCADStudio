@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Poznámky
     .insert = Vložit
     .model = Model
+    .alu = Hliník
     .layout = Rozvržení
     .manage = Správa
     .view = Zobrazení
@@ -6215,3 +6216,39 @@ print3d =
     .label-export-stl =
         Export
         STL
+
+alu =
+    .profiles = Profily
+    .joints = Spoje
+    .lists = Seznamy
+    .frame = Rám
+    .catalog = Katalog
+    .parts-list =
+        Kusov-
+        ník
+    .cut-list = Řezný plán
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Délka v mm (Enter: vybrat koncový bod):
+    .prompt-frame-length = Délka rámu v mm:
+    .prompt-frame-width = Šířka rámu v mm:
+    .prompt-frame-height = Výška rámu v mm:
+    .prompt-start = Počáteční bod:
+    .prompt-corner = Rohový bod:
+    .prompt-end = Koncový bod (směr):
+    .opt-end-point = Koncový bod
+    .unknown-profile = ALUPROFILE: neznámý profil "__ocs_fmt_0__". ALUCATALOG je vypíše.
+    .solid-failed = ALUPROFILE: těleso se nepodařilo vytvořit.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: umístěno __ocs_fmt_0__ profilů a __ocs_fmt_1__ spojek.
+    .connect-none = ALUCONNECT: žádné nové spoje (konce profilů se musí dotýkat plochy jiného profilu).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: použití ALULENGTH <mm> s vybranými profily.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: ve výkresu nejsou žádné hliníkové profily.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Uložit kusovník
+    .csv-files = Soubory CSV
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

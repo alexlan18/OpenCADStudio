@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Beschriften
     .insert = Einfügen
     .model = Modell
+    .alu = Aluminium
     .layout = Layout
     .manage = Verwalten
     .view = Ansicht
@@ -6216,3 +6217,39 @@ print3d =
     .label-export-stl =
         STL
         exportieren
+
+alu =
+    .profiles = Profile
+    .joints = Verbindungen
+    .lists = Listen
+    .frame = Rahmen
+    .catalog = Katalog
+    .parts-list =
+        Stück-
+        liste
+    .cut-list = Zuschnittliste
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Länge in mm (Eingabe: Endpunkt wählen):
+    .prompt-frame-length = Rahmenlänge in mm:
+    .prompt-frame-width = Rahmenbreite in mm:
+    .prompt-frame-height = Rahmenhöhe in mm:
+    .prompt-start = Startpunkt:
+    .prompt-corner = Eckpunkt:
+    .prompt-end = Endpunkt (Richtung):
+    .opt-end-point = Endpunkt
+    .unknown-profile = ALUPROFILE: Unbekanntes Profil "__ocs_fmt_0__". ALUCATALOG listet sie auf.
+    .solid-failed = ALUPROFILE: Der Volumenkörper konnte nicht erzeugt werden.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ Profile und __ocs_fmt_1__ Verbinder platziert.
+    .connect-none = ALUCONNECT: Keine neuen Verbindungen gefunden (Profilenden müssen eine andere Profilfläche berühren).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: Aufruf ALULENGTH <mm> mit gewählten Profilen.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: Keine Aluminiumprofile in dieser Zeichnung.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Stückliste speichern
+    .csv-files = CSV-Dateien
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

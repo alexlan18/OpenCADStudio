@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Merkinnät
     .insert = Lisää
     .model = Malli
+    .alu = Alumiini
     .layout = Asettelu
     .manage = Hallinta
     .view = Näkymä
@@ -6215,3 +6216,39 @@ print3d =
     .label-export-stl =
         Vie
         STL
+
+alu =
+    .profiles = Profiilit
+    .joints = Liitokset
+    .lists = Luettelot
+    .frame = Kehikko
+    .catalog = Luettelo
+    .parts-list =
+        Osa-
+        luettelo
+    .cut-list = Katkaisuluettelo
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Pituus mm (Enter: valitse loppupiste):
+    .prompt-frame-length = Kehikon pituus mm:
+    .prompt-frame-width = Kehikon leveys mm:
+    .prompt-frame-height = Kehikon korkeus mm:
+    .prompt-start = Alkupiste:
+    .prompt-corner = Kulmapiste:
+    .prompt-end = Loppupiste (suunta):
+    .opt-end-point = Loppupiste
+    .unknown-profile = ALUPROFILE: tuntematon profiili "__ocs_fmt_0__". ALUCATALOG luettelee ne.
+    .solid-failed = ALUPROFILE: kappaletta ei voitu luoda.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: sijoitettu __ocs_fmt_0__ profiilia ja __ocs_fmt_1__ liitintä.
+    .connect-none = ALUCONNECT: ei uusia liitoksia (profiilin pään on kosketettava toisen profiilin pintaa).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: käyttö ALULENGTH <mm> profiilit valittuna.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: piirustuksessa ei ole alumiiniprofiileja.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Tallenna osaluettelo
+    .csv-files = CSV-tiedostot
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>

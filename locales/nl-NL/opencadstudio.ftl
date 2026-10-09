@@ -33,6 +33,7 @@ ribbon-tab =
     .annotate = Annoteren
     .insert = Invoegen
     .model = Model
+    .alu = Aluminium
     .layout = Indeling
     .manage = Beheren
     .view = Beeld
@@ -6216,3 +6217,39 @@ print3d =
     .label-export-stl =
         STL
         exporteren
+
+alu =
+    .profiles = Profielen
+    .joints = Verbindingen
+    .lists = Lijsten
+    .frame = Frame
+    .catalog = Catalogus
+    .parts-list =
+        Stuk-
+        lijst
+    .cut-list = Zaaglijst
+    .prompt-profile = Profile <__ocs_fmt_0__>:
+    .prompt-length = Lengte in mm (Enter: eindpunt kiezen):
+    .prompt-frame-length = Framelengte in mm:
+    .prompt-frame-width = Framebreedte in mm:
+    .prompt-frame-height = Framehoogte in mm:
+    .prompt-start = Beginpunt:
+    .prompt-corner = Hoekpunt:
+    .prompt-end = Eindpunt (richting):
+    .opt-end-point = Eindpunt
+    .unknown-profile = ALUPROFILE: onbekend profiel "__ocs_fmt_0__". ALUCATALOG toont de lijst.
+    .solid-failed = ALUPROFILE: het volume kon niet worden gemaakt.
+    .profile-placed = ALUPROFILE: __ocs_fmt_0__ × __ocs_fmt_1__ mm
+    .frame-placed = ALUFRAME: __ocs_fmt_0__ profielen en __ocs_fmt_1__ verbinders geplaatst.
+    .connect-none = ALUCONNECT: geen nieuwe verbindingen (profieleinden moeten een ander profielvlak raken).
+    .connect-added = ALUCONNECT: +__ocs_fmt_0__
+    .length-usage = ALULENGTH: gebruik ALULENGTH <mm> met geselecteerde profielen.
+    .length-done = ALULENGTH: __ocs_fmt_0__ → __ocs_fmt_1__ mm
+    .bom-empty = ALUBOM: geen aluminiumprofielen in deze tekening.
+    .bom-done = ALUBOM: __ocs_fmt_0__ / __ocs_fmt_1__ / __ocs_fmt_2__ kg
+    .cutlist-part = ALUCUTLIST: __ocs_fmt_0__: __ocs_fmt_1__ × __ocs_fmt_2__ mm, __ocs_fmt_3__ %
+    .csv-written = ALUBOMCSV: "__ocs_fmt_0__"
+    .csv-error = ALUBOMCSV: __ocs_fmt_0__
+    .save-parts-list = Stuklijst opslaan
+    .csv-files = CSV-bestanden
+    .catalog-summary = ALUCATALOG: __ocs_fmt_0__. ALUPROFILE <name> <length> <x,y,z> <X|Y|Z|dx,dy,dz>
